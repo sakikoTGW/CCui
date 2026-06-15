@@ -13,7 +13,8 @@ export const ICONS = {
   collab: `<svg viewBox="0 0 24 24" ${S}><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/></svg>`,
   market: `<svg viewBox="0 0 24 24" ${S}><path d="M4 8h16l-2 10H6L4 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>`,
   themeToggle: `<svg viewBox="0 0 24 24" ${S}><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>`,
-  settings: `<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>`,
+  themeSun: `<svg viewBox="0 0 24 24" ${S}><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`,
+  settings: `<svg viewBox="0 0 24 24" ${S}><path d="M4 7h16"/><circle cx="8" cy="7" r="2"/><path d="M4 12h16"/><circle cx="15" cy="12" r="2"/><path d="M4 17h16"/><circle cx="11" cy="17" r="2"/></svg>`,
   send: `<svg viewBox="0 0 24 24" ${S}><path d="M12 19V5M12 5l-5 5M12 5l5 5"/></svg>`,
   stop: `<svg viewBox="0 0 24 24" ${S}><rect x="7" y="7" width="10" height="10" rx="1"/></svg>`,
   tool: `<svg viewBox="0 0 24 24" ${S}><path d="M14.5 6.5a4 4 0 0 0-5.6 4.8L4 16.2V20h3.8l4.9-4.9a4 4 0 0 0 4.8-5.6l-2.7 2.7-2.3-2.3 2-2.4z"/></svg>`,
@@ -45,8 +46,6 @@ export function mountNavIcons() {
   })
   const tree = document.getElementById('treeToggle')
   if (tree) tree.innerHTML = ICONS.files
-  const tt = document.getElementById('themeToggle')
-  if (tt) tt.innerHTML = ICONS.themeToggle
   const cp = document.getElementById('cmdPaletteBtn')
   if (cp) cp.innerHTML = ICONS.search
   const rv = document.getElementById('openReview')

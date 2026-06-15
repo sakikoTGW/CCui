@@ -3,6 +3,7 @@ import { store } from '../store.js'
 import { db, uid } from '../db.js'
 import { toast, confirmPopover } from '../ui.js'
 import { ICONS } from '../icons.js'
+import { mountCcSelect } from '../cc-select.js'
 
 const MODELS = ['deepseek-v4-pro', 'deepseek-v4-flash']
 let container = null
@@ -144,6 +145,7 @@ function openEditor(preset) {
   const $ = id => ov.querySelector(id)
   $('#f-name').value = preset?.name || ''
   $('#f-model').value = preset?.model || MODELS[0]
+  mountCcSelect($('#f-model'), { variant: 'form', menuPlacement: 'below' })
   $('#f-temp').value = preset?.temperature ?? 1
   $('#f-temp-v').textContent = $('#f-temp').value
   $('#f-sys').value = preset?.systemPrompt || ''

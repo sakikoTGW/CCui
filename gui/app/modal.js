@@ -20,7 +20,9 @@ export function initGlobalEsc() {
     if (e.key !== 'Escape') return
     if (closeTopOverlay()) { e.preventDefault(); return }
     const fp = document.querySelector('.filepanel.open')
-    if (fp) { fp.classList.remove('open'); document.getElementById('treeToggle')?.classList.remove('act-on'); e.preventDefault() }
+    if (fp) { fp.classList.remove('open'); document.getElementById('treeToggle')?.classList.remove('nav-util-on'); e.preventDefault(); return }
+    const cp = document.querySelector('.cmdpanel.open')
+    if (cp) { cp.classList.remove('open'); document.getElementById('cmdPaletteBtn')?.classList.remove('nav-util-on'); e.preventDefault() }
   })
 }
 

@@ -44,7 +44,14 @@ export function initFileTree() {
   panel.querySelector('.fp-refresh').onclick = () => { dirCache.clear(); loadRoot(true) }
 
   document.getElementById('treeToggle')?.addEventListener('click', toggle)
+  document.addEventListener('mousedown', onOutsidePointer)
   window.addEventListener('ccui:openfile', e => { open(); revealAndPreview(e.detail?.path) })
+  window.addEventListener('ccui:hljs-theme', () => {
+    previewEl?.querySelectorAll('pre code').forEach(rehighlightCodeBlock)
+  })
+  window.addEventListener('ccui:theme-changed', () => {
+    previewEl?.querySelectorAll('pre code').forEach(rehighlightCodeBlock)
+  })
   window.addEventListener('ccui:project-changed', () => {
     rootPath = ''
     dirCache.clear()
@@ -54,6 +61,15 @@ export function initFileTree() {
   })
 }
 
+function onOutsidePointer(e) {
+  if (!panel?.classList.contains('open')) return
+  const t = e.target
+  if (!(t instanceof Node)) return
+  if (panel.contains(t)) return
+  if (t instanceof Element && t.closest('#treeToggle')) return
+  close()
+}
+
 function toggle() {
   const btn = document.getElementById('treeToggle')
   if (panel.classList.contains('open')) close()
@@ -61,12 +77,12 @@ function toggle() {
 }
 function open() {
   panel.classList.add('open')
-  document.getElementById('treeToggle')?.classList.add('act-on')
+  document.getElementById('treeToggle')?.classList.add('nav-util-on')
   if (!rootPath) loadRoot()
 }
 function close() {
   panel.classList.remove('open')
-  document.getElementById('treeToggle')?.classList.remove('act-on')
+  document.getElementById('treeToggle')?.classList.remove('nav-util-on')
 }
 
 async function loadRoot(force) {
@@ -122,6 +138,16 @@ function renderLevel(dirPath, depth) {
 
 const EXT_LANG = { js: 'javascript', ts: 'typescript', jsx: 'javascript', tsx: 'typescript', json: 'json', md: 'markdown', mdc: 'markdown', css: 'css', html: 'xml', sh: 'bash', py: 'python', rs: 'rust', go: 'go', yml: 'yaml', yaml: 'yaml', sql: 'sql', toml: 'ini' }
 
+function rehighlightCodeBlock(codeEl) {
+  if (!codeEl) return
+  const langClass = [...codeEl.classList].find(c => c.startsWith('language-'))
+  const text = codeEl.textContent || ''
+  codeEl.removeAttribute('data-highlighted')
+  codeEl.className = langClass || ''
+  codeEl.textContent = text
+  try { hljs.highlightElement(codeEl) } catch {}
+}
+
 async function preview(path) {
   previewEl.innerHTML = '<div class="fp-empty">加载中…</div>'
   crumbEl.textContent = path
@@ -132,7 +158,7 @@ async function preview(path) {
       const div = h('div', 'bubble md')
       div.style.padding = '14px 18px'
       div.innerHTML = marked.parse(res.content || '')
-      div.querySelectorAll('pre code').forEach(b => { try { hljs.highlightElement(b) } catch {} })
+      div.querySelectorAll('pre code').forEach(rehighlightCodeBlock)
       previewEl.innerHTML = ''
       previewEl.appendChild(div)
     } else {
@@ -140,7 +166,7 @@ async function preview(path) {
       const code = h('code')
       code.textContent = res.content || ''
       const lang = EXT_LANG[ext]
-      if (lang) { code.className = `language-${lang}`; try { hljs.highlightElement(code) } catch {} }
+      if (lang) { code.className = `language-${lang}`; rehighlightCodeBlock(code) }
       pre.appendChild(code)
       previewEl.innerHTML = ''
       previewEl.appendChild(pre)

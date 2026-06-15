@@ -2,14 +2,29 @@
 import { store } from '../store.js'
 import { db } from '../db.js'
 import { api } from '../api.js'
-import { toast } from '../ui.js'
+import { toast, applyPersonalize, savePersonalize, getPersonalize } from '../ui.js'
+import { DEFAULT_PERSONALIZE, deriveAccentWeak } from '../theme-personalize.js'
 import { ICONS } from '../icons.js'
 import { registerOverlay } from '../modal.js'
 import { PERM_TOOL_GROUPS, PERM_EXPLAIN, getAllowedTools, saveAllowedTools } from '../permissions.js'
+import { getChromePrefs, saveChrome } from '../titlebar.js'
+import { mountCcSelect } from '../cc-select.js'
 
 const APP_VERSION = '0.1.0'
 
 let container = null
+/** @type {string[]|null} */
+let cachedSystemFonts = null
+const FONT_FALLBACK = ['PingFang SC', 'PingFang TC', 'Microsoft YaHei UI', '微软雅黑', 'Segoe UI', 'SimSun', 'Arial']
+
+/** 后台预热字体列表，避免首次打开设置卡顿 */
+export function preloadSystemFonts() {
+  if (cachedSystemFonts) return Promise.resolve(cachedSystemFonts)
+  if (!window.ccui?.listFonts) return Promise.resolve(FONT_FALLBACK)
+  return window.ccui.listFonts()
+    .then(list => { cachedSystemFonts = list?.length ? list : FONT_FALLBACK; return cachedSystemFonts })
+    .catch(() => { cachedSystemFonts = FONT_FALLBACK; return cachedSystemFonts })
+}
 
 function h(tag, cls, html) {
   const el = document.createElement(tag)
@@ -25,15 +40,22 @@ function mask(k) {
 
 export async function mountSettings(c) {
   container = c
-  container.innerHTML = `<div class="settings-loading">加载配置…</div>`
 
   let conn = {}
   let router = {}
   let style = {}
+  let chrome = getChromePrefs()
   try {
-    conn = (await db.get('settings', 'connection'))?.value || {}
-    router = (await db.get('settings', 'router'))?.value || { mode: 'auto', strongModel: 'deepseek-v4-pro', weakModel: 'deepseek-v4-flash' }
-    style = (await db.get('settings', 'codingStyle'))?.value || {}
+    const [connRow, routerRow, styleRow, chromeRow] = await Promise.all([
+      db.get('settings', 'connection'),
+      db.get('settings', 'router'),
+      db.get('settings', 'codingStyle'),
+      db.get('settings', 'windowChrome'),
+    ])
+    conn = connRow?.value || {}
+    router = routerRow?.value || { mode: 'auto', strongModel: 'deepseek-v4-pro', weakModel: 'deepseek-v4-flash' }
+    style = styleRow?.value || {}
+    if (chromeRow?.value) chrome = { ...chrome, ...chromeRow.value }
   } catch (e) {
     container.innerHTML = `<div class="error-state">读取本地配置失败：${e.message}<br/>请检查浏览器存储是否被清除。</div>`
     return
@@ -92,6 +114,67 @@ export async function mountSettings(c) {
           <textarea id="st-rules" rows="4" placeholder="例：优先函数式；不写无意义注释；错误必须处理"></textarea></label>
         <label class="set-check"><input id="st-on" type="checkbox" /> 启用风格记忆（注入对话）</label>
         <div class="set-actions"><button class="btn-primary" id="set-save-style">保存偏好</button></div>
+      </section>
+
+      <section class="set-card" id="set-appearance">
+        <h2>外观个性化</h2>
+        <p class="set-hint">自定义强调色与画布背景。与顶栏明暗切换叠加生效；完整调色请用<a href="#" id="set-open-theme" class="set-inline-link">主题编辑器</a>。</p>
+        <div class="appear-preview" id="appear-preview" aria-hidden="true">
+          <span class="ap-dot"></span>
+          <span class="ap-chip">强调色预览</span>
+          <button type="button" class="ap-btn">按钮</button>
+        </div>
+        <label class="set-row color-row-set">
+          <span>强调色</span>
+          <input id="set-accent" type="color" />
+          <button type="button" class="btn-ghost set-accent-reset" id="set-accent-reset">恢复默认</button>
+        </label>
+        <label class="set-row"><span>背景模式</span>
+          <select id="set-bg-mode">
+            <option value="default">默认渐变</option>
+            <option value="color">纯色</option>
+            <option value="image">图片</option>
+          </select>
+        </label>
+        <label class="set-row set-bg-color-row"><span>背景颜色</span>
+          <input id="set-bg-color" type="color" /></label>
+        <label class="set-row set-bg-image-row"><span>图片地址</span>
+          <input id="set-bg-image" type="text" placeholder="https://... 或点击下方上传本地图片" /></label>
+        <div class="set-row set-bg-image-row">
+          <span>本地图片</span>
+          <div class="set-bg-file">
+            <button type="button" class="btn-ghost" id="set-bg-pick">选择文件…</button>
+            <input id="set-bg-file" type="file" accept="image/*" hidden />
+            <span class="set-bg-filehint" id="set-bg-filehint">未选择</span>
+          </div>
+        </div>
+        <label class="set-row set-bg-image-row">遮罩浓度 <span id="set-bg-overlay-v"></span>
+          <input id="set-bg-overlay" type="range" min="0" max="85" step="1" /></label>
+        <label class="set-row set-bg-image-row">背景模糊 <span id="set-bg-blur-v"></span>
+          <input id="set-bg-blur" type="range" min="0" max="20" step="1" /></label>
+        <label class="set-row"><span>界面字体</span>
+          <select id="set-font-family">
+            <option value="">默认（苹方）</option>
+          </select>
+        </label>
+        <p class="set-hint set-font-hint" id="set-font-hint">从本机已安装字体中选择；默认优先使用苹方（PingFang SC）。</p>
+        <label class="set-check"><input id="set-adaptive-text" type="checkbox" checked /> 文字随背景自适应（提高可读性）</label>
+        <div class="set-actions">
+          <button class="btn-ghost" id="set-appearance-reset">恢复默认外观</button>
+          <button class="btn-primary" id="set-save-appearance">保存并应用</button>
+        </div>
+      </section>
+
+      <section class="set-card">
+        <h2>窗口与状态栏</h2>
+        <p class="set-hint">不使用系统标题栏，可自定义状态栏显示项。</p>
+        <label class="set-check"><input id="set-chrome-project" type="checkbox" /> 显示项目名</label>
+        <label class="set-check"><input id="set-chrome-session" type="checkbox" /> 显示会话标题</label>
+        <label class="set-check"><input id="set-chrome-theme" type="checkbox" /> 显示主题切换</label>
+        <label class="set-check"><input id="set-chrome-connection" type="checkbox" /> 显示连接状态</label>
+        <div class="set-actions">
+          <button class="btn-primary" id="set-save-chrome">保存并应用</button>
+        </div>
       </section>
 
       <section class="set-card">
@@ -180,10 +263,11 @@ export async function mountSettings(c) {
 
   // 填充路由
   $('#set-mode').value = router.mode || 'auto'
+  const modeSelect = mountCcSelect('set-mode', { variant: 'form', menuPlacement: 'below' })
   $('#set-strong').value = router.strongModel || 'deepseek-v4-pro'
   $('#set-weak').value = router.weakModel || 'deepseek-v4-flash'
   $('#set-save-router').onclick = async () => {
-    const next = { mode: $('#set-mode').value, strongModel: $('#set-strong').value.trim(), weakModel: $('#set-weak').value.trim() }
+    const next = { mode: modeSelect.getValue(), strongModel: $('#set-strong').value.trim(), weakModel: $('#set-weak').value.trim() }
     try {
       await db.put('settings', { id: 'router', value: next })
       router = next
@@ -207,6 +291,26 @@ export async function mountSettings(c) {
     } catch (e) { toast(`保存失败：${e.message}`, { type: 'error' }) }
   }
 
+  mountAppearanceSettings()
+
+  $('#set-chrome-project').checked = chrome.showProject !== false
+  $('#set-chrome-session').checked = chrome.showSession !== false
+  $('#set-chrome-theme').checked = chrome.showTheme !== false
+  $('#set-chrome-connection').checked = chrome.showConnection !== false
+  $('#set-save-chrome').onclick = async () => {
+    const next = {
+      showProject: $('#set-chrome-project').checked,
+      showSession: $('#set-chrome-session').checked,
+      showTheme: $('#set-chrome-theme').checked,
+      showConnection: $('#set-chrome-connection').checked,
+    }
+    try {
+      const res = await saveChrome(next)
+      chrome = res?.chrome || next
+      toast(res?.degraded ? '窗口外观已本地更新（主进程同步稍后重试）' : '窗口外观已更新', { type: 'success' })
+    } catch (e) { toast(`保存失败：${e.message}`, { type: 'error' }) }
+  }
+
   const l2d = (await db.get('settings', 'live2dModel'))?.value || ''
   $('#set-l2d').value = l2d
   $('#set-save-l2d').onclick = async () => {
@@ -225,6 +329,197 @@ export async function mountSettings(c) {
     a.download = `ccui-backup-${new Date().toISOString().slice(0, 10)}.json`; a.click(); URL.revokeObjectURL(a.href)
     toast('已导出全部数据', { type: 'success' })
   }
+}
+
+function readAppearanceDraft() {
+  const $ = id => container.querySelector(id)
+  const cleared = $('#set-accent-reset')?.dataset.cleared === '1'
+  const fontVal = $('#set-font-family')?.value?.trim()
+  return {
+    accent: cleared ? null : ($('#set-accent')?.value || null),
+    bg: {
+      mode: $('#set-bg-mode')?.value || 'default',
+      color: $('#set-bg-color')?.value || '#f5f5f7',
+      image: $('#set-bg-image')?.value?.trim() || '',
+      overlay: (Number($('#set-bg-overlay')?.value) || 42) / 100,
+      blur: Number($('#set-bg-blur')?.value) || 0,
+    },
+    fontFamily: fontVal || null,
+    adaptiveText: $('#set-adaptive-text')?.checked !== false,
+  }
+}
+
+function syncAppearanceRows() {
+  const $ = id => container.querySelector(id)
+  const mode = $('#set-bg-mode')?.value || 'default'
+  container.querySelectorAll('.set-bg-color-row').forEach(el => { el.hidden = mode !== 'color' })
+  container.querySelectorAll('.set-bg-image-row').forEach(el => { el.hidden = mode !== 'image' })
+}
+
+function updateAppearancePreview() {
+  const $ = id => container.querySelector(id)
+  const accent = $('#set-accent')?.value
+  const preview = $('#appear-preview')
+  if (preview && accent) {
+    preview.style.setProperty('--preview-accent', accent)
+    const dark = document.documentElement.dataset.theme === 'dark'
+    const weak = deriveAccentWeak(accent, dark)
+    if (weak) preview.style.setProperty('--preview-accent-weak', weak)
+  }
+}
+
+function previewAppearance() {
+  applyPersonalize(readAppearanceDraft())
+  updateAppearancePreview()
+}
+
+async function getSystemFonts() {
+  if (cachedSystemFonts) return cachedSystemFonts
+  try {
+    if (window.ccui?.listFonts) cachedSystemFonts = await window.ccui.listFonts()
+  } catch {}
+  if (!cachedSystemFonts?.length) cachedSystemFonts = FONT_FALLBACK
+  return cachedSystemFonts
+}
+
+function buildFontOptions(fonts, current) {
+  const prefer = ['PingFang SC', 'PingFang TC', 'Microsoft YaHei UI', '微软雅黑', 'Segoe UI']
+  const sorted = [...new Set([...prefer.filter(f => fonts.includes(f)), ...fonts])]
+  if (current && !sorted.includes(current)) sorted.unshift(current)
+  return [
+    { value: '', label: '默认（苹方）' },
+    ...sorted.map(name => ({ value: name, label: name })),
+  ]
+}
+
+function mountFontSelect(current) {
+  const selectEl = container.querySelector('#set-font-family')
+  if (!selectEl) return null
+
+  selectEl.innerHTML = '<option value="">默认（苹方）</option>'
+  if (current) {
+    const opt = document.createElement('option')
+    opt.value = current
+    opt.textContent = current
+    opt.selected = true
+    selectEl.appendChild(opt)
+  }
+
+  const fontSelect = mountCcSelect('set-font-family', {
+    variant: 'form',
+    menuPlacement: 'below',
+    onChange: () => previewAppearance(),
+  })
+  fontSelect?.setValue(current || '')
+
+  const expand = () => {
+    getSystemFonts().then(fonts => {
+      if (!container.isConnected) return
+      const options = buildFontOptions(fonts, current)
+      selectEl.innerHTML = options.map(o => `<option value="${o.value}">${o.label}</option>`).join('')
+      if (current) selectEl.value = current
+      fontSelect?.setOptions(options)
+      fontSelect?.setValue(current || '')
+    })
+  }
+  if (typeof requestIdleCallback === 'function') requestIdleCallback(expand, { timeout: 1200 })
+  else setTimeout(expand, 50)
+
+  return fontSelect
+}
+
+function mountAppearanceSettings() {
+  const $ = id => container.querySelector(id)
+  const personalize = getPersonalize()
+
+  const defaultAccent = document.documentElement.dataset.theme === 'dark' ? '#e08a6b' : '#d97757'
+  const accentInput = $('#set-accent')
+  if (accentInput) {
+    accentInput.value = personalize.accent || defaultAccent
+    accentInput.dataset.cleared = personalize.accent ? '0' : '1'
+  }
+
+  $('#set-bg-mode').value = personalize.bg.mode || 'default'
+  $('#set-bg-color').value = personalize.bg.color || '#f5f5f7'
+  $('#set-bg-image').value = personalize.bg.image || ''
+  $('#set-bg-overlay').value = Math.round((personalize.bg.overlay ?? 0.42) * 100)
+  $('#set-bg-blur').value = personalize.bg.blur || 0
+  $('#set-adaptive-text').checked = personalize.adaptiveText !== false
+  $('#set-bg-overlay-v').textContent = `${$('#set-bg-overlay').value}%`
+  $('#set-bg-blur-v').textContent = `${$('#set-bg-blur').value}px`
+  $('#set-bg-filehint').textContent = personalize.bg.image?.startsWith('data:') ? '已使用本地图片' : '未选择'
+
+  const bgModeSelect = mountCcSelect('set-bg-mode', {
+    variant: 'form',
+    menuPlacement: 'below',
+    onChange: () => { syncAppearanceRows(); previewAppearance() },
+  })
+  syncAppearanceRows()
+
+  mountFontSelect(personalize.fontFamily || '')
+
+  accentInput?.addEventListener('input', () => {
+    $('#set-accent-reset').dataset.cleared = '0'
+    previewAppearance()
+  })
+  $('#set-accent-reset')?.addEventListener('click', () => {
+    $('#set-accent-reset').dataset.cleared = '1'
+    accentInput.value = defaultAccent
+    previewAppearance()
+  })
+  $('#set-bg-color')?.addEventListener('input', previewAppearance)
+  $('#set-bg-image')?.addEventListener('input', previewAppearance)
+  $('#set-bg-overlay')?.addEventListener('input', () => {
+    $('#set-bg-overlay-v').textContent = `${$('#set-bg-overlay').value}%`
+    previewAppearance()
+  })
+  $('#set-bg-blur')?.addEventListener('input', () => {
+    $('#set-bg-blur-v').textContent = `${$('#set-bg-blur').value}px`
+    previewAppearance()
+  })
+  $('#set-adaptive-text')?.addEventListener('change', previewAppearance)
+
+  $('#set-bg-pick')?.addEventListener('click', () => $('#set-bg-file')?.click())
+  $('#set-bg-file')?.addEventListener('change', async () => {
+    const f = $('#set-bg-file').files?.[0]
+    if (!f) return
+    if (f.size > 2.5 * 1024 * 1024) {
+      toast('图片请小于 2.5MB', { type: 'warn' })
+      return
+    }
+    const data = await new Promise((res, rej) => {
+      const r = new FileReader()
+      r.onload = () => res(r.result)
+      r.onerror = rej
+      r.readAsDataURL(f)
+    })
+    $('#set-bg-image').value = String(data)
+    $('#set-bg-filehint').textContent = f.name
+    bgModeSelect.setValue('image')
+    syncAppearanceRows()
+    previewAppearance()
+  })
+
+  $('#set-open-theme')?.addEventListener('click', e => {
+    e.preventDefault()
+    window.dispatchEvent(new CustomEvent('ccui:switch-view', { detail: 'theme' }))
+  })
+
+  $('#set-appearance-reset')?.addEventListener('click', async () => {
+    const def = DEFAULT_PERSONALIZE()
+    await savePersonalize(def)
+    mountSettings(container)
+    toast('已恢复默认外观', { type: 'success' })
+  })
+
+  $('#set-save-appearance')?.addEventListener('click', async () => {
+    try {
+      await savePersonalize(readAppearanceDraft())
+      toast('外观已保存并应用', { type: 'success' })
+    } catch (e) { toast(`保存失败：${e.message}`, { type: 'error' }) }
+  })
+
+  updateAppearancePreview()
 }
 
 // 启动时把已保存配置下发 daemon + 加载风格到 store

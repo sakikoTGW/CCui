@@ -1,5 +1,4 @@
-// Ctrl+K 命令面板 — 可搜索、可执行
-import { registerOverlay } from './modal.js'
+// Ctrl+K 命令面板 — 右侧抽屉（与文件树同逻辑）
 import { ICONS } from './icons.js'
 
 const ACTIONS = [
@@ -13,7 +12,7 @@ const ACTIONS = [
   { id: 'brief-lib', label: '简报库', hint: '曾存下的任务规格', keys: ['brief', '简报'], run: () => switchView('brief') },
   { id: 'focus-goal', label: '钉住这次要做', hint: 'Ctrl+Shift+B · 发送框上方任务钉', keys: ['任务', '目标', '这次要做', '钉住'], run: () => { switchView('chat'); window.dispatchEvent(new CustomEvent('ccui:focus-goal')) } },
   { id: 'align-check', label: '核对进度', hint: 'Ctrl+Shift+A · 对照当前目标是否偏离', keys: ['核对', '进度', 'align', '目标', '这次要做'], run: () => { switchView('chat'); window.dispatchEvent(new CustomEvent('ccui:align-check')) } },
-  { id: 'review', label: '变更审查', hint: 'Ctrl+Shift+R · 批处理允许/拒绝', keys: ['review', '审查', '变更', 'permission', 'diff', '待处理'], run: () => window.ccui?.openReviewWindow?.() },
+  { id: 'review', label: '变更审查', hint: 'Ctrl+Shift+R · 批处理允许/拒绝', keys: ['review', '审查', '变更', 'permission', 'diff', '待处理'], run: () => switchView('review') },
   { id: 'settings', label: '设置', hint: '连接 / 路由 / 风格', keys: ['settings', '设置'], run: () => switchView('settings') },
   { id: 'presets', label: '参数预设', hint: 'Ctrl+1~9 切换', keys: ['preset', '预设'], run: () => switchView('presets') },
   { id: 'templates', label: '提示词模板', hint: '输入 / 唤起', keys: ['template', '模板'], run: () => switchView('templates') },
@@ -28,25 +27,32 @@ const ACTIONS = [
 ]
 
 let switchViewFn = () => {}
-let root = null
+/** @type {HTMLElement|null} */
+let panel = null
 let active = 0
 let filtered = ACTIONS
+let wired = false
 
 export function initCommandPalette(switchView) {
   switchViewFn = switchView
-  if (root) return
-  root = document.createElement('div')
-  root.className = 'cmd-palette'
-  root.innerHTML = `
-    <div class="cmd-back">
-      <div class="cmd-box">
-        <input class="cmd-input" placeholder="搜索命令…" autocomplete="off" spellcheck="false" />
-        <ul class="cmd-list"></ul>
-        <div class="cmd-foot">↑↓ 选择 · Enter 执行 · Esc 关闭</div>
-      </div>
-    </div>`
-  document.body.appendChild(root)
-  const input = root.querySelector('.cmd-input')
+  if (panel) return
+
+  panel = document.createElement('aside')
+  panel.className = 'cmdpanel'
+  panel.innerHTML = `
+    <div class="fp-head">
+      <span class="fp-title">命令</span>
+      <button class="fp-close" type="button" title="关闭"></button>
+    </div>
+    <input class="cmd-input" placeholder="搜索命令…" autocomplete="off" spellcheck="false" />
+    <ul class="cmd-list"></ul>
+    <div class="cmd-foot">↑↓ 选择 · Enter 执行 · Esc 关闭</div>`
+
+  panel.querySelector('.fp-close').innerHTML = ICONS.close
+  panel.querySelector('.fp-close').onclick = close
+  document.body.appendChild(panel)
+
+  const input = panel.querySelector('.cmd-input')
   input.addEventListener('input', () => filter(input.value))
   input.addEventListener('keydown', e => {
     if (e.key === 'ArrowDown') { e.preventDefault(); active = (active + 1) % filtered.length; renderList() }
@@ -54,13 +60,31 @@ export function initCommandPalette(switchView) {
     else if (e.key === 'Enter') { e.preventDefault(); runActive() }
     else if (e.key === 'Escape') { e.preventDefault(); close() }
   })
-  root.querySelector('.cmd-back').addEventListener('click', e => { if (e.target.classList.contains('cmd-back')) close() })
-  document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); open() }
-  })
+
+  if (!wired) {
+    wired = true
+    document.addEventListener('mousedown', onOutsidePointer)
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); toggle() }
+    })
+  }
 }
 
 function switchView(name) { switchViewFn(name) }
+
+function onOutsidePointer(e) {
+  if (!panel?.classList.contains('open')) return
+  const t = e.target
+  if (!(t instanceof Node)) return
+  if (panel.contains(t)) return
+  if (t instanceof Element && (t.closest('#cmdPaletteBtn') || t.closest('.cmdpanel'))) return
+  close()
+}
+
+export function toggleCommandPalette() {
+  if (panel?.classList.contains('open')) close()
+  else open()
+}
 
 function filter(q) {
   const s = q.trim().toLowerCase()
@@ -74,7 +98,7 @@ function filter(q) {
 }
 
 function renderList() {
-  const ul = root.querySelector('.cmd-list')
+  const ul = panel.querySelector('.cmd-list')
   ul.innerHTML = ''
   filtered.forEach((a, i) => {
     const li = document.createElement('li')
@@ -92,20 +116,18 @@ function runActive() {
   a.run()
 }
 
-let unregister = null
 function open() {
-  root.classList.add('open')
+  panel.classList.add('open')
+  document.getElementById('cmdPaletteBtn')?.classList.add('nav-util-on')
   active = 0
   filtered = ACTIONS
-  const input = root.querySelector('.cmd-input')
+  const input = panel.querySelector('.cmd-input')
   input.value = ''
   renderList()
   requestAnimationFrame(() => input.focus())
-  unregister = registerOverlay(root, close)
 }
 
 function close() {
-  root.classList.remove('open')
-  unregister?.()
-  unregister = null
+  panel?.classList.remove('open')
+  document.getElementById('cmdPaletteBtn')?.classList.remove('nav-util-on')
 }

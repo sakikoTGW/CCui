@@ -4,36 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CCui</title>
-    <link rel="stylesheet" href="node_modules/highlight.js/styles/github.css" />
+    <link id="hljs-theme" rel="stylesheet" href="node_modules/highlight.js/styles/github.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="app" id="appRoot">
-      <nav class="activity" aria-label="主导航">
-        <button class="act" data-view="projects" title="项目"></button>
-        <button class="act act-on" data-view="chat" title="工作区"></button>
-        <button class="act" data-view="console" title="控制台"></button>
-        <button class="act" data-view="studio" title="数据工作室"></button>
-        <button class="act" data-view="map" title="项目结构图"></button>
-        <button class="act" data-view="brief" title="简报库 Task Brief"></button>
-        <button class="act" id="treeToggle" title="文件"></button>
-        <div class="act-spacer"></div>
-        <button class="act" id="openReview" title="变更审查 (Ctrl+Shift+R)"></button>
-        <button class="act" id="cmdPaletteBtn" title="命令 (Ctrl+K)"></button>
-        <button class="act" id="themeToggle" title="明暗主题"></button>
-        <button class="act" data-view="settings" title="设置"></button>
-      </nav>
+      <nav class="activity" id="activityNav" aria-label="主导航"></nav>
 
       <div class="workspace" id="workspace">
         <!-- Cursor Agents Window / Codex: 左侧 thread 列表常驻 -->
         <aside class="session-rail" id="sessionRail" aria-label="会话列表">
           <div class="sr-head">
-            <span class="sr-title">Threads</span>
-            <button class="sr-toggle" id="srCollapse" type="button" title="收起">‹</button>
+            <span class="sr-title">会话</span>
+            <button class="sr-toggle" id="srCollapse" type="button" title="收起会话列表" aria-label="收起会话列表">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+            </button>
           </div>
           <div class="sr-actions">
-            <button class="sr-btn sr-primary" id="newConvo" type="button">+ Thread</button>
-            <button class="sr-btn" id="newCompare" type="button" title="同题创建 Lane A/B/C 三路变异">+ Compare</button>
+            <button class="sr-btn sr-primary" id="newConvo" type="button">+ 新对话</button>
+            <button class="sr-btn" id="newCompare" type="button" title="同题创建 A/B/C 三路对比">+ 对比</button>
           </div>
           <div class="history-list" id="historyList"></div>
         </aside>
@@ -46,10 +35,13 @@
               <span class="tb-title" id="sessionTitle">新对话</span>
             </div>
             <div class="topbar-right status">
-              <button type="button" class="tb-icon" id="openSettings" title="设置 (Ctrl+,)"></button>
-              <span class="dot" id="dot" data-state="starting"></span>
-              <span id="statusLabel">连接中</span>
+              <button type="button" class="tb-icon tb-theme" id="themeToggle" title="切换到深色" aria-label="切换明暗主题"></button>
+              <div class="status-pill" id="statusPill">
+                <span class="dot" id="dot" data-state="starting"></span>
+                <span id="statusLabel">连接中</span>
+              </div>
             </div>
+            <div class="topbar-chrome topbar-chrome-win" id="titlebarWin" hidden></div>
           </header>
           <div class="view-host" id="viewHost"></div>
         </div>
@@ -57,36 +49,38 @@
         <!-- Codex task sidebar: 运行态 / 成本 / 工具 trace -->
         <aside class="inspector" id="inspector" aria-label="任务面板">
           <div class="insp-head">
-            <span>Task</span>
-            <button class="insp-toggle" id="inspToggle" type="button" title="收起">›</button>
+            <span class="insp-title">任务</span>
+            <button class="insp-toggle" id="inspToggle" type="button" title="收起任务面板" aria-label="收起任务面板">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
           </div>
           <section class="insp-sec">
-            <div class="k">Model</div>
+            <div class="k">模型</div>
             <div class="v" id="insp-model">—</div>
             <div class="sub" id="insp-route"></div>
           </section>
           <section class="insp-sec">
-            <div class="k">Preset</div>
+            <div class="k">预设</div>
             <div class="v" id="insp-preset">默认</div>
           </section>
           <section class="insp-sec">
-            <div class="k">Usage</div>
+            <div class="k">用量</div>
             <div class="v mono" id="insp-usage">—</div>
           </section>
           <section class="insp-sec">
-            <div class="k">Cost</div>
+            <div class="k">费用</div>
             <div class="v mono" id="insp-cost">$0.0000</div>
           </section>
           <section class="insp-sec">
-            <div class="k">Permissions</div>
+            <div class="k">权限</div>
             <div class="v" id="insp-perms">每次需确认</div>
             <div class="sub" id="insp-perms-hint">工具弹窗 · 设置里可改「始终允许」</div>
             <button type="button" class="insp-link" id="inspOpenSettings">打开设置</button>
             <button type="button" class="insp-link" id="inspOpenConsole">控制台 (Skills/MCP)</button>
           </section>
           <section class="insp-sec insp-grow">
-            <div class="k">Tools</div>
-            <div class="timeline" id="insp-timeline"><div class="tl-empty">尚无工具调用</div></div>
+            <div class="k">工具</div>
+            <div class="timeline" id="insp-timeline"><div class="tl-empty"><span class="tl-empty-ico" aria-hidden="true">⚙</span>尚无工具调用</div></div>
           </section>
         </aside>
       </div>

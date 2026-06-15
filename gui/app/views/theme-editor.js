@@ -4,6 +4,7 @@ import { db, uid } from '../db.js'
 import { toast, confirmPopover } from '../ui.js'
 import { applyTheme, BUILTIN_THEMES } from '../ui.js'
 import { ICONS } from '../icons.js'
+import { mountCcSelect } from '../cc-select.js'
 
 let container = null
 let draft = null
@@ -94,10 +95,15 @@ export async function mountThemeEditor(c) {
   cssEl.value = draft.css
   cssEl.oninput = () => { draft.css = cssEl.value; preview() }
 
-  container.querySelector('#th-builtin').onchange = e => {
-    const b = BUILTIN_THEMES[e.target.value]
-    if (b) { draft.vars = { ...draft.vars, ...b }; syncColorInputs(); preview() }
-  }
+  mountCcSelect('th-builtin', {
+    variant: 'form',
+    menuPlacement: 'below',
+    onChange: v => {
+      const b = BUILTIN_THEMES[v]
+      if (b) { draft.vars = { ...draft.vars, ...b }; syncColorInputs(); preview() }
+    },
+  })
+
   container.querySelector('#th-reset').onclick = e => {
     confirmPopover(e.target, '重置主题为默认浅色？未保存的自定义将丢失', () => {
       draft.vars = { ...BUILTIN_THEMES.light }; draft.css = ''; draft.radius = 12

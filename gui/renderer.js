@@ -1,6 +1,6 @@
 // CCui 入口 — 布局参照 Cursor Agents Window + Codex thread sidebar
 import { store } from './app/store.js'
-import { loadTheme, applyTheme, toast } from './app/ui.js'
+import { loadTheme, applyTheme, applyThemeWithFade, toast } from './app/ui.js'
 import { db } from './app/db.js'
 import { permSummary, getAllowedTools } from './app/permissions.js'
 import { mountChat } from './app/views/chat.js'
@@ -8,7 +8,7 @@ import { mountPresets, initPresetHotkeys } from './app/views/presets.js'
 import { mountTemplates } from './app/views/templates.js'
 import { mountThemeEditor, restoreCustomStyle } from './app/views/theme-editor.js'
 import { mountStudio } from './app/views/studio.js'
-import { mountSettings, applySavedConfig, maybeWelcome } from './app/views/settings.js'
+import { mountSettings, applySavedConfig, maybeWelcome, preloadSystemFonts } from './app/views/settings.js'
 import { mountConsole, syncDisabledToDaemon } from './app/views/console.js'
 import { initFileTree } from './app/views/filetree.js'
 import { mountOrchestrate } from './app/views/orchestrate.js'
@@ -16,14 +16,19 @@ import { mountCollab } from './app/views/collab.js'
 import { mountContextMap } from './app/views/context-map.js'
 import { mountProjects } from './app/views/projects.js'
 import { mountBriefLibrary } from './app/views/brief-library.js'
+import { mountReview } from './app/views/review.js'
 import { initLive2D } from './app/views/live2d.js'
-import { mountNavIcons, ICONS } from './app/icons.js'
-import { initCommandPalette } from './app/command-palette.js'
+import { initActivityNav } from './app/nav.js'
+import { ICONS } from './app/icons.js'
+import { initCommandPalette, toggleCommandPalette } from './app/command-palette.js'
 import { initGlobalEsc } from './app/modal.js'
 import { initReviewQueueBridge, pendingCount } from './app/review-queue.js'
 import { initRendererDiag, reportDiag } from './app/diag.js'
 import { api } from './app/api.js'
 import { getProjectsState, onProjectChanged, projectDisplayName } from './app/project-registry.js'
+import { initTitleBar } from './app/titlebar.js'
+import { initBgParallax } from './app/bg-parallax.js'
+import { runViewTransition, warmView } from './app/view-transition.js'
 
 const VIEWS = {
   projects: { el: null, mounted: false, mount: mountProjects, keepAlive: false },
@@ -32,12 +37,13 @@ const VIEWS = {
   templates: { el: null, mounted: false, mount: mountTemplates, keepAlive: false },
   theme: { el: null, mounted: false, mount: mountThemeEditor, keepAlive: false },
   studio: { el: null, mounted: false, mount: mountStudio, keepAlive: false },
-  settings: { el: null, mounted: false, mount: mountSettings, keepAlive: false },
+  settings: { el: null, mounted: false, mount: mountSettings, keepAlive: true },
   console: { el: null, mounted: false, mount: mountConsole, keepAlive: false },
   orchestrate: { el: null, mounted: false, mount: mountOrchestrate, keepAlive: false },
   collab: { el: null, mounted: false, mount: mountCollab, keepAlive: false },
   map: { el: null, mounted: false, mount: mountContextMap, keepAlive: false },
   brief: { el: null, mounted: false, mount: mountBriefLibrary, keepAlive: false },
+  review: { el: null, mounted: false, mount: mountReview, keepAlive: true },
 }
 
 function $(id) { return document.getElementById(id) }
@@ -47,6 +53,8 @@ async function boot() {
   reportDiag('info', 'boot start')
   await loadTheme()
   await restoreCustomStyle()
+  if (typeof requestIdleCallback === 'function') requestIdleCallback(() => preloadSystemFonts(), { timeout: 3000 })
+  else setTimeout(() => preloadSystemFonts(), 1500)
   store.set({ theme: document.documentElement.dataset.theme || 'light' })
   applyWorkspaceLayout(store.get())
 
@@ -57,7 +65,8 @@ async function boot() {
   } catch {}
 
   initGlobalEsc()
-  mountNavIcons()
+  initActivityNav()
+  await initTitleBar()
   initCommandPalette(switchView)
   setupActivityBar()
   setupTheme()
@@ -70,12 +79,16 @@ async function boot() {
   initLive2D()
   initReviewQueueBridge()
   setupReviewEntry()
+  initBgParallax()
   setupViewportLayout()
-  switchView('chat')
+  void switchView('chat')
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(() => warmView(VIEWS, $('viewHost'), 'settings'), { timeout: 2500 })
+  } else {
+    setTimeout(() => warmView(VIEWS, $('viewHost'), 'settings'), 1200)
+  }
 
-  $('cmdPaletteBtn')?.addEventListener('click', () => {
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))
-  })
+  $('cmdPaletteBtn')?.addEventListener('click', () => toggleCommandPalette())
 
   window.addEventListener('ccui:switch-view', e => switchView(e.detail))
   store.subscribe(s => applyWorkspaceLayout(s))
@@ -111,16 +124,16 @@ function setupReviewEntry() {
   }
   window.addEventListener('ccui:review-queue', e => syncBadge(e.detail?.length || 0))
   syncBadge(pendingCount())
-  btn?.addEventListener('click', () => window.ccui?.openReviewWindow?.())
   document.addEventListener('keydown', e => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'r') {
       e.preventDefault()
-      window.ccui?.openReviewWindow?.()
+      switchView('review')
     }
   })
 }
 
 function setupViewportLayout() {
+  let resizeRaf = 0
   const apply = () => {
     const root = $('appRoot')
     if (!root) return
@@ -131,7 +144,13 @@ function setupViewportLayout() {
     applyChatWidth()
   }
   apply()
-  window.addEventListener('resize', apply)
+  window.addEventListener('resize', () => {
+    if (resizeRaf) return
+    resizeRaf = window.requestAnimationFrame(() => {
+      resizeRaf = 0
+      apply()
+    })
+  })
   window.addEventListener('load', () => setTimeout(reportLayoutCheck, 800))
   window.addEventListener('ccui:layout-check', () => reportLayoutCheck())
 }
@@ -192,31 +211,57 @@ function setupActivityBar() {
   })
 }
 
-function switchView(name) {
+let activeViewName = ''
+/** @type {HTMLElement|null} */
+let activeViewEl = null
+let viewSwitching = false
+
+async function switchView(name) {
   const def = VIEWS[name]
   if (!def) {
     toast('请用 Ctrl+K 打开命令面板搜索该功能', { type: 'info' })
     return
   }
-  store.set({ view: name })
-  document.querySelectorAll('.act[data-view]').forEach(b => b.classList.toggle('act-on', b.dataset.view === name))
+  if ((name === activeViewName && activeViewEl) || viewSwitching) return
 
-  for (const [k, v] of Object.entries(VIEWS)) {
-    if (v.el) v.el.style.display = k === name ? '' : 'none'
+  const host = $('viewHost')
+  viewSwitching = true
+
+  document.querySelectorAll('.act[data-view]').forEach(b => {
+    b.classList.toggle('act-on', b.dataset.view === name)
+  })
+
+  try {
+    const result = await runViewTransition(VIEWS, host, name, {
+      fromName: activeViewName,
+      fromEl: activeViewEl,
+      reduceMotion: false,
+      onLayoutPrepare: viewName => {
+        // 进入对话工作区时提前切 layout，避免分支树在淡入期间先露出再被收起
+        if (viewName === 'chat') store.set({ view: 'chat' })
+      },
+      onLayout: viewName => store.set({ view: viewName }),
+      onReady: viewName => {
+        if (viewName === 'chat') applyChatWidth()
+      },
+    })
+    if (result.el) {
+      activeViewName = result.name
+      activeViewEl = result.el
+    }
+  } catch (e) {
+    if (def.el) {
+      def.el.innerHTML = `<div class="error-state">视图加载失败：${e.message}</div>`
+      def.el.style.display = ''
+      def.el.classList.add('is-current')
+      def.mounted = true
+      activeViewName = name
+      activeViewEl = def.el
+      store.set({ view: name })
+    }
+  } finally {
+    viewSwitching = false
   }
-  if (!def.el) {
-    def.el = document.createElement('div')
-    def.el.className = `view view-${name}`
-    $('viewHost').appendChild(def.el)
-  }
-  def.el.style.display = ''
-  if (!def.mounted || !def.keepAlive) {
-    try { def.mount(def.el); def.mounted = true } catch (e) { def.el.innerHTML = `<div class="error-state">视图加载失败：${e.message}</div>` }
-  }
-  def.el.classList.remove('view-enter')
-  void def.el.offsetWidth
-  def.el.classList.add('view-enter')
-  if (name === 'chat') applyChatWidth()
 }
 
 function applyWorkspaceLayout(s) {
@@ -240,23 +285,31 @@ function setupChrome() {
     store.set({ inspectorCollapsed: next })
     localStorage.setItem('ccui:inspector', next ? '1' : '0')
   })
-  $('openSettings')?.addEventListener('click', () => switchView('settings'))
   $('inspOpenSettings')?.addEventListener('click', () => switchView('settings'))
   $('inspOpenConsole')?.addEventListener('click', () => switchView('console'))
-  const gear = $('openSettings')
-  if (gear) gear.innerHTML = ICONS.settings
   document.addEventListener('keydown', e => {
     if (e.ctrlKey && e.key === ',') { e.preventDefault(); switchView('settings') }
   })
 }
 
+function syncThemeToggleIcon(btn, themeName) {
+  if (!btn) return
+  const name = themeName || document.documentElement.dataset.theme || 'light'
+  const dark = name === 'dark'
+  btn.innerHTML = dark ? ICONS.themeSun : ICONS.themeToggle
+  btn.title = dark ? '切换到浅色' : '切换到深色'
+  btn.setAttribute('aria-label', dark ? '切换到浅色主题' : '切换到深色主题')
+}
+
 function setupTheme() {
   const btn = $('themeToggle')
   if (!btn) return
-  btn.onclick = async () => {
-    const next = (document.documentElement.dataset.theme === 'dark') ? 'light' : 'dark'
-    await applyTheme(next)
+  syncThemeToggleIcon(btn)
+  btn.onclick = () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
+    syncThemeToggleIcon(btn, next)
     store.set({ theme: next })
+    void applyThemeWithFade(next)
   }
 }
 
@@ -302,10 +355,12 @@ function bindInspector() {
     setText('insp-preset', ap ? ap.name : '默认')
 
     const dot = $('dot')
+    const pill = $('statusPill')
     const label = $('statusLabel')
     let state = s.daemonStatus
     if ((s.busy || s.orchBusy) && state === 'ready') state = 'busy'
     if (dot) dot.dataset.state = state
+    if (pill) pill.dataset.state = state
     if (label) {
       label.textContent = {
         starting: '连接中…', ready: '已就绪', busy: '生成中…', error: '连接异常', offline: '已断开',

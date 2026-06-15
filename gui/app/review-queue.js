@@ -28,7 +28,7 @@ export function enqueue(raw, { notify = true } = {}) {
     at: Date.now(),
   })
   sync()
-  if (notify) window.ccui?.openReviewWindow?.()
+  if (notify) window.dispatchEvent(new CustomEvent('ccui:switch-view', { detail: 'review' }))
   return id
 }
 

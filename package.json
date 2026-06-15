@@ -6,8 +6,8 @@
   "type": "module",
   "main": "src/entrypoints/cli.tsx",
   "scripts": {
-    "start": "cmd /c e:\\CCui\\start-gui.bat",
-    "gui": "cmd /c e:\\CCui\\start-gui.bat",
+    "start": "cmd /c start-gui.bat",
+    "gui": "cmd /c start-gui.bat",
     "repl": "bun run scripts/run-deepseek.ts",
     "dev": "bun run scripts/run-deepseek.ts",
     "deepseek": "bun run scripts/run-deepseek.ts",

@@ -61,4 +61,21 @@ contextBridge.exposeInMainWorld('ccui', {
     ipcRenderer.on('project-changed', h)
     return () => ipcRenderer.removeListener('project-changed', h)
   },
+  getWindowChrome: () => ipcRenderer.invoke('window:getChrome'),
+  setWindowChrome: patch => ipcRenderer.invoke('window:setChrome', patch),
+  windowMinimize: () => ipcRenderer.invoke('window:minimize'),
+  windowMaximize: () => ipcRenderer.invoke('window:maximize'),
+  windowClose: () => ipcRenderer.invoke('window:close'),
+  isWindowMaximized: () => ipcRenderer.invoke('window:isMaximized'),
+  onWindowChrome: cb => {
+    const h = (_e, payload) => cb(payload)
+    ipcRenderer.on('window-chrome', h)
+    return () => ipcRenderer.removeListener('window-chrome', h)
+  },
+  onWindowMaximized: cb => {
+    const h = (_e, v) => cb(v)
+    ipcRenderer.on('window-maximized', h)
+    return () => ipcRenderer.removeListener('window-maximized', h)
+  },
+  listFonts: () => ipcRenderer.invoke('fonts:list'),
 })

@@ -28,16 +28,19 @@ import { bindGoalHotkey } from '../brief/composer.js'
 import { briefSummary, stripBriefMarker } from '../brief/schema.js'
 import { mountIntentRail, computeIntent } from '../intent-rail.js'
 import { buildHydratePayload } from '../session-sync.js'
+import { createCcSelect } from '../cc-select.js'
 
 const DRAFT_KEY = id => `ccui:draft:${id || 'new'}`
-const EMPTY_HTML = `<h1>开始对话</h1>
-  <p>左侧每条都是独立 Thread。拖拽文件到输入框可附加路径（同 Cursor）。<br/>
+const EMPTY_HTML = `<div class="empty-brand" aria-hidden="true">C</div>
+  <h1>开始对话</h1>
+  <p>左侧每条都是独立会话。拖拽文件到输入框可附加路径。<br/>
   悬停你的消息可<strong>编辑并分叉</strong>；<kbd>Ctrl+Shift+E</kbd> 编辑上一条。<br/>
   左侧<strong>分支树</strong> · 发送框上方可<strong>钉住这次要做</strong>（<kbd>Ctrl+Shift+B</kbd>） · 活动栏<strong>结构图</strong>。</p>
   <div class="examples">
-    <button class="ex">读取 package.json 的 name</button>
-    <button class="ex">这个项目是做什么的？</button>
-    <button class="ex">列出 docs 目录的文档</button>
+    <button class="ex" type="button">解释这段代码在做什么</button>
+    <button class="ex" type="button">帮我写单元测试</button>
+    <button class="ex" type="button">读取 package.json 的 name</button>
+    <button class="ex" type="button">这个项目是做什么的？</button>
   </div>`
 
 // 语言已在 vendor/hljs.js bundle 内注册
@@ -51,6 +54,10 @@ let continuationTracker = null
 let bulkRendering = false
 /** @type {ReturnType<typeof mountIntentRail>|null} */
 let intentRail = null
+/** @type {ReturnType<typeof createCcSelect> | null} */
+let presetSelect = null
+/** @type {ReturnType<typeof createCcSelect> | null} */
+let checkpointSelect = null
 
 function refreshIntentRail() {
   intentRail?.refresh()
@@ -59,7 +66,7 @@ function refreshIntentRail() {
 function handleIntentDebt(action) {
   switch (action) {
     case 'review':
-      window.ccui?.openReviewWindow?.()
+      window.dispatchEvent(new CustomEvent('ccui:switch-view', { detail: 'review' }))
       break
     case 'compare':
       handleIntentAlign(computeIntent(convo, null, store.get()).north || 'Compare 结论')
@@ -135,9 +142,7 @@ export function mountChat(container) {
       </div>
       <div class="composer">
         <div class="composer-meta">
-          <label class="cm-preset">Preset
-            <select id="composerPreset" aria-label="预设"></select>
-          </label>
+          <div id="presetPickerHost"></div>
         </div>
         <div id="composerContextHost"></div>
         <div class="composer-inner">
@@ -152,10 +157,10 @@ export function mountChat(container) {
     input: container.querySelector('#input'),
     send: container.querySelector('#send'),
     historyList: document.getElementById('historyList'),
-    composerPreset: container.querySelector('#composerPreset'),
+    presetPickerHost: container.querySelector('#presetPickerHost'),
   }
 
-  bindComposerPreset()
+  initPresetSelect()
 
   els.send.innerHTML = ICONS.send
   els.send.onclick = onSend
@@ -237,6 +242,8 @@ export function mountChat(container) {
   applyBranchSidebarLayout()
   restoreDraft()
 
+  window.addEventListener('ccui:hljs-theme', rehighlightVisibleCode)
+  window.addEventListener('ccui:theme-changed', rehighlightVisibleCode)
   bootChat()
   api.onMessage(onDaemon)
   window.addEventListener('ccui:new-convo', () => newConversation(true))
@@ -258,7 +265,7 @@ export function mountChat(container) {
   store.subscribe(s => {
     updateSessionTitle()
     updateSendButton()
-    syncComposerPresetSelect()
+    syncPresetPicker()
     syncComposerPlaceholder()
   })
 }
@@ -389,31 +396,37 @@ function writeAssistantItem(th, text) {
   else th.items.push({ t: 'msg', sdk })
 }
 
-function bindComposerPreset() {
-  if (!els?.composerPreset) return
-  syncComposerPresetSelect()
-  els.composerPreset.onchange = async () => {
-    const id = els.composerPreset.value || null
-    store.set({ activePresetId: id })
-    try { await db.put('settings', { id: 'activePreset', value: id }) } catch {}
-  }
+function initPresetSelect() {
+  if (!els?.presetPickerHost) return
+  presetSelect = createCcSelect({
+    variant: 'pill',
+    menuPlacement: 'above',
+    fullWidth: false,
+    icon: ICONS.presets,
+    placeholder: '默认',
+    options: [{ value: '', label: '默认', desc: '不附加系统提示' }],
+    onChange: id => applyPresetId(id || null),
+  })
+  els.presetPickerHost.appendChild(presetSelect.el)
+  syncPresetPicker()
 }
 
-function syncComposerPresetSelect() {
-  if (!els?.composerPreset) return
+async function applyPresetId(id) {
+  store.set({ activePresetId: id || null })
+  try { await db.put('settings', { id: 'activePreset', value: id || null }) } catch {}
+  syncPresetPicker()
+}
+
+function syncPresetPicker() {
+  if (!presetSelect) return
   const s = store.get()
-  els.composerPreset.innerHTML = ''
-  const def = document.createElement('option')
-  def.value = ''
-  def.textContent = '默认'
-  els.composerPreset.appendChild(def)
+  const activeId = s.activePresetId || ''
+  const items = [{ value: '', label: '默认', desc: '不附加系统提示' }]
   for (const p of s.presets) {
-    const o = document.createElement('option')
-    o.value = p.id
-    o.textContent = p.name
-    els.composerPreset.appendChild(o)
+    items.push({ value: p.id, label: p.name, desc: (p.systemPrompt || '自定义预设').slice(0, 48) })
   }
-  els.composerPreset.value = s.activePresetId || ''
+  presetSelect.setOptions(items)
+  presetSelect.setValue(activeId)
 }
 
 function bindExamples(root) {
@@ -527,7 +540,7 @@ async function refreshHistory() {
   store.set({ conversations: list })
   els.historyList.innerHTML = ''
   if (!list.length) {
-    els.historyList.appendChild(h('div', 'history-empty', '暂无历史。发送第一条消息后，会话会出现在这里。'))
+    els.historyList.appendChild(h('div', 'history-empty', '<span class="he-ico" aria-hidden="true">💬</span>开始新对话<br/><span class="he-sub">发送第一条消息后，会话会出现在这里</span>'))
     return
   }
   const grouped = new Set()
@@ -626,7 +639,7 @@ function renderItems() {
 
 function resetInspectorTimeline() {
   const tl = document.getElementById('insp-timeline')
-  if (tl) tl.innerHTML = '<div class="tl-empty">尚无工具调用</div>'
+  if (tl) tl.innerHTML = '<div class="tl-empty"><span class="tl-empty-ico" aria-hidden="true">⚙</span>尚无工具调用</div>'
 }
 
 // ---------- 分支 + 快照 ----------
@@ -659,17 +672,28 @@ function renderBranchBar() {
   }
   if (checkpoints.length) {
     const wrap = h('span', 'bb-cp')
-    const sel = h('select', 'bb-cp-sel')
-    sel.appendChild(h('option', null, `⟲ 检查点 (${checkpoints.length})`))
-    checkpoints.slice().reverse().forEach(cp => {
-      const opt = h('option')
-      opt.value = cp.id
-      opt.textContent = `${new Date(cp.at).toLocaleTimeString()} · ${cp.label}`
-      sel.appendChild(opt)
+    if (checkpointSelect) checkpointSelect.destroy()
+    checkpointSelect = createCcSelect({
+      variant: 'compact',
+      menuPlacement: 'below',
+      fullWidth: false,
+      placeholder: `⟲ 检查点 (${checkpoints.length})`,
+      value: '',
+      options: checkpoints.slice().reverse().map(cp => ({
+        value: cp.id,
+        label: `${new Date(cp.at).toLocaleTimeString()} · ${cp.label}`,
+      })),
+      onChange: id => {
+        if (id) rollbackCheckpoint(id)
+        checkpointSelect?.setValue('')
+        checkpointSelect?.setPlaceholder(`⟲ 检查点 (${checkpoints.length})`)
+      },
     })
-    sel.onchange = () => { if (sel.value) rollbackCheckpoint(sel.value); sel.selectedIndex = 0 }
-    wrap.appendChild(sel)
+    wrap.appendChild(checkpointSelect.el)
     bar.appendChild(wrap)
+  } else if (checkpointSelect) {
+    checkpointSelect.destroy()
+    checkpointSelect = null
   }
   refreshBranchTreePanel()
 }
@@ -772,10 +796,23 @@ async function persist() {
 }
 
 // ---------- 渲染 ----------
+function rehighlightCodeBlock(codeEl) {
+  if (!codeEl) return
+  const langClass = [...codeEl.classList].find(c => c.startsWith('language-'))
+  const text = codeEl.textContent || ''
+  codeEl.removeAttribute('data-highlighted')
+  codeEl.className = langClass || ''
+  codeEl.textContent = text
+  try { hljs.highlightElement(codeEl) } catch {}
+}
+
 function renderMarkdown(el, text) {
   el.innerHTML = marked.parse(text || '')
   el.querySelectorAll('script').forEach(s => s.remove())
-  el.querySelectorAll('pre code').forEach(b => { try { hljs.highlightElement(b) } catch {} })
+  el.querySelectorAll('pre code').forEach(rehighlightCodeBlock)
+}
+function rehighlightVisibleCode() {
+  els?.messages?.querySelectorAll('pre code').forEach(rehighlightCodeBlock)
 }
 function clearEmpty() { const e = els.messages.querySelector('#empty'); if (e) e.remove() }
 function scrollDown(force = false) {
@@ -813,9 +850,9 @@ function userDisplayText(text, brief) {
 }
 function addThinking(text, live = true) {
   if (!text) return
-  const el = h('details', 'thinking')
+  const el = h('details', live ? 'thinking thinking-live' : 'thinking')
   if (!live) el.open = false
-  el.appendChild(h('summary', null, '思考过程'))
+  el.appendChild(h('summary', null, live ? '思考中…' : '思考过程'))
   const body = h('div', 'think-body'); body.textContent = text
   el.appendChild(body)
   els.messages.appendChild(el); scrollDown()
@@ -836,7 +873,7 @@ function summarizeInput(input) {
 const isEditTool = n => /edit|write|notebook/i.test(n)
 function addToolCard(block, live = true) {
   const { id, name, input } = block
-  const el = h('div', 'toolcard', `
+  const el = h('div', live ? 'toolcard tc-running' : 'toolcard', `
     <div class="head"><span class="ico">${ICONS.tool}</span><span class="name"></span><span class="arg"></span><span class="spin">${live ? '运行中…' : '—'}</span></div>
     <div class="tbody"></div>`)
   el.querySelector('.name').textContent = name
@@ -922,6 +959,7 @@ function fillToolResult(toolUseId, content, isError, live = true) {
       : (isError ? '失败' : '完成')
     spin.className = isError ? 'spin err' : 'spin done'
   }
+  entry.card.classList.remove('tc-running')
   if (!live) {
     entry.card.classList.add('tc-collapsed')
     if (isError) entry.card.classList.add('tc-failed')
@@ -939,7 +977,8 @@ function addTimeline(name, ms, isError) {
   const tl = document.getElementById('insp-timeline')
   if (!tl) return
   const ph = tl.querySelector('.tl-empty'); if (ph) ph.remove()
-  const row = h('div', 'row', `<span class="${isError ? 'err' : ''}">${name}</span><span>${ms}ms</span>`)
+  const statusCls = isError ? 'tl-dot err' : 'tl-dot ok'
+  const row = h('div', 'row', `<span class="tl-name"><span class="${statusCls}" aria-hidden="true"></span><span class="${isError ? 'err' : ''}">${name}</span></span><span>${ms}ms</span>`)
   tl.appendChild(row)
 }
 function addPermCard(id, toolName, message, input) {
@@ -979,7 +1018,7 @@ function addPermCard(id, toolName, message, input) {
     finish('accepted', true)
   }
   el.querySelector('.deny').onclick = () => finish('rejected', false)
-  el.querySelector('.open-review').onclick = () => window.ccui?.openReviewWindow?.()
+  el.querySelector('.open-review').onclick = () => window.dispatchEvent(new CustomEvent('ccui:switch-view', { detail: 'review' }))
   els.messages.appendChild(el); scrollDown()
 }
 
@@ -1093,6 +1132,7 @@ function updateSendButton() {
   els.send.innerHTML = running ? ICONS.stop : ICONS.send
   els.send.title = running ? '停止' : '发送'
   els.send.classList.toggle('stop', running)
+  els.input.closest('.composer')?.classList.toggle('busy', running)
 }
 
 async function onSend() {

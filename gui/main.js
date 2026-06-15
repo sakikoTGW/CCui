@@ -1,10 +1,11 @@
 // Electron 主进程：窗口 + daemon + 协作 WebSocket + PDF 导出 + 变更审查窗
 const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require('electron')
-const { spawn } = require('node:child_process')
+const { spawn, execSync } = require('node:child_process')
 const path = require('node:path')
 const fs = require('node:fs')
 const http = require('node:http')
 const { createProjectsStore } = require('./projects-store.js')
+const { createChromeStore } = require('./chrome-store.js')
 
 const ROOT = path.join(__dirname, '..')
 const DAEMON = path.join(ROOT, 'src', 'gui-service', 'daemon.ts')
@@ -47,6 +48,7 @@ if (!gotLock) {
 let win = null
 let reviewWin = null
 let daemon = null
+let chromeStore = null
 let stdoutBuf = ''
 /** @type {ReturnType<typeof createProjectsStore> | null} */
 let projectsStore = null
@@ -206,6 +208,52 @@ function sendToDaemon(obj) {
   if (daemon && daemon.stdin.writable) daemon.stdin.write(`${JSON.stringify(obj)}\n`)
 }
 
+const FONT_FALLBACK = [
+  'PingFang SC', 'PingFang TC', 'Microsoft YaHei UI', '微软雅黑', 'Segoe UI',
+  'SimSun', 'Arial', 'Times New Roman', 'Consolas', 'Courier New',
+]
+
+let fontsCache = null
+
+function listSystemFonts() {
+  if (fontsCache) return fontsCache
+  if (process.platform === 'win32') {
+    try {
+      const out = execSync(
+        'powershell -NoProfile -Command "Add-Type -AssemblyName System.Drawing; [System.Drawing.FontFamily]::Families | ForEach-Object { $_.Name } | Sort-Object -Unique"',
+        { encoding: 'utf8', maxBuffer: 12 * 1024 * 1024, timeout: 12000 },
+      )
+      const fonts = [...new Set(out.split(/\r?\n/).map(s => s.trim()).filter(Boolean))]
+      if (fonts.length > 20) {
+        fontsCache = fonts
+        return fontsCache
+      }
+    } catch {}
+  }
+  if (process.platform === 'darwin') {
+    try {
+      const names = new Set(['PingFang SC', 'PingFang TC', 'Helvetica Neue', 'Arial', 'Menlo', 'SF Pro Text'])
+      for (const dir of [
+        '/System/Library/Fonts',
+        '/System/Library/Fonts/Supplemental',
+        '/Library/Fonts',
+        path.join(process.env.HOME || '', 'Library/Fonts'),
+      ]) {
+        try {
+          for (const f of fs.readdirSync(dir)) {
+            const base = f.replace(/\.(ttf|otf|ttc)$/i, '').replace(/[-_]/g, ' ')
+            if (base.length > 1) names.add(base)
+          }
+        } catch {}
+      }
+      fontsCache = [...names].sort((a, b) => a.localeCompare(b, 'zh'))
+      return fontsCache
+    } catch {}
+  }
+  fontsCache = [...FONT_FALLBACK].sort((a, b) => a.localeCompare(b, 'zh'))
+  return fontsCache
+}
+
 ipcMain.on('cmd', (_evt, obj) => sendToDaemon(obj))
 ipcMain.handle('collab-port', () => COLLAB_PORT)
 
@@ -271,33 +319,83 @@ ipcMain.handle('export-pdf', async (_evt, { html, title }) => {
   return { ok: true, path: filePath }
 })
 
-function createWindow() {
+function sendWindowChrome(w) {
+  if (!w || !chromeStore) return
+  safeSend(w, 'window-chrome', {
+    ...chromeStore.get(),
+    platform: process.platform,
+    isMaximized: w.isMaximized(),
+  })
+}
+
+ipcMain.handle('window:getChrome', () => {
+  if (!win || !chromeStore) return { ...DEFAULT_CHROME_FALLBACK(), platform: process.platform, isMaximized: false }
+  return {
+    ...chromeStore.get(),
+    platform: process.platform,
+    isMaximized: win.isMaximized(),
+  }
+})
+
+function DEFAULT_CHROME_FALLBACK() {
+  return { style: 'windows', showProject: true, showSession: true, showTheme: true, showConnection: true }
+}
+
+ipcMain.handle('window:setChrome', async (_evt, patch) => {
+  if (!chromeStore) return { ok: false }
+  const next = chromeStore.set(patch || {})
+  sendWindowChrome(win)
+  return { ok: true, chrome: next, recreated: false }
+})
+
+ipcMain.handle('window:minimize', () => { win?.minimize() })
+ipcMain.handle('window:maximize', () => {
+  if (!win) return false
+  if (win.isMaximized()) win.unmaximize()
+  else win.maximize()
+  return win.isMaximized()
+})
+ipcMain.handle('window:close', () => { win?.close() })
+ipcMain.handle('window:isMaximized', () => win?.isMaximized() ?? false)
+ipcMain.handle('fonts:list', () => listSystemFonts())
+
+function createWindow(opts = {}) {
   Menu.setApplicationMenu(null)
-  win = new BrowserWindow({
-    width: 1080,
-    height: 720,
+  const chrome = chromeStore?.get() || DEFAULT_CHROME_FALLBACK()
+  const bounds = opts.bounds
+  const winOpts = {
+    width: bounds?.width || 1080,
+    height: bounds?.height || 720,
     minWidth: 720,
     minHeight: 480,
     show: false,
+    frame: false,
     autoHideMenuBar: true,
     backgroundColor: '#FAF9F5',
-    titleBarStyle: 'hiddenInset',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
     },
-  })
+  }
+  if (bounds?.x != null) winOpts.x = bounds.x
+  if (bounds?.y != null) winOpts.y = bounds.y
+  win = new BrowserWindow(winOpts)
+  if (opts.maximized) win.maximize()
   win.once('ready-to-show', () => { safeSend(win, 'ready', true); if (win) win.show() })
   win.on('closed', () => { win = null })
+  win.on('maximize', () => safeSend(win, 'window-maximized', true))
+  win.on('unmaximize', () => safeSend(win, 'window-maximized', false))
+  win.webContents.on('did-finish-load', () => sendWindowChrome(win))
   diag.bindWindowDiag(win)
   win.loadFile(path.join(__dirname, 'index.html'))
-  diag.appendLog('main', 'info', 'main window created')
+  diag.appendLog('main', 'info', `main window created (chrome=${chrome.style})`)
 }
 
 if (gotLock) {
   app.whenReady().then(() => {
     projectsStore = createProjectsStore(ROOT, app.getPath('userData'))
+    chromeStore = createChromeStore(app.getPath('userData'))
     startCollabServer()
     createWindow()
     startDaemon(projectsStore.getCurrentRoot())

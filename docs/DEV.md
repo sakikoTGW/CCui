@@ -23,6 +23,17 @@ bun install
 bun run bootstrap   # 首次可选，自动补缺失 npm 包
 ```
 
+## 桌面 GUI
+
+```powershell
+# 双击 start-gui.bat，或：
+bun run gui
+```
+
+首次会在 `gui/` 执行 `npm install` 拉取 Electron。API Key 等在 GUI **设置** 页配置，或与 REPL 共用 `.env`。
+
+日志：`logs/gui-latest.log`（已在 `.gitignore`）。
+
 ## 推荐命令（已验证）
 
 | 命令 | 说明 | 耗时 |
