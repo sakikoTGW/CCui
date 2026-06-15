@@ -1,0 +1,19 @@
+---
+description: CLI DX — entry points, feedback, composability
+globs:
+  - "scripts/**"
+  - "*.bat"
+  - "package.json"
+alwaysApply: false
+---
+
+## CLI experience (mandatory)
+
+1. No-args double-click path = interactive REPL with progress feedback, not silent fail.
+2. `npm run start` / `dev` MUST use the same entry as `start.bat` (`run-deepseek.ts`).
+3. Any operation >1s MUST show stderr progress or spinner.
+4. Ctrl+C MUST propagate to child and use graceful shutdown when possible.
+5. Error messages = what happened + why + what to do (human-readable Chinese for CCui wrappers).
+6. Wrapper scripts SHOULD support `--help` and document DeepSeek env vars.
+7. Prefer `--output-format json` for `-p` print mode in automation docs.
+8. Do not fork behavior between bat and npm without documenting in README.

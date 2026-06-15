@@ -1,0 +1,18 @@
+{
+  "name": "ccui-gui",
+  "private": true,
+  "version": "0.1.0",
+  "description": "CCui 桌面端 — Electron 薄壳 + Bun core daemon",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^42.4.0"
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "marked": "^18.0.5",
+    "ws": "^8.21.0"
+  }
+}

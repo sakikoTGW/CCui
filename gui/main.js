@@ -1,0 +1,312 @@
+// Electron 主进程：窗口 + daemon + 协作 WebSocket + PDF 导出 + 变更审查窗
+const { app, BrowserWindow, ipcMain, dialog, Menu, shell } = require('electron')
+const { spawn } = require('node:child_process')
+const path = require('node:path')
+const fs = require('node:fs')
+const http = require('node:http')
+const { createProjectsStore } = require('./projects-store.js')
+
+const ROOT = path.join(__dirname, '..')
+const DAEMON = path.join(ROOT, 'src', 'gui-service', 'daemon.ts')
+const COLLAB_PORT = 4177
+const diag = require('./diag-log.js')
+
+diag.initMainDiag()
+
+function resolveBun() {
+  const candidates = [
+    process.env.BUN_PATH,
+    path.join(process.env.APPDATA || '', 'npm', 'node_modules', 'bun', 'bin', 'bun.exe'),
+    path.join(process.env.USERPROFILE || '', '.bun', 'bin', 'bun.exe'),
+  ].filter(Boolean)
+  for (const c of candidates) {
+    try { if (fs.existsSync(c)) return c } catch {}
+  }
+  return null
+}
+
+/** @param {import('electron').BrowserWindow|null|undefined} w */
+function safeSend(w, channel, payload) {
+  try {
+    if (w && !w.isDestroyed()) w.webContents.send(channel, payload)
+  } catch {}
+}
+
+const gotLock = app.requestSingleInstanceLock()
+if (!gotLock) {
+  app.quit()
+} else {
+  app.on('second-instance', () => {
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+    }
+  })
+}
+
+let win = null
+let reviewWin = null
+let daemon = null
+let stdoutBuf = ''
+/** @type {ReturnType<typeof createProjectsStore> | null} */
+let projectsStore = null
+/** @type {import('ws').WebSocketServer | null} */
+let wss = null
+const rooms = new Map() // roomId -> Map<userId, { ws, name }>
+let reviewQueueSnapshot = []
+
+function startCollabServer() {
+  try {
+    const WebSocket = require('ws')
+    const server = http.createServer()
+    wss = new WebSocket.Server({ server })
+    wss.on('connection', ws => {
+      let meta = { room: '', userId: '', name: '' }
+      ws.on('message', raw => {
+        let msg
+        try { msg = JSON.parse(String(raw)) } catch { return }
+        if (msg.type === 'join') {
+          meta = { room: msg.room || 'default', userId: msg.userId, name: msg.name || 'anon' }
+          if (!rooms.has(meta.room)) rooms.set(meta.room, new Map())
+          rooms.get(meta.room).set(meta.userId, { ws, name: meta.name })
+          broadcastPeers(meta.room)
+          return
+        }
+        if (!meta.room) return
+        const payload = { ...msg, from: meta.userId, fromName: meta.name }
+        for (const [uid, peer] of rooms.get(meta.room) || []) {
+          if (uid !== meta.userId && peer.ws.readyState === 1) peer.ws.send(JSON.stringify(payload))
+        }
+      })
+      ws.on('close', () => {
+        if (meta.room && rooms.has(meta.room)) {
+          rooms.get(meta.room).delete(meta.userId)
+          broadcastPeers(meta.room)
+        }
+      })
+    })
+    server.listen(COLLAB_PORT, '127.0.0.1')
+  } catch (e) {
+    diag.appendLog('collab', 'error', e.message)
+  }
+}
+
+function broadcastPeers(roomId) {
+  const room = rooms.get(roomId)
+  if (!room) return
+  const list = [...room.entries()].map(([userId, p]) => ({ userId, name: p.name }))
+  for (const p of room.values()) {
+    if (p.ws.readyState === 1) p.ws.send(JSON.stringify({ type: 'peers', list }))
+  }
+}
+
+function pushReviewQueueToWindows(items) {
+  reviewQueueSnapshot = items || []
+  safeSend(reviewWin, 'review-queue', reviewQueueSnapshot)
+}
+
+function ensureReviewWindow() {
+  if (reviewWin && !reviewWin.isDestroyed()) {
+    if (!reviewWin.isVisible()) reviewWin.show()
+    reviewWin.focus()
+    safeSend(reviewWin, 'review-queue', reviewQueueSnapshot)
+    return reviewWin
+  }
+  reviewWin = new BrowserWindow({
+    width: 720,
+    height: 560,
+    minWidth: 480,
+    minHeight: 360,
+    show: true,
+    backgroundColor: '#FAF9F5',
+    title: 'CCui — Review',
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  })
+  reviewWin.on('closed', () => { reviewWin = null })
+  reviewWin.loadFile(path.join(__dirname, 'review.html'))
+  reviewWin.webContents.once('did-finish-load', () => {
+    safeSend(reviewWin, 'review-queue', reviewQueueSnapshot)
+  })
+  return reviewWin
+}
+
+function startDaemon(projectRoot) {
+  const cwd = projectRoot || projectsStore?.getCurrentRoot() || ROOT
+  const bun = resolveBun()
+  if (!bun) {
+    diag.appendLog('daemon', 'error', 'bun.exe not found')
+    diag.writeStatus({ daemonStatus: 'error' })
+    return
+  }
+  diag.appendLog('daemon', 'info', 'spawning', { bun, script: DAEMON, cwd })
+  daemon = spawn(bun, [DAEMON], {
+    cwd,
+    stdio: ['pipe', 'pipe', 'pipe'],
+    env: {
+      ...process.env,
+      CLAUDE_CODE_DEV: '1',
+      CCUI_STACK: '1',
+      CCUI_MEMORY: '1',
+    },
+    windowsHide: true,
+  })
+  safeSend(win, 'daemon', { kind: 'status', state: 'starting' })
+  diag.writeStatus({ daemonStatus: 'starting' })
+  daemon.on('error', err => {
+    diag.appendLog('daemon', 'error', 'spawn failed', err.message)
+    diag.writeStatus({ daemonStatus: 'error' })
+  })
+  daemon.stdout.on('data', chunk => {
+    stdoutBuf += chunk.toString('utf8')
+    let idx
+    while ((idx = stdoutBuf.indexOf('\n')) >= 0) {
+      const line = stdoutBuf.slice(0, idx).trim()
+      stdoutBuf = stdoutBuf.slice(idx + 1)
+      if (!line) continue
+      try {
+        const msg = JSON.parse(line)
+        safeSend(win, 'daemon', msg)
+      } catch (e) {
+        diag.appendLog('daemon', 'warn', 'stdout non-json line', line.slice(0, 500))
+      }
+    }
+  })
+  daemon.stderr.on('data', d => {
+    const text = d.toString('utf8')
+    diag.appendLog('daemon', 'warn', 'stderr', text.trim())
+    safeSend(win, 'daemon-log', text)
+  })
+  daemon.on('exit', code => {
+    diag.appendLog('daemon', 'info', 'exit', { code })
+    diag.writeStatus({ daemonStatus: 'offline' })
+    safeSend(win, 'daemon', { kind: 'exit', code })
+    safeSend(win, 'daemon', { kind: 'status', state: 'offline' })
+  })
+}
+
+function restartDaemon(projectRoot) {
+  if (daemon) {
+    try { daemon.kill() } catch {}
+    daemon = null
+  }
+  startDaemon(projectRoot)
+}
+
+function notifyProjectChanged() {
+  if (!projectsStore) return
+  const root = projectsStore.getCurrentRoot()
+  safeSend(win, 'project-changed', { path: root, name: path.basename(root) })
+}
+
+function sendToDaemon(obj) {
+  if (daemon && daemon.stdin.writable) daemon.stdin.write(`${JSON.stringify(obj)}\n`)
+}
+
+ipcMain.on('cmd', (_evt, obj) => sendToDaemon(obj))
+ipcMain.handle('collab-port', () => COLLAB_PORT)
+
+ipcMain.handle('projects:get', () => projectsStore?.getState() || { current: ROOT, recent: [] })
+ipcMain.handle('projects:pick', async () => {
+  const r = await dialog.showOpenDialog(win, { properties: ['openDirectory'] })
+  if (r.canceled || !r.filePaths?.[0]) return { ok: false, canceled: true }
+  const sw = projectsStore?.switchTo(r.filePaths[0])
+  if (!sw?.ok) return sw || { ok: false, error: 'switch failed' }
+  restartDaemon(projectsStore.getCurrentRoot())
+  notifyProjectChanged()
+  return { ok: true, path: projectsStore.getCurrentRoot(), name: path.basename(projectsStore.getCurrentRoot()), recent: projectsStore.getState().recent }
+})
+ipcMain.handle('projects:switch', (_evt, projectPath) => {
+  const sw = projectsStore?.switchTo(projectPath)
+  if (!sw?.ok) return sw || { ok: false, error: 'path not found' }
+  restartDaemon(projectsStore.getCurrentRoot())
+  notifyProjectChanged()
+  return { ok: true, path: projectsStore.getCurrentRoot(), name: path.basename(projectsStore.getCurrentRoot()) }
+})
+ipcMain.handle('projects:pin', (_evt, { path: projectPath, pinned }) => {
+  projectsStore?.pin(projectPath, pinned)
+  return projectsStore?.getState() || { ok: true }
+})
+ipcMain.handle('projects:remove', (_evt, projectPath) => {
+  const r = projectsStore?.remove(projectPath)
+  return r || { ok: false }
+})
+ipcMain.handle('projects:open-explorer', (_evt, projectPath) => {
+  const p = projectPath || projectsStore?.getCurrentRoot() || ROOT
+  shell.openPath(p)
+  return { ok: true }
+})
+
+ipcMain.on('review-queue', (_evt, items) => pushReviewQueueToWindows(items))
+ipcMain.on('review-open', () => ensureReviewWindow())
+ipcMain.on('review-action', (_evt, payload) => {
+  safeSend(win, 'review-action', payload)
+})
+
+ipcMain.on('diag-log', (_evt, payload) => {
+  const { level = 'info', source = 'renderer', message = '', detail } = payload || {}
+  diag.appendLog(source, level, message, detail)
+  if (source === 'renderer' && message === 'boot ok') diag.writeStatus({ rendererBoot: 'ok' })
+  if (source === 'renderer' && message === 'boot failed') diag.writeStatus({ rendererBoot: 'failed' })
+  if (source === 'renderer' && message === 'daemon ready') diag.writeStatus({ daemonStatus: 'ready' })
+  if (source === 'renderer' && message === 'daemon error') diag.writeStatus({ daemonStatus: 'error' })
+})
+
+ipcMain.handle('export-pdf', async (_evt, { html, title }) => {
+  const pdfWin = new BrowserWindow({ show: false, webPreferences: { offscreen: true } })
+  const doc = `<!doctype html><html><head><meta charset="utf-8"><title>${title || 'export'}</title>
+<style>body{font-family:system-ui,sans-serif;padding:24px;line-height:1.6;color:#222}pre{white-space:pre-wrap;background:#f5f5f5;padding:8px;border-radius:6px}h1,h2{margin-top:1.2em}</style></head><body>${html}</body></html>`
+  await pdfWin.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(doc)}`)
+  const pdf = await pdfWin.webContents.printToPDF({ printBackground: true, marginsType: 1 })
+  pdfWin.close()
+  const { filePath, canceled } = await dialog.showSaveDialog(win, {
+    defaultPath: `${(title || 'ccui-export').slice(0, 32)}.pdf`,
+    filters: [{ name: 'PDF', extensions: ['pdf'] }],
+  })
+  if (canceled || !filePath) return { ok: false }
+  fs.writeFileSync(filePath, pdf)
+  return { ok: true, path: filePath }
+})
+
+function createWindow() {
+  Menu.setApplicationMenu(null)
+  win = new BrowserWindow({
+    width: 1080,
+    height: 720,
+    minWidth: 720,
+    minHeight: 480,
+    show: false,
+    autoHideMenuBar: true,
+    backgroundColor: '#FAF9F5',
+    titleBarStyle: 'hiddenInset',
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  })
+  win.once('ready-to-show', () => { safeSend(win, 'ready', true); if (win) win.show() })
+  win.on('closed', () => { win = null })
+  diag.bindWindowDiag(win)
+  win.loadFile(path.join(__dirname, 'index.html'))
+  diag.appendLog('main', 'info', 'main window created')
+}
+
+if (gotLock) {
+  app.whenReady().then(() => {
+    projectsStore = createProjectsStore(ROOT, app.getPath('userData'))
+    startCollabServer()
+    createWindow()
+    startDaemon(projectsStore.getCurrentRoot())
+    app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow() })
+  })
+}
+
+app.on('window-all-closed', () => {
+  if (daemon) daemon.kill()
+  if (wss) wss.close()
+  if (process.platform !== 'darwin') app.quit()
+})

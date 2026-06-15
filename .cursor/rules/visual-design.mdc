@@ -1,0 +1,17 @@
+---
+description: Apple glass + Claude typography visual constraints for CCui GUI
+globs:
+  - "gui/**"
+alwaysApply: false
+---
+
+## Visual duty (non-negotiable)
+
+1. Never use pure black (#000). Darkest text: #1a1a1a or #1c1c1e.
+2. No decorative emoji in navigation or chrome. Use SVG icons (stroke 1.5).
+3. One accent color (#d97757) for primary actions and selection. No rainbow UI.
+4. Animation: cubic-bezier(0.25, 0.1, 0.25, 1). No bounce unless scroll rubber-band.
+5. Spacing: 4px grid. Section gaps >= 2x internal gaps.
+6. AI reply body: serif (Charter/Georgia). UI chrome: SF Pro system sans.
+7. Prefer shadow layering over 1px gray borders on cards.
+8. Message layout: Claude document style, not chat bubbles.

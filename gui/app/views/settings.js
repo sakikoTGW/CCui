@@ -1,0 +1,299 @@
+// 设置：连接配置（不用敲命令）+ 路由策略 + 编码风格记忆 + 关于
+import { store } from '../store.js'
+import { db } from '../db.js'
+import { api } from '../api.js'
+import { toast } from '../ui.js'
+import { ICONS } from '../icons.js'
+import { registerOverlay } from '../modal.js'
+import { PERM_TOOL_GROUPS, PERM_EXPLAIN, getAllowedTools, saveAllowedTools } from '../permissions.js'
+
+const APP_VERSION = '0.1.0'
+
+let container = null
+
+function h(tag, cls, html) {
+  const el = document.createElement(tag)
+  if (cls) el.className = cls
+  if (html != null) el.innerHTML = html
+  return el
+}
+function mask(k) {
+  if (!k) return ''
+  if (k.length <= 8) return '••••'
+  return k.slice(0, 5) + '••••••••' + k.slice(-4)
+}
+
+export async function mountSettings(c) {
+  container = c
+  container.innerHTML = `<div class="settings-loading">加载配置…</div>`
+
+  let conn = {}
+  let router = {}
+  let style = {}
+  try {
+    conn = (await db.get('settings', 'connection'))?.value || {}
+    router = (await db.get('settings', 'router'))?.value || { mode: 'auto', strongModel: 'deepseek-v4-pro', weakModel: 'deepseek-v4-flash' }
+    style = (await db.get('settings', 'codingStyle'))?.value || {}
+  } catch (e) {
+    container.innerHTML = `<div class="error-state">读取本地配置失败：${e.message}<br/>请检查浏览器存储是否被清除。</div>`
+    return
+  }
+
+  container.innerHTML = `
+    <div class="view-head"><h1>设置</h1></div>
+    <div class="settings-body">
+
+      <section class="set-card">
+        <h2>工具权限</h2>
+        <p class="set-hint">${PERM_EXPLAIN}</p>
+        <div class="perm-groups" id="perm-groups"></div>
+        <div class="set-actions">
+          <button class="btn-primary" id="set-save-perms">保存权限</button>
+          <button class="btn-ghost" id="set-open-console">打开控制台 (Skills/MCP)</button>
+        </div>
+      </section>
+
+      <section class="set-card">
+        <h2>连接配置</h2>
+        <p class="set-hint">无需改 .env 文件。保存后对<strong>新对话</strong>生效。</p>
+        <label class="set-row"><span>API 地址 (Base URL)</span>
+          <input id="set-base" type="text" placeholder="https://api.deepseek.com/anthropic" /></label>
+        <label class="set-row"><span>API Key</span>
+          <input id="set-key" type="password" placeholder="sk-..." />
+          <button class="set-eye" id="set-eye" title="显示/隐藏">${ICONS.eye}</button></label>
+        <div class="set-keyhint" id="set-keyhint"></div>
+        <label class="set-row"><span>默认模型</span>
+          <input id="set-model" type="text" placeholder="deepseek-v4-flash" /></label>
+        <div class="set-actions">
+          <button class="btn-primary" id="set-save-conn">保存连接</button>
+        </div>
+      </section>
+
+      <section class="set-card">
+        <h2>模型路由策略</h2>
+        <p class="set-hint">控制强/弱模型的分派。auto = 按任务自动选，省钱又靠谱。</p>
+        <label class="set-row"><span>路由模式</span>
+          <select id="set-mode">
+            <option value="auto">auto（按任务自动）</option>
+            <option value="strong-only">强模型优先</option>
+            <option value="weak-only">弱模型优先</option>
+          </select></label>
+        <label class="set-row"><span>强模型</span><input id="set-strong" type="text" /></label>
+        <label class="set-row"><span>弱模型</span><input id="set-weak" type="text" /></label>
+        <div class="set-actions"><button class="btn-primary" id="set-save-router">保存路由</button></div>
+      </section>
+
+      <section class="set-card">
+        <h2>编码风格记忆</h2>
+        <p class="set-hint">这些偏好会作为系统提示注入每轮对话（粉色龙 #14）。</p>
+        <label class="set-row"><span>语言偏好</span><input id="st-lang" type="text" placeholder="中文注释，变量用英文" /></label>
+        <label class="set-row"><span>缩进/格式</span><input id="st-fmt" type="text" placeholder="2 空格，单引号，无分号" /></label>
+        <label class="set-row top"><span>自定义约定</span>
+          <textarea id="st-rules" rows="4" placeholder="例：优先函数式；不写无意义注释；错误必须处理"></textarea></label>
+        <label class="set-check"><input id="st-on" type="checkbox" /> 启用风格记忆（注入对话）</label>
+        <div class="set-actions"><button class="btn-primary" id="set-save-style">保存偏好</button></div>
+      </section>
+
+      <section class="set-card">
+        <h2>Live2D 全局助手</h2>
+        <p class="set-hint">右下角悬浮助手，对话/编排 busy 时自动切换动作。可填 model.json 路径（Cubism 2/3）供后续加载。</p>
+        <label class="set-row"><span>模型路径/URL</span>
+          <input id="set-l2d" type="text" placeholder="https://.../model.json 或本地路径" /></label>
+        <div class="set-actions"><button class="btn-primary" id="set-save-l2d">保存</button></div>
+      </section>
+
+      <section class="set-card about">
+        <h2>关于 CCui</h2>
+        <div class="about-grid">
+          <div><span class="ab-k">版本</span><span class="ab-v">v${APP_VERSION}</span></div>
+          <div><span class="ab-k">内核</span><span class="ab-v">Bun core daemon (Claude Code 引擎)</span></div>
+          <div><span class="ab-k">外壳</span><span class="ab-v">Electron + 原生 ES Modules</span></div>
+          <div><span class="ab-k">模型</span><span class="ab-v">DeepSeek (Anthropic 兼容)</span></div>
+          <div><span class="ab-k">存储</span><span class="ab-v">IndexedDB 本地优先</span></div>
+        </div>
+        <p class="about-credit">本地优先 · 你的数据只在你机器上。致谢 Anthropic Claude Code、DeepSeek、Electron、marked、highlight.js。</p>
+        <div class="set-actions">
+          <button class="btn-ghost" id="set-replay-welcome">重看新手引导</button>
+          <button class="btn-ghost" id="set-export-all">导出全部数据</button>
+        </div>
+      </section>
+    </div>`
+
+  const $ = id => container.querySelector(id)
+
+  // 权限
+  const allowed = new Set(await getAllowedTools())
+  const pg = $('#perm-groups')
+  for (const g of PERM_TOOL_GROUPS) {
+    const block = h('div', 'perm-grp')
+    block.appendChild(h('h3', 'perm-grp-title', g.label))
+    const grid = h('div', 'perm-grid')
+    for (const t of g.tools) {
+      const lbl = h('label', 'perm-item')
+      lbl.innerHTML = `<input type="checkbox" data-tool="${t}" ${allowed.has(t) ? 'checked' : ''} /><span>${t}</span>`
+      grid.appendChild(lbl)
+    }
+    block.appendChild(grid)
+    pg.appendChild(block)
+  }
+  $('#set-save-perms').onclick = async () => {
+    const picked = [...pg.querySelectorAll('input[data-tool]:checked')].map(i => i.dataset.tool)
+    try {
+      await saveAllowedTools(picked)
+      toast('工具权限已保存', { type: 'success' })
+    } catch (e) { toast(`保存失败：${e.message}`, { type: 'error' }) }
+  }
+  $('#set-open-console').onclick = () => {
+    document.querySelector('.act[data-view="console"]')?.click()
+  }
+
+  // 填充连接
+  $('#set-base').value = conn.baseUrl || ''
+  $('#set-model').value = conn.model || ''
+  $('#set-keyhint').textContent = conn.apiKey ? `当前已保存：${mask(conn.apiKey)}` : '尚未设置 Key（将使用 .env 中的默认值）'
+  let keyVisible = false
+  $('#set-eye').onclick = () => { keyVisible = !keyVisible; $('#set-key').type = keyVisible ? 'text' : 'password' }
+
+  $('#set-save-conn').onclick = async () => {
+    const baseUrl = $('#set-base').value.trim()
+    const key = $('#set-key').value.trim()
+    const model = $('#set-model').value.trim()
+    if (baseUrl && !/^https?:\/\//.test(baseUrl)) { toast('Base URL 需以 http(s):// 开头', { type: 'error' }); return }
+    const next = { ...conn }
+    if (baseUrl) next.baseUrl = baseUrl
+    if (model) next.model = model
+    if (key) next.apiKey = key
+    try {
+      await db.put('settings', { id: 'connection', value: next })
+      conn = next
+      const patch = {}
+      if (next.baseUrl) patch.ANTHROPIC_BASE_URL = next.baseUrl
+      if (next.apiKey) patch.ANTHROPIC_API_KEY = next.apiKey
+      if (next.model) patch.DEEPSEEK_MODEL = next.model
+      api.setEnv(patch)
+      api.reset()
+      $('#set-key').value = ''
+      $('#set-keyhint').textContent = next.apiKey ? `当前已保存：${mask(next.apiKey)}` : '尚未设置 Key'
+      toast('连接配置已保存并下发（新对话生效）', { type: 'success' })
+    } catch (e) { toast(`保存失败：${e.message}`, { type: 'error' }) }
+  }
+
+  // 填充路由
+  $('#set-mode').value = router.mode || 'auto'
+  $('#set-strong').value = router.strongModel || 'deepseek-v4-pro'
+  $('#set-weak').value = router.weakModel || 'deepseek-v4-flash'
+  $('#set-save-router').onclick = async () => {
+    const next = { mode: $('#set-mode').value, strongModel: $('#set-strong').value.trim(), weakModel: $('#set-weak').value.trim() }
+    try {
+      await db.put('settings', { id: 'router', value: next })
+      router = next
+      api.setRouter(next)
+      toast('路由策略已生效', { type: 'success' })
+    } catch (e) { toast(`保存失败：${e.message}`, { type: 'error' }) }
+  }
+
+  // 填充风格
+  $('#st-lang').value = style.lang || ''
+  $('#st-fmt').value = style.fmt || ''
+  $('#st-rules').value = style.rules || ''
+  $('#st-on').checked = !!style.enabled
+  $('#set-save-style').onclick = async () => {
+    const next = { lang: $('#st-lang').value.trim(), fmt: $('#st-fmt').value.trim(), rules: $('#st-rules').value.trim(), enabled: $('#st-on').checked }
+    try {
+      await db.put('settings', { id: 'codingStyle', value: next })
+      style = next
+      store.set({ codingStyle: next })
+      toast(next.enabled ? '风格记忆已启用' : '偏好已保存', { type: 'success' })
+    } catch (e) { toast(`保存失败：${e.message}`, { type: 'error' }) }
+  }
+
+  const l2d = (await db.get('settings', 'live2dModel'))?.value || ''
+  $('#set-l2d').value = l2d
+  $('#set-save-l2d').onclick = async () => {
+    const v = $('#set-l2d').value.trim()
+    try {
+      await db.put('settings', { id: 'live2dModel', value: v })
+      toast('Live2D 配置已保存（重启后加载外部模型）', { type: 'success' })
+    } catch (e) { toast(`保存失败：${e.message}`, { type: 'error' }) }
+  }
+
+  $('#set-replay-welcome').onclick = async () => { await db.put('settings', { id: 'onboarded', value: false }); showWelcome() }
+  $('#set-export-all').onclick = async () => {
+    const payload = await db.exportAll()
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob)
+    a.download = `ccui-backup-${new Date().toISOString().slice(0, 10)}.json`; a.click(); URL.revokeObjectURL(a.href)
+    toast('已导出全部数据', { type: 'success' })
+  }
+}
+
+// 启动时把已保存配置下发 daemon + 加载风格到 store
+export async function applySavedConfig() {
+  try {
+    const conn = (await db.get('settings', 'connection'))?.value
+    if (conn) {
+      const patch = {}
+      if (conn.baseUrl) patch.ANTHROPIC_BASE_URL = conn.baseUrl
+      if (conn.apiKey) patch.ANTHROPIC_API_KEY = conn.apiKey
+      if (conn.model) patch.DEEPSEEK_MODEL = conn.model
+      if (Object.keys(patch).length) api.setEnv(patch)
+    }
+    const router = (await db.get('settings', 'router'))?.value
+    if (router) api.setRouter(router)
+    const style = (await db.get('settings', 'codingStyle'))?.value
+    if (style) store.set({ codingStyle: style })
+  } catch {}
+}
+
+// 把风格记忆拼成系统提示前缀（供 chat 注入）
+export function buildStylePrompt(style) {
+  if (!style || !style.enabled) return ''
+  const parts = []
+  if (style.lang) parts.push(`语言偏好：${style.lang}`)
+  if (style.fmt) parts.push(`格式约定：${style.fmt}`)
+  if (style.rules) parts.push(`其他约定：${style.rules}`)
+  if (!parts.length) return ''
+  return `以下是用户的长期编码偏好，请在本次及后续输出中始终遵守：\n- ${parts.join('\n- ')}`
+}
+
+// ---------- 首次欢迎引导 ----------
+export async function maybeWelcome() {
+  try {
+    const flag = await db.get('settings', 'onboarded')
+    if (flag?.value) return
+  } catch {}
+  showWelcome()
+}
+
+export function showWelcome() {
+  const back = h('div', 'modal-back')
+  back.innerHTML = `
+    <div class="modal welcome">
+      <h2>欢迎使用 CCui</h2>
+      <p class="wl-sub">一个本地优先、可深度定制的 AI 编码工作站。三步上手：</p>
+      <ol class="wl-steps">
+        <li><b>① 配好连接</b><br/>到「设置」填 API 地址与 Key，不用碰命令行。</li>
+        <li><b>② 存个预设</b><br/>在「参数预设」保存常用模型 + 系统提示，<kbd>Ctrl+1~9</kbd> 秒切。</li>
+        <li><b>③ 用模板提速</b><br/>输入框打 <code>/</code> 调出提示词模板，<code>{{变量}}</code> 自动填充。</li>
+        <li><b>④ Task Brief + 探询分支</b><br/>Composer 开 <kbd>Brief</kbd>（<kbd>Ctrl+Shift+B</kbd>）结构化任务；说不清时 Enter 或点「探询」— Agent 给出 A/B/C 三条假设路径，选最接近的一条写入 Brief 后再发契约。</li>
+        <li><b>⑤ 分支与变异</b><br/>悬停用户消息可编辑并<strong>分叉</strong>；<kbd>Ctrl+Shift+E</kbd> 编辑上一条；<kbd>+ Compare</kbd> 同题三路变异 Thread。</li>
+        <li><b>⑥ 权限与变更审查</b><br/>工具默认每次询问；「设置 → 工具权限」可设「始终允许」。待审项会进入<strong>变更审查窗</strong>（活动栏 ✓ 图标 / <kbd>Ctrl+Shift+R</kbd>），支持全选批处理允许或拒绝。拖拽文件到输入框可附加 <code>@路径</code>。</li>
+      </ol>
+      <p class="wl-tip">编辑已发送的消息会自动建立<strong>对话分支</strong>，所有历史在「数据工作室」可搜索导出。</p>
+      <div class="wl-actions">
+        <button class="btn-ghost" id="wl-skip">跳过</button>
+        <button class="btn-primary" id="wl-go">去设置连接</button>
+      </div>
+    </div>`
+  document.body.appendChild(back)
+  const close = () => { back.remove(); unregister() }
+  const unregister = registerOverlay(back, () => done(false))
+  const done = async (go) => {
+    try { await db.put('settings', { id: 'onboarded', value: true }) } catch {}
+    close()
+    if (go) document.querySelector('.act[data-view="settings"]')?.click()
+  }
+  back.querySelector('#wl-skip').onclick = () => done(false)
+  back.querySelector('#wl-go').onclick = () => done(true)
+  back.onclick = e => { if (e.target === back) done(false) }
+}

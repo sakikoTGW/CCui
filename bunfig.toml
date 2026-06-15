@@ -1,0 +1,6 @@
+[run]
+# 入口与 Claude Code 原版一致
+preload = []
+
+[test]
+root = "src"

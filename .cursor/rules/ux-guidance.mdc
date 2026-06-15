@@ -1,0 +1,27 @@
+---
+description: UX guidance — discoverability, empty states, honest feedback
+globs:
+  - "gui/**"
+alwaysApply: false
+---
+
+## Feature guidance (mandatory)
+
+1. No first-run feature list modal. Use behavior-triggered tips (once per key in `tipsSeen`).
+2. Every non-shortcut capability MUST have a second discovery path (menu, command palette, or inline hint).
+3. Input placeholders MUST be copy-pasteable examples, not field name repeats.
+4. Destructive actions: confirm + prefer soft-delete over hard delete.
+5. Every empty state MUST include a next-step button or card.
+
+## Visual & flow
+
+6. One primary focus per screen (chat = message stream + composer).
+7. High-frequency buttons >= 44px. No decorative widgets in send hot zone.
+8. Status indicators MUST reflect real data (`#dot` ↔ daemon). No decorative green dots.
+9. Modals: Esc + click overlay + explicit close — all three consistent.
+10. After creating a resource (preset/template), guide user to apply it or show active state in chat.
+
+## Command palette
+
+11. `Ctrl+K` is the universal fallback for hidden views (presets, templates, theme, orchestrate, collab).
+12. Fuzzy search by label and hint; Enter executes.

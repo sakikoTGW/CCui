@@ -1,0 +1,5640 @@
+{
+  "root": "E:\\CCui",
+  "scannedAt": 1781288364617,
+  "nodes": [
+    {
+      "id": "E:/CCui",
+      "path": "E:/CCui",
+      "label": "root",
+      "kind": "area"
+    },
+    {
+      "id": "E:/CCui/src",
+      "path": "E:/CCui/src",
+      "label": "src",
+      "kind": "area"
+    },
+    {
+      "id": "E:/CCui/gui",
+      "path": "E:/CCui/gui",
+      "label": "gui",
+      "kind": "area"
+    },
+    {
+      "id": "E:/CCui/docs",
+      "path": "E:/CCui/docs",
+      "label": "docs",
+      "kind": "area"
+    },
+    {
+      "id": "E:/CCui/scripts",
+      "path": "E:/CCui/scripts",
+      "label": "scripts",
+      "kind": "area"
+    },
+    {
+      "id": "E:/CCui/config",
+      "path": "E:/CCui/config",
+      "label": "config",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/docs/ARCHITECTURE.md",
+      "path": "E:/CCui/docs/ARCHITECTURE.md",
+      "label": "docs/ARCHITECTURE.md",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/docs/COMPETITOR_BENCHMARK.md",
+      "path": "E:/CCui/docs/COMPETITOR_BENCHMARK.md",
+      "label": "docs/COMPETITOR_BENCHMARK.md",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/docs/DEV.md",
+      "path": "E:/CCui/docs/DEV.md",
+      "label": "docs/DEV.md",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/docs/GUI_PLAN.md",
+      "path": "E:/CCui/docs/GUI_PLAN.md",
+      "label": "docs/GUI_PLAN.md",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/docs/MODULES.md",
+      "path": "E:/CCui/docs/MODULES.md",
+      "label": "docs/MODULES.md",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/docs/PRODUCT_DESIGN.md",
+      "path": "E:/CCui/docs/PRODUCT_DESIGN.md",
+      "label": "docs/PRODUCT_DESIGN.md",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/docs/REPLICATION_REPORT.md",
+      "path": "E:/CCui/docs/REPLICATION_REPORT.md",
+      "label": "docs/REPLICATION_REPORT.md",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/e",
+      "path": "E:/CCui/e",
+      "label": "e",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/e/CCui",
+      "path": "E:/CCui/e/CCui",
+      "label": "CCui",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/e/CCui/src",
+      "path": "E:/CCui/e/CCui/src",
+      "label": "src",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/e/CCui/src/providers",
+      "path": "E:/CCui/e/CCui/src/providers",
+      "label": "providers",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/e/CCui/src/providers/anthropic",
+      "path": "E:/CCui/e/CCui/src/providers/anthropic",
+      "label": "anthropic",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/e/CCui/src/providers/openai",
+      "path": "E:/CCui/e/CCui/src/providers/openai",
+      "label": "openai",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/gui/app",
+      "path": "E:/CCui/gui/app",
+      "label": "app",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/gui/app/api.js",
+      "path": "E:/CCui/gui/app/api.js",
+      "label": "gui/app/api.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/branch-tree.js",
+      "path": "E:/CCui/gui/app/branch-tree.js",
+      "label": "gui/app/branch-tree.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/command-palette.js",
+      "path": "E:/CCui/gui/app/command-palette.js",
+      "label": "gui/app/command-palette.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/completion.js",
+      "path": "E:/CCui/gui/app/completion.js",
+      "label": "gui/app/completion.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/db.js",
+      "path": "E:/CCui/gui/app/db.js",
+      "label": "gui/app/db.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/icons.js",
+      "path": "E:/CCui/gui/app/icons.js",
+      "label": "gui/app/icons.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/modal.js",
+      "path": "E:/CCui/gui/app/modal.js",
+      "label": "gui/app/modal.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/parallel.js",
+      "path": "E:/CCui/gui/app/parallel.js",
+      "label": "gui/app/parallel.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/permissions.js",
+      "path": "E:/CCui/gui/app/permissions.js",
+      "label": "gui/app/permissions.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/store.js",
+      "path": "E:/CCui/gui/app/store.js",
+      "label": "gui/app/store.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/thread.js",
+      "path": "E:/CCui/gui/app/thread.js",
+      "label": "gui/app/thread.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/tips.js",
+      "path": "E:/CCui/gui/app/tips.js",
+      "label": "gui/app/tips.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/ui.js",
+      "path": "E:/CCui/gui/app/ui.js",
+      "label": "gui/app/ui.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/vibe-clarifier.js",
+      "path": "E:/CCui/gui/app/vibe-clarifier.js",
+      "label": "gui/app/vibe-clarifier.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views",
+      "path": "E:/CCui/gui/app/views",
+      "label": "views",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/chat.js",
+      "path": "E:/CCui/gui/app/views/chat.js",
+      "label": "gui/app/views/chat.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/collab.js",
+      "path": "E:/CCui/gui/app/views/collab.js",
+      "label": "gui/app/views/collab.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/console.js",
+      "path": "E:/CCui/gui/app/views/console.js",
+      "label": "gui/app/views/console.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/context-map.js",
+      "path": "E:/CCui/gui/app/views/context-map.js",
+      "label": "gui/app/views/context-map.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/filetree.js",
+      "path": "E:/CCui/gui/app/views/filetree.js",
+      "label": "gui/app/views/filetree.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/live2d.js",
+      "path": "E:/CCui/gui/app/views/live2d.js",
+      "label": "gui/app/views/live2d.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/orchestrate.js",
+      "path": "E:/CCui/gui/app/views/orchestrate.js",
+      "label": "gui/app/views/orchestrate.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/presets.js",
+      "path": "E:/CCui/gui/app/views/presets.js",
+      "label": "gui/app/views/presets.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/settings.js",
+      "path": "E:/CCui/gui/app/views/settings.js",
+      "label": "gui/app/views/settings.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/studio.js",
+      "path": "E:/CCui/gui/app/views/studio.js",
+      "label": "gui/app/views/studio.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/templates.js",
+      "path": "E:/CCui/gui/app/views/templates.js",
+      "label": "gui/app/views/templates.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/app/views/theme-editor.js",
+      "path": "E:/CCui/gui/app/views/theme-editor.js",
+      "label": "gui/app/views/theme-editor.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/index.html",
+      "path": "E:/CCui/gui/index.html",
+      "label": "gui/index.html",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/main.js",
+      "path": "E:/CCui/gui/main.js",
+      "label": "gui/main.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/package.json",
+      "path": "E:/CCui/gui/package.json",
+      "label": "gui/package.json",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/preload.js",
+      "path": "E:/CCui/gui/preload.js",
+      "label": "gui/preload.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/renderer.js",
+      "path": "E:/CCui/gui/renderer.js",
+      "label": "gui/renderer.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/gui/style.css",
+      "path": "E:/CCui/gui/style.css",
+      "label": "gui/style.css",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/package.json",
+      "path": "E:/CCui/package.json",
+      "label": "package.json",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/README.md",
+      "path": "E:/CCui/README.md",
+      "label": "README.md",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/bootstrap-deps.ts",
+      "path": "E:/CCui/scripts/bootstrap-deps.ts",
+      "label": "scripts/bootstrap-deps.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/build.ts",
+      "path": "E:/CCui/scripts/build.ts",
+      "label": "scripts/build.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/deepseek-ask.ts",
+      "path": "E:/CCui/scripts/deepseek-ask.ts",
+      "label": "scripts/deepseek-ask.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/dev.ts",
+      "path": "E:/CCui/scripts/dev.ts",
+      "label": "scripts/dev.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/generate-sdk-types.ts",
+      "path": "E:/CCui/scripts/generate-sdk-types.ts",
+      "label": "scripts/generate-sdk-types.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/gui-headless-demo.ts",
+      "path": "E:/CCui/scripts/gui-headless-demo.ts",
+      "label": "scripts/gui-headless-demo.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/loadEnv.ts",
+      "path": "E:/CCui/scripts/loadEnv.ts",
+      "label": "scripts/loadEnv.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/run-deepseek.ts",
+      "path": "E:/CCui/scripts/run-deepseek.ts",
+      "label": "scripts/run-deepseek.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/seed-dev.ts",
+      "path": "E:/CCui/scripts/seed-dev.ts",
+      "label": "scripts/seed-dev.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/smoke-test.ts",
+      "path": "E:/CCui/scripts/smoke-test.ts",
+      "label": "scripts/smoke-test.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/startup-progress.ts",
+      "path": "E:/CCui/scripts/startup-progress.ts",
+      "label": "scripts/startup-progress.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/test-console-protocol.ts",
+      "path": "E:/CCui/scripts/test-console-protocol.ts",
+      "label": "scripts/test-console-protocol.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/test-daemon.ts",
+      "path": "E:/CCui/scripts/test-daemon.ts",
+      "label": "scripts/test-daemon.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/test-model-router.ts",
+      "path": "E:/CCui/scripts/test-model-router.ts",
+      "label": "scripts/test-model-router.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/scripts/warm-repl-cache.ts",
+      "path": "E:/CCui/scripts/warm-repl-cache.ts",
+      "label": "scripts/warm-repl-cache.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/app",
+      "path": "E:/CCui/src/app",
+      "label": "app",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/app/dialogLaunchers.tsx",
+      "path": "E:/CCui/src/app/dialogLaunchers.tsx",
+      "label": "src/app/dialogLaunchers.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/app/interactiveHelpers.tsx",
+      "path": "E:/CCui/src/app/interactiveHelpers.tsx",
+      "label": "src/app/interactiveHelpers.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/app/main.tsx",
+      "path": "E:/CCui/src/app/main.tsx",
+      "label": "src/app/main.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/app/projectOnboardingState.ts",
+      "path": "E:/CCui/src/app/projectOnboardingState.ts",
+      "label": "src/app/projectOnboardingState.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/app/replLauncher.tsx",
+      "path": "E:/CCui/src/app/replLauncher.tsx",
+      "label": "src/app/replLauncher.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/app/setup.ts",
+      "path": "E:/CCui/src/app/setup.ts",
+      "label": "src/app/setup.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/assistant",
+      "path": "E:/CCui/src/assistant",
+      "label": "assistant",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/assistant/sessionHistory.ts",
+      "path": "E:/CCui/src/assistant/sessionHistory.ts",
+      "label": "src/assistant/sessionHistory.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bootstrap",
+      "path": "E:/CCui/src/bootstrap",
+      "label": "bootstrap",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/bootstrap/state.ts",
+      "path": "E:/CCui/src/bootstrap/state.ts",
+      "label": "src/bootstrap/state.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge",
+      "path": "E:/CCui/src/bridge",
+      "label": "bridge",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/bridge/bridgeApi.ts",
+      "path": "E:/CCui/src/bridge/bridgeApi.ts",
+      "label": "src/bridge/bridgeApi.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/bridgeConfig.ts",
+      "path": "E:/CCui/src/bridge/bridgeConfig.ts",
+      "label": "src/bridge/bridgeConfig.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/bridgeDebug.ts",
+      "path": "E:/CCui/src/bridge/bridgeDebug.ts",
+      "label": "src/bridge/bridgeDebug.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/bridgeEnabled.ts",
+      "path": "E:/CCui/src/bridge/bridgeEnabled.ts",
+      "label": "src/bridge/bridgeEnabled.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/bridgeMain.ts",
+      "path": "E:/CCui/src/bridge/bridgeMain.ts",
+      "label": "src/bridge/bridgeMain.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/bridgeMessaging.ts",
+      "path": "E:/CCui/src/bridge/bridgeMessaging.ts",
+      "label": "src/bridge/bridgeMessaging.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/bridgePermissionCallbacks.ts",
+      "path": "E:/CCui/src/bridge/bridgePermissionCallbacks.ts",
+      "label": "src/bridge/bridgePermissionCallbacks.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/bridgePointer.ts",
+      "path": "E:/CCui/src/bridge/bridgePointer.ts",
+      "label": "src/bridge/bridgePointer.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/bridgeStatusUtil.ts",
+      "path": "E:/CCui/src/bridge/bridgeStatusUtil.ts",
+      "label": "src/bridge/bridgeStatusUtil.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/bridgeUI.ts",
+      "path": "E:/CCui/src/bridge/bridgeUI.ts",
+      "label": "src/bridge/bridgeUI.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/capacityWake.ts",
+      "path": "E:/CCui/src/bridge/capacityWake.ts",
+      "label": "src/bridge/capacityWake.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/codeSessionApi.ts",
+      "path": "E:/CCui/src/bridge/codeSessionApi.ts",
+      "label": "src/bridge/codeSessionApi.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/createSession.ts",
+      "path": "E:/CCui/src/bridge/createSession.ts",
+      "label": "src/bridge/createSession.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/debugUtils.ts",
+      "path": "E:/CCui/src/bridge/debugUtils.ts",
+      "label": "src/bridge/debugUtils.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/envLessBridgeConfig.ts",
+      "path": "E:/CCui/src/bridge/envLessBridgeConfig.ts",
+      "label": "src/bridge/envLessBridgeConfig.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/flushGate.ts",
+      "path": "E:/CCui/src/bridge/flushGate.ts",
+      "label": "src/bridge/flushGate.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/inboundAttachments.ts",
+      "path": "E:/CCui/src/bridge/inboundAttachments.ts",
+      "label": "src/bridge/inboundAttachments.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/inboundMessages.ts",
+      "path": "E:/CCui/src/bridge/inboundMessages.ts",
+      "label": "src/bridge/inboundMessages.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/initReplBridge.ts",
+      "path": "E:/CCui/src/bridge/initReplBridge.ts",
+      "label": "src/bridge/initReplBridge.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/jwtUtils.ts",
+      "path": "E:/CCui/src/bridge/jwtUtils.ts",
+      "label": "src/bridge/jwtUtils.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/pollConfig.ts",
+      "path": "E:/CCui/src/bridge/pollConfig.ts",
+      "label": "src/bridge/pollConfig.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/pollConfigDefaults.ts",
+      "path": "E:/CCui/src/bridge/pollConfigDefaults.ts",
+      "label": "src/bridge/pollConfigDefaults.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/remoteBridgeCore.ts",
+      "path": "E:/CCui/src/bridge/remoteBridgeCore.ts",
+      "label": "src/bridge/remoteBridgeCore.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/replBridge.ts",
+      "path": "E:/CCui/src/bridge/replBridge.ts",
+      "label": "src/bridge/replBridge.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/replBridgeHandle.ts",
+      "path": "E:/CCui/src/bridge/replBridgeHandle.ts",
+      "label": "src/bridge/replBridgeHandle.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/replBridgeTransport.ts",
+      "path": "E:/CCui/src/bridge/replBridgeTransport.ts",
+      "label": "src/bridge/replBridgeTransport.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/sessionIdCompat.ts",
+      "path": "E:/CCui/src/bridge/sessionIdCompat.ts",
+      "label": "src/bridge/sessionIdCompat.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/sessionRunner.ts",
+      "path": "E:/CCui/src/bridge/sessionRunner.ts",
+      "label": "src/bridge/sessionRunner.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/trustedDevice.ts",
+      "path": "E:/CCui/src/bridge/trustedDevice.ts",
+      "label": "src/bridge/trustedDevice.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/types.ts",
+      "path": "E:/CCui/src/bridge/types.ts",
+      "label": "src/bridge/types.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/bridge/workSecret.ts",
+      "path": "E:/CCui/src/bridge/workSecret.ts",
+      "label": "src/bridge/workSecret.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/buddy",
+      "path": "E:/CCui/src/buddy",
+      "label": "buddy",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/buddy/companion.ts",
+      "path": "E:/CCui/src/buddy/companion.ts",
+      "label": "src/buddy/companion.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/buddy/CompanionSprite.tsx",
+      "path": "E:/CCui/src/buddy/CompanionSprite.tsx",
+      "label": "src/buddy/CompanionSprite.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/buddy/prompt.ts",
+      "path": "E:/CCui/src/buddy/prompt.ts",
+      "label": "src/buddy/prompt.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/buddy/sprites.ts",
+      "path": "E:/CCui/src/buddy/sprites.ts",
+      "label": "src/buddy/sprites.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/buddy/types.ts",
+      "path": "E:/CCui/src/buddy/types.ts",
+      "label": "src/buddy/types.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/buddy/useBuddyNotification.tsx",
+      "path": "E:/CCui/src/buddy/useBuddyNotification.tsx",
+      "label": "src/buddy/useBuddyNotification.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli",
+      "path": "E:/CCui/src/cli",
+      "label": "cli",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/cli/exit.ts",
+      "path": "E:/CCui/src/cli/exit.ts",
+      "label": "src/cli/exit.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/handlers",
+      "path": "E:/CCui/src/cli/handlers",
+      "label": "handlers",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/cli/handlers/agents.ts",
+      "path": "E:/CCui/src/cli/handlers/agents.ts",
+      "label": "src/cli/handlers/agents.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/handlers/auth.ts",
+      "path": "E:/CCui/src/cli/handlers/auth.ts",
+      "label": "src/cli/handlers/auth.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/handlers/autoMode.ts",
+      "path": "E:/CCui/src/cli/handlers/autoMode.ts",
+      "label": "src/cli/handlers/autoMode.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/handlers/mcp.tsx",
+      "path": "E:/CCui/src/cli/handlers/mcp.tsx",
+      "label": "src/cli/handlers/mcp.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/handlers/plugins.ts",
+      "path": "E:/CCui/src/cli/handlers/plugins.ts",
+      "label": "src/cli/handlers/plugins.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/handlers/util.tsx",
+      "path": "E:/CCui/src/cli/handlers/util.tsx",
+      "label": "src/cli/handlers/util.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/ndjsonSafeStringify.ts",
+      "path": "E:/CCui/src/cli/ndjsonSafeStringify.ts",
+      "label": "src/cli/ndjsonSafeStringify.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/print.ts",
+      "path": "E:/CCui/src/cli/print.ts",
+      "label": "src/cli/print.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/remoteIO.ts",
+      "path": "E:/CCui/src/cli/remoteIO.ts",
+      "label": "src/cli/remoteIO.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/structuredIO.ts",
+      "path": "E:/CCui/src/cli/structuredIO.ts",
+      "label": "src/cli/structuredIO.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/transports",
+      "path": "E:/CCui/src/cli/transports",
+      "label": "transports",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/cli/transports/ccrClient.ts",
+      "path": "E:/CCui/src/cli/transports/ccrClient.ts",
+      "label": "src/cli/transports/ccrClient.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/transports/HybridTransport.ts",
+      "path": "E:/CCui/src/cli/transports/HybridTransport.ts",
+      "label": "src/cli/transports/HybridTransport.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/transports/SerialBatchEventUploader.ts",
+      "path": "E:/CCui/src/cli/transports/SerialBatchEventUploader.ts",
+      "label": "src/cli/transports/SerialBatchEventUploader.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/transports/SSETransport.ts",
+      "path": "E:/CCui/src/cli/transports/SSETransport.ts",
+      "label": "src/cli/transports/SSETransport.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/transports/transportUtils.ts",
+      "path": "E:/CCui/src/cli/transports/transportUtils.ts",
+      "label": "src/cli/transports/transportUtils.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/transports/WebSocketTransport.ts",
+      "path": "E:/CCui/src/cli/transports/WebSocketTransport.ts",
+      "label": "src/cli/transports/WebSocketTransport.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/transports/WorkerStateUploader.ts",
+      "path": "E:/CCui/src/cli/transports/WorkerStateUploader.ts",
+      "label": "src/cli/transports/WorkerStateUploader.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/cli/update.ts",
+      "path": "E:/CCui/src/cli/update.ts",
+      "label": "src/cli/update.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands",
+      "path": "E:/CCui/src/commands",
+      "label": "commands",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/add-dir",
+      "path": "E:/CCui/src/commands/add-dir",
+      "label": "add-dir",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/add-dir/add-dir.tsx",
+      "path": "E:/CCui/src/commands/add-dir/add-dir.tsx",
+      "label": "src/commands/add-dir/add-dir.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/add-dir/index.ts",
+      "path": "E:/CCui/src/commands/add-dir/index.ts",
+      "label": "src/commands/add-dir/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/add-dir/validation.ts",
+      "path": "E:/CCui/src/commands/add-dir/validation.ts",
+      "label": "src/commands/add-dir/validation.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/advisor.ts",
+      "path": "E:/CCui/src/commands/advisor.ts",
+      "label": "src/commands/advisor.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/agents",
+      "path": "E:/CCui/src/commands/agents",
+      "label": "agents",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/agents/agents.tsx",
+      "path": "E:/CCui/src/commands/agents/agents.tsx",
+      "label": "src/commands/agents/agents.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/agents/index.ts",
+      "path": "E:/CCui/src/commands/agents/index.ts",
+      "label": "src/commands/agents/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/ant-trace",
+      "path": "E:/CCui/src/commands/ant-trace",
+      "label": "ant-trace",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/ant-trace/index.js",
+      "path": "E:/CCui/src/commands/ant-trace/index.js",
+      "label": "src/commands/ant-trace/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/autofix-pr",
+      "path": "E:/CCui/src/commands/autofix-pr",
+      "label": "autofix-pr",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/autofix-pr/index.js",
+      "path": "E:/CCui/src/commands/autofix-pr/index.js",
+      "label": "src/commands/autofix-pr/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/backfill-sessions",
+      "path": "E:/CCui/src/commands/backfill-sessions",
+      "label": "backfill-sessions",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/backfill-sessions/index.js",
+      "path": "E:/CCui/src/commands/backfill-sessions/index.js",
+      "label": "src/commands/backfill-sessions/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/branch",
+      "path": "E:/CCui/src/commands/branch",
+      "label": "branch",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/branch/branch.ts",
+      "path": "E:/CCui/src/commands/branch/branch.ts",
+      "label": "src/commands/branch/branch.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/branch/index.ts",
+      "path": "E:/CCui/src/commands/branch/index.ts",
+      "label": "src/commands/branch/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/break-cache",
+      "path": "E:/CCui/src/commands/break-cache",
+      "label": "break-cache",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/break-cache/index.js",
+      "path": "E:/CCui/src/commands/break-cache/index.js",
+      "label": "src/commands/break-cache/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/bridge",
+      "path": "E:/CCui/src/commands/bridge",
+      "label": "bridge",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/bridge/bridge.tsx",
+      "path": "E:/CCui/src/commands/bridge/bridge.tsx",
+      "label": "src/commands/bridge/bridge.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/bridge/index.ts",
+      "path": "E:/CCui/src/commands/bridge/index.ts",
+      "label": "src/commands/bridge/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/bridge-kick.ts",
+      "path": "E:/CCui/src/commands/bridge-kick.ts",
+      "label": "src/commands/bridge-kick.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/brief.ts",
+      "path": "E:/CCui/src/commands/brief.ts",
+      "label": "src/commands/brief.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/btw",
+      "path": "E:/CCui/src/commands/btw",
+      "label": "btw",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/btw/btw.tsx",
+      "path": "E:/CCui/src/commands/btw/btw.tsx",
+      "label": "src/commands/btw/btw.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/btw/index.ts",
+      "path": "E:/CCui/src/commands/btw/index.ts",
+      "label": "src/commands/btw/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/bughunter",
+      "path": "E:/CCui/src/commands/bughunter",
+      "label": "bughunter",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/bughunter/index.js",
+      "path": "E:/CCui/src/commands/bughunter/index.js",
+      "label": "src/commands/bughunter/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/chrome",
+      "path": "E:/CCui/src/commands/chrome",
+      "label": "chrome",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/chrome/chrome.tsx",
+      "path": "E:/CCui/src/commands/chrome/chrome.tsx",
+      "label": "src/commands/chrome/chrome.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/chrome/index.ts",
+      "path": "E:/CCui/src/commands/chrome/index.ts",
+      "label": "src/commands/chrome/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/clear",
+      "path": "E:/CCui/src/commands/clear",
+      "label": "clear",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/clear/caches.ts",
+      "path": "E:/CCui/src/commands/clear/caches.ts",
+      "label": "src/commands/clear/caches.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/clear/clear.ts",
+      "path": "E:/CCui/src/commands/clear/clear.ts",
+      "label": "src/commands/clear/clear.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/clear/conversation.ts",
+      "path": "E:/CCui/src/commands/clear/conversation.ts",
+      "label": "src/commands/clear/conversation.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/clear/index.ts",
+      "path": "E:/CCui/src/commands/clear/index.ts",
+      "label": "src/commands/clear/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/color",
+      "path": "E:/CCui/src/commands/color",
+      "label": "color",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/color/color.ts",
+      "path": "E:/CCui/src/commands/color/color.ts",
+      "label": "src/commands/color/color.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/color/index.ts",
+      "path": "E:/CCui/src/commands/color/index.ts",
+      "label": "src/commands/color/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/commit-push-pr.ts",
+      "path": "E:/CCui/src/commands/commit-push-pr.ts",
+      "label": "src/commands/commit-push-pr.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/commit.ts",
+      "path": "E:/CCui/src/commands/commit.ts",
+      "label": "src/commands/commit.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/compact",
+      "path": "E:/CCui/src/commands/compact",
+      "label": "compact",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/compact/compact.ts",
+      "path": "E:/CCui/src/commands/compact/compact.ts",
+      "label": "src/commands/compact/compact.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/compact/index.ts",
+      "path": "E:/CCui/src/commands/compact/index.ts",
+      "label": "src/commands/compact/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/config",
+      "path": "E:/CCui/src/commands/config",
+      "label": "config",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/config/config.tsx",
+      "path": "E:/CCui/src/commands/config/config.tsx",
+      "label": "src/commands/config/config.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/config/index.ts",
+      "path": "E:/CCui/src/commands/config/index.ts",
+      "label": "src/commands/config/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/context",
+      "path": "E:/CCui/src/commands/context",
+      "label": "context",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/context/context-noninteractive.ts",
+      "path": "E:/CCui/src/commands/context/context-noninteractive.ts",
+      "label": "src/commands/context/context-noninteractive.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/context/context.tsx",
+      "path": "E:/CCui/src/commands/context/context.tsx",
+      "label": "src/commands/context/context.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/context/index.ts",
+      "path": "E:/CCui/src/commands/context/index.ts",
+      "label": "src/commands/context/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/copy",
+      "path": "E:/CCui/src/commands/copy",
+      "label": "copy",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/copy/copy.tsx",
+      "path": "E:/CCui/src/commands/copy/copy.tsx",
+      "label": "src/commands/copy/copy.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/copy/index.ts",
+      "path": "E:/CCui/src/commands/copy/index.ts",
+      "label": "src/commands/copy/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/cost",
+      "path": "E:/CCui/src/commands/cost",
+      "label": "cost",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/cost/cost.ts",
+      "path": "E:/CCui/src/commands/cost/cost.ts",
+      "label": "src/commands/cost/cost.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/cost/index.ts",
+      "path": "E:/CCui/src/commands/cost/index.ts",
+      "label": "src/commands/cost/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/createMovedToPluginCommand.ts",
+      "path": "E:/CCui/src/commands/createMovedToPluginCommand.ts",
+      "label": "src/commands/createMovedToPluginCommand.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/ctx_viz",
+      "path": "E:/CCui/src/commands/ctx_viz",
+      "label": "ctx_viz",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/ctx_viz/index.js",
+      "path": "E:/CCui/src/commands/ctx_viz/index.js",
+      "label": "src/commands/ctx_viz/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/debug-tool-call",
+      "path": "E:/CCui/src/commands/debug-tool-call",
+      "label": "debug-tool-call",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/debug-tool-call/index.js",
+      "path": "E:/CCui/src/commands/debug-tool-call/index.js",
+      "label": "src/commands/debug-tool-call/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/desktop",
+      "path": "E:/CCui/src/commands/desktop",
+      "label": "desktop",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/desktop/desktop.tsx",
+      "path": "E:/CCui/src/commands/desktop/desktop.tsx",
+      "label": "src/commands/desktop/desktop.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/desktop/index.ts",
+      "path": "E:/CCui/src/commands/desktop/index.ts",
+      "label": "src/commands/desktop/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/diff",
+      "path": "E:/CCui/src/commands/diff",
+      "label": "diff",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/diff/diff.tsx",
+      "path": "E:/CCui/src/commands/diff/diff.tsx",
+      "label": "src/commands/diff/diff.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/diff/index.ts",
+      "path": "E:/CCui/src/commands/diff/index.ts",
+      "label": "src/commands/diff/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/doctor",
+      "path": "E:/CCui/src/commands/doctor",
+      "label": "doctor",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/doctor/doctor.tsx",
+      "path": "E:/CCui/src/commands/doctor/doctor.tsx",
+      "label": "src/commands/doctor/doctor.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/doctor/index.ts",
+      "path": "E:/CCui/src/commands/doctor/index.ts",
+      "label": "src/commands/doctor/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/effort",
+      "path": "E:/CCui/src/commands/effort",
+      "label": "effort",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/effort/effort.tsx",
+      "path": "E:/CCui/src/commands/effort/effort.tsx",
+      "label": "src/commands/effort/effort.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/effort/index.ts",
+      "path": "E:/CCui/src/commands/effort/index.ts",
+      "label": "src/commands/effort/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/env",
+      "path": "E:/CCui/src/commands/env",
+      "label": "env",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/env/index.js",
+      "path": "E:/CCui/src/commands/env/index.js",
+      "label": "src/commands/env/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/exit",
+      "path": "E:/CCui/src/commands/exit",
+      "label": "exit",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/exit/exit.tsx",
+      "path": "E:/CCui/src/commands/exit/exit.tsx",
+      "label": "src/commands/exit/exit.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/exit/index.ts",
+      "path": "E:/CCui/src/commands/exit/index.ts",
+      "label": "src/commands/exit/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/export",
+      "path": "E:/CCui/src/commands/export",
+      "label": "export",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/export/export.tsx",
+      "path": "E:/CCui/src/commands/export/export.tsx",
+      "label": "src/commands/export/export.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/export/index.ts",
+      "path": "E:/CCui/src/commands/export/index.ts",
+      "label": "src/commands/export/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/extra-usage",
+      "path": "E:/CCui/src/commands/extra-usage",
+      "label": "extra-usage",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/extra-usage/extra-usage-core.ts",
+      "path": "E:/CCui/src/commands/extra-usage/extra-usage-core.ts",
+      "label": "src/commands/extra-usage/extra-usage-core.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/extra-usage/extra-usage-noninteractive.ts",
+      "path": "E:/CCui/src/commands/extra-usage/extra-usage-noninteractive.ts",
+      "label": "src/commands/extra-usage/extra-usage-noninteractive.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/extra-usage/extra-usage.tsx",
+      "path": "E:/CCui/src/commands/extra-usage/extra-usage.tsx",
+      "label": "src/commands/extra-usage/extra-usage.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/extra-usage/index.ts",
+      "path": "E:/CCui/src/commands/extra-usage/index.ts",
+      "label": "src/commands/extra-usage/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/fast",
+      "path": "E:/CCui/src/commands/fast",
+      "label": "fast",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/fast/fast.tsx",
+      "path": "E:/CCui/src/commands/fast/fast.tsx",
+      "label": "src/commands/fast/fast.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/fast/index.ts",
+      "path": "E:/CCui/src/commands/fast/index.ts",
+      "label": "src/commands/fast/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/feedback",
+      "path": "E:/CCui/src/commands/feedback",
+      "label": "feedback",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/feedback/feedback.tsx",
+      "path": "E:/CCui/src/commands/feedback/feedback.tsx",
+      "label": "src/commands/feedback/feedback.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/feedback/index.ts",
+      "path": "E:/CCui/src/commands/feedback/index.ts",
+      "label": "src/commands/feedback/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/files",
+      "path": "E:/CCui/src/commands/files",
+      "label": "files",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/files/files.ts",
+      "path": "E:/CCui/src/commands/files/files.ts",
+      "label": "src/commands/files/files.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/files/index.ts",
+      "path": "E:/CCui/src/commands/files/index.ts",
+      "label": "src/commands/files/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/good-claude",
+      "path": "E:/CCui/src/commands/good-claude",
+      "label": "good-claude",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/good-claude/index.js",
+      "path": "E:/CCui/src/commands/good-claude/index.js",
+      "label": "src/commands/good-claude/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/heapdump",
+      "path": "E:/CCui/src/commands/heapdump",
+      "label": "heapdump",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/heapdump/heapdump.ts",
+      "path": "E:/CCui/src/commands/heapdump/heapdump.ts",
+      "label": "src/commands/heapdump/heapdump.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/heapdump/index.ts",
+      "path": "E:/CCui/src/commands/heapdump/index.ts",
+      "label": "src/commands/heapdump/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/help",
+      "path": "E:/CCui/src/commands/help",
+      "label": "help",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/help/help.tsx",
+      "path": "E:/CCui/src/commands/help/help.tsx",
+      "label": "src/commands/help/help.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/help/index.ts",
+      "path": "E:/CCui/src/commands/help/index.ts",
+      "label": "src/commands/help/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/hooks",
+      "path": "E:/CCui/src/commands/hooks",
+      "label": "hooks",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/hooks/hooks.tsx",
+      "path": "E:/CCui/src/commands/hooks/hooks.tsx",
+      "label": "src/commands/hooks/hooks.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/hooks/index.ts",
+      "path": "E:/CCui/src/commands/hooks/index.ts",
+      "label": "src/commands/hooks/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/ide",
+      "path": "E:/CCui/src/commands/ide",
+      "label": "ide",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/ide/ide.tsx",
+      "path": "E:/CCui/src/commands/ide/ide.tsx",
+      "label": "src/commands/ide/ide.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/ide/index.ts",
+      "path": "E:/CCui/src/commands/ide/index.ts",
+      "label": "src/commands/ide/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/init-verifiers.ts",
+      "path": "E:/CCui/src/commands/init-verifiers.ts",
+      "label": "src/commands/init-verifiers.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/init.ts",
+      "path": "E:/CCui/src/commands/init.ts",
+      "label": "src/commands/init.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/insights.ts",
+      "path": "E:/CCui/src/commands/insights.ts",
+      "label": "src/commands/insights.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app",
+      "path": "E:/CCui/src/commands/install-github-app",
+      "label": "install-github-app",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/ApiKeyStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/ApiKeyStep.tsx",
+      "label": "src/commands/install-github-app/ApiKeyStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/CheckExistingSecretStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/CheckExistingSecretStep.tsx",
+      "label": "src/commands/install-github-app/CheckExistingSecretStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/CheckGitHubStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/CheckGitHubStep.tsx",
+      "label": "src/commands/install-github-app/CheckGitHubStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/ChooseRepoStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/ChooseRepoStep.tsx",
+      "label": "src/commands/install-github-app/ChooseRepoStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/CreatingStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/CreatingStep.tsx",
+      "label": "src/commands/install-github-app/CreatingStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/ErrorStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/ErrorStep.tsx",
+      "label": "src/commands/install-github-app/ErrorStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/ExistingWorkflowStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/ExistingWorkflowStep.tsx",
+      "label": "src/commands/install-github-app/ExistingWorkflowStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/index.ts",
+      "path": "E:/CCui/src/commands/install-github-app/index.ts",
+      "label": "src/commands/install-github-app/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/install-github-app.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/install-github-app.tsx",
+      "label": "src/commands/install-github-app/install-github-app.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/InstallAppStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/InstallAppStep.tsx",
+      "label": "src/commands/install-github-app/InstallAppStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/OAuthFlowStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/OAuthFlowStep.tsx",
+      "label": "src/commands/install-github-app/OAuthFlowStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/setupGitHubActions.ts",
+      "path": "E:/CCui/src/commands/install-github-app/setupGitHubActions.ts",
+      "label": "src/commands/install-github-app/setupGitHubActions.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/SuccessStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/SuccessStep.tsx",
+      "label": "src/commands/install-github-app/SuccessStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-github-app/WarningsStep.tsx",
+      "path": "E:/CCui/src/commands/install-github-app/WarningsStep.tsx",
+      "label": "src/commands/install-github-app/WarningsStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-slack-app",
+      "path": "E:/CCui/src/commands/install-slack-app",
+      "label": "install-slack-app",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-slack-app/index.ts",
+      "path": "E:/CCui/src/commands/install-slack-app/index.ts",
+      "label": "src/commands/install-slack-app/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install-slack-app/install-slack-app.ts",
+      "path": "E:/CCui/src/commands/install-slack-app/install-slack-app.ts",
+      "label": "src/commands/install-slack-app/install-slack-app.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/install.tsx",
+      "path": "E:/CCui/src/commands/install.tsx",
+      "label": "src/commands/install.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/issue",
+      "path": "E:/CCui/src/commands/issue",
+      "label": "issue",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/issue/index.js",
+      "path": "E:/CCui/src/commands/issue/index.js",
+      "label": "src/commands/issue/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/keybindings",
+      "path": "E:/CCui/src/commands/keybindings",
+      "label": "keybindings",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/keybindings/index.ts",
+      "path": "E:/CCui/src/commands/keybindings/index.ts",
+      "label": "src/commands/keybindings/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/keybindings/keybindings.ts",
+      "path": "E:/CCui/src/commands/keybindings/keybindings.ts",
+      "label": "src/commands/keybindings/keybindings.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/login",
+      "path": "E:/CCui/src/commands/login",
+      "label": "login",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/login/index.ts",
+      "path": "E:/CCui/src/commands/login/index.ts",
+      "label": "src/commands/login/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/login/login.tsx",
+      "path": "E:/CCui/src/commands/login/login.tsx",
+      "label": "src/commands/login/login.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/logout",
+      "path": "E:/CCui/src/commands/logout",
+      "label": "logout",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/logout/index.ts",
+      "path": "E:/CCui/src/commands/logout/index.ts",
+      "label": "src/commands/logout/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/logout/logout.tsx",
+      "path": "E:/CCui/src/commands/logout/logout.tsx",
+      "label": "src/commands/logout/logout.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/mcp",
+      "path": "E:/CCui/src/commands/mcp",
+      "label": "mcp",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/mcp/addCommand.ts",
+      "path": "E:/CCui/src/commands/mcp/addCommand.ts",
+      "label": "src/commands/mcp/addCommand.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/mcp/index.ts",
+      "path": "E:/CCui/src/commands/mcp/index.ts",
+      "label": "src/commands/mcp/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/mcp/mcp.tsx",
+      "path": "E:/CCui/src/commands/mcp/mcp.tsx",
+      "label": "src/commands/mcp/mcp.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/mcp/xaaIdpCommand.ts",
+      "path": "E:/CCui/src/commands/mcp/xaaIdpCommand.ts",
+      "label": "src/commands/mcp/xaaIdpCommand.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/memory",
+      "path": "E:/CCui/src/commands/memory",
+      "label": "memory",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/memory/index.ts",
+      "path": "E:/CCui/src/commands/memory/index.ts",
+      "label": "src/commands/memory/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/memory/memory.tsx",
+      "path": "E:/CCui/src/commands/memory/memory.tsx",
+      "label": "src/commands/memory/memory.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/mobile",
+      "path": "E:/CCui/src/commands/mobile",
+      "label": "mobile",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/mobile/index.ts",
+      "path": "E:/CCui/src/commands/mobile/index.ts",
+      "label": "src/commands/mobile/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/mobile/mobile.tsx",
+      "path": "E:/CCui/src/commands/mobile/mobile.tsx",
+      "label": "src/commands/mobile/mobile.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/mock-limits",
+      "path": "E:/CCui/src/commands/mock-limits",
+      "label": "mock-limits",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/mock-limits/index.js",
+      "path": "E:/CCui/src/commands/mock-limits/index.js",
+      "label": "src/commands/mock-limits/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/model",
+      "path": "E:/CCui/src/commands/model",
+      "label": "model",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/model/index.ts",
+      "path": "E:/CCui/src/commands/model/index.ts",
+      "label": "src/commands/model/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/model/model.tsx",
+      "path": "E:/CCui/src/commands/model/model.tsx",
+      "label": "src/commands/model/model.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/oauth-refresh",
+      "path": "E:/CCui/src/commands/oauth-refresh",
+      "label": "oauth-refresh",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/oauth-refresh/index.js",
+      "path": "E:/CCui/src/commands/oauth-refresh/index.js",
+      "label": "src/commands/oauth-refresh/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/onboarding",
+      "path": "E:/CCui/src/commands/onboarding",
+      "label": "onboarding",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/onboarding/index.js",
+      "path": "E:/CCui/src/commands/onboarding/index.js",
+      "label": "src/commands/onboarding/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/output-style",
+      "path": "E:/CCui/src/commands/output-style",
+      "label": "output-style",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/output-style/index.ts",
+      "path": "E:/CCui/src/commands/output-style/index.ts",
+      "label": "src/commands/output-style/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/output-style/output-style.tsx",
+      "path": "E:/CCui/src/commands/output-style/output-style.tsx",
+      "label": "src/commands/output-style/output-style.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/passes",
+      "path": "E:/CCui/src/commands/passes",
+      "label": "passes",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/passes/index.ts",
+      "path": "E:/CCui/src/commands/passes/index.ts",
+      "label": "src/commands/passes/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/passes/passes.tsx",
+      "path": "E:/CCui/src/commands/passes/passes.tsx",
+      "label": "src/commands/passes/passes.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/perf-issue",
+      "path": "E:/CCui/src/commands/perf-issue",
+      "label": "perf-issue",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/perf-issue/index.js",
+      "path": "E:/CCui/src/commands/perf-issue/index.js",
+      "label": "src/commands/perf-issue/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/permissions",
+      "path": "E:/CCui/src/commands/permissions",
+      "label": "permissions",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/permissions/index.ts",
+      "path": "E:/CCui/src/commands/permissions/index.ts",
+      "label": "src/commands/permissions/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/permissions/permissions.tsx",
+      "path": "E:/CCui/src/commands/permissions/permissions.tsx",
+      "label": "src/commands/permissions/permissions.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plan",
+      "path": "E:/CCui/src/commands/plan",
+      "label": "plan",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/plan/index.ts",
+      "path": "E:/CCui/src/commands/plan/index.ts",
+      "label": "src/commands/plan/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plan/plan.tsx",
+      "path": "E:/CCui/src/commands/plan/plan.tsx",
+      "label": "src/commands/plan/plan.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin",
+      "path": "E:/CCui/src/commands/plugin",
+      "label": "plugin",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/AddMarketplace.tsx",
+      "path": "E:/CCui/src/commands/plugin/AddMarketplace.tsx",
+      "label": "src/commands/plugin/AddMarketplace.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/BrowseMarketplace.tsx",
+      "path": "E:/CCui/src/commands/plugin/BrowseMarketplace.tsx",
+      "label": "src/commands/plugin/BrowseMarketplace.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/DiscoverPlugins.tsx",
+      "path": "E:/CCui/src/commands/plugin/DiscoverPlugins.tsx",
+      "label": "src/commands/plugin/DiscoverPlugins.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/index.tsx",
+      "path": "E:/CCui/src/commands/plugin/index.tsx",
+      "label": "src/commands/plugin/index.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/ManageMarketplaces.tsx",
+      "path": "E:/CCui/src/commands/plugin/ManageMarketplaces.tsx",
+      "label": "src/commands/plugin/ManageMarketplaces.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/ManagePlugins.tsx",
+      "path": "E:/CCui/src/commands/plugin/ManagePlugins.tsx",
+      "label": "src/commands/plugin/ManagePlugins.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/parseArgs.ts",
+      "path": "E:/CCui/src/commands/plugin/parseArgs.ts",
+      "label": "src/commands/plugin/parseArgs.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/plugin.tsx",
+      "path": "E:/CCui/src/commands/plugin/plugin.tsx",
+      "label": "src/commands/plugin/plugin.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/pluginDetailsHelpers.tsx",
+      "path": "E:/CCui/src/commands/plugin/pluginDetailsHelpers.tsx",
+      "label": "src/commands/plugin/pluginDetailsHelpers.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/PluginErrors.tsx",
+      "path": "E:/CCui/src/commands/plugin/PluginErrors.tsx",
+      "label": "src/commands/plugin/PluginErrors.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/PluginOptionsDialog.tsx",
+      "path": "E:/CCui/src/commands/plugin/PluginOptionsDialog.tsx",
+      "label": "src/commands/plugin/PluginOptionsDialog.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/PluginOptionsFlow.tsx",
+      "path": "E:/CCui/src/commands/plugin/PluginOptionsFlow.tsx",
+      "label": "src/commands/plugin/PluginOptionsFlow.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/PluginSettings.tsx",
+      "path": "E:/CCui/src/commands/plugin/PluginSettings.tsx",
+      "label": "src/commands/plugin/PluginSettings.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/PluginTrustWarning.tsx",
+      "path": "E:/CCui/src/commands/plugin/PluginTrustWarning.tsx",
+      "label": "src/commands/plugin/PluginTrustWarning.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/UnifiedInstalledCell.tsx",
+      "path": "E:/CCui/src/commands/plugin/UnifiedInstalledCell.tsx",
+      "label": "src/commands/plugin/UnifiedInstalledCell.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/usePagination.ts",
+      "path": "E:/CCui/src/commands/plugin/usePagination.ts",
+      "label": "src/commands/plugin/usePagination.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/plugin/ValidatePlugin.tsx",
+      "path": "E:/CCui/src/commands/plugin/ValidatePlugin.tsx",
+      "label": "src/commands/plugin/ValidatePlugin.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/privacy-settings",
+      "path": "E:/CCui/src/commands/privacy-settings",
+      "label": "privacy-settings",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/privacy-settings/index.ts",
+      "path": "E:/CCui/src/commands/privacy-settings/index.ts",
+      "label": "src/commands/privacy-settings/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/privacy-settings/privacy-settings.tsx",
+      "path": "E:/CCui/src/commands/privacy-settings/privacy-settings.tsx",
+      "label": "src/commands/privacy-settings/privacy-settings.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/pr_comments",
+      "path": "E:/CCui/src/commands/pr_comments",
+      "label": "pr_comments",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/pr_comments/index.ts",
+      "path": "E:/CCui/src/commands/pr_comments/index.ts",
+      "label": "src/commands/pr_comments/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/rate-limit-options",
+      "path": "E:/CCui/src/commands/rate-limit-options",
+      "label": "rate-limit-options",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/rate-limit-options/index.ts",
+      "path": "E:/CCui/src/commands/rate-limit-options/index.ts",
+      "label": "src/commands/rate-limit-options/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/rate-limit-options/rate-limit-options.tsx",
+      "path": "E:/CCui/src/commands/rate-limit-options/rate-limit-options.tsx",
+      "label": "src/commands/rate-limit-options/rate-limit-options.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/registry.ts",
+      "path": "E:/CCui/src/commands/registry.ts",
+      "label": "src/commands/registry.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/release-notes",
+      "path": "E:/CCui/src/commands/release-notes",
+      "label": "release-notes",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/release-notes/index.ts",
+      "path": "E:/CCui/src/commands/release-notes/index.ts",
+      "label": "src/commands/release-notes/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/release-notes/release-notes.ts",
+      "path": "E:/CCui/src/commands/release-notes/release-notes.ts",
+      "label": "src/commands/release-notes/release-notes.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/reload-plugins",
+      "path": "E:/CCui/src/commands/reload-plugins",
+      "label": "reload-plugins",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/reload-plugins/index.ts",
+      "path": "E:/CCui/src/commands/reload-plugins/index.ts",
+      "label": "src/commands/reload-plugins/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/reload-plugins/reload-plugins.ts",
+      "path": "E:/CCui/src/commands/reload-plugins/reload-plugins.ts",
+      "label": "src/commands/reload-plugins/reload-plugins.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/remote-env",
+      "path": "E:/CCui/src/commands/remote-env",
+      "label": "remote-env",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/remote-env/index.ts",
+      "path": "E:/CCui/src/commands/remote-env/index.ts",
+      "label": "src/commands/remote-env/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/remote-env/remote-env.tsx",
+      "path": "E:/CCui/src/commands/remote-env/remote-env.tsx",
+      "label": "src/commands/remote-env/remote-env.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/remote-setup",
+      "path": "E:/CCui/src/commands/remote-setup",
+      "label": "remote-setup",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/remote-setup/api.ts",
+      "path": "E:/CCui/src/commands/remote-setup/api.ts",
+      "label": "src/commands/remote-setup/api.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/remote-setup/index.ts",
+      "path": "E:/CCui/src/commands/remote-setup/index.ts",
+      "label": "src/commands/remote-setup/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/remote-setup/remote-setup.tsx",
+      "path": "E:/CCui/src/commands/remote-setup/remote-setup.tsx",
+      "label": "src/commands/remote-setup/remote-setup.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/rename",
+      "path": "E:/CCui/src/commands/rename",
+      "label": "rename",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/rename/generateSessionName.ts",
+      "path": "E:/CCui/src/commands/rename/generateSessionName.ts",
+      "label": "src/commands/rename/generateSessionName.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/rename/index.ts",
+      "path": "E:/CCui/src/commands/rename/index.ts",
+      "label": "src/commands/rename/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/rename/rename.ts",
+      "path": "E:/CCui/src/commands/rename/rename.ts",
+      "label": "src/commands/rename/rename.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/reset-limits",
+      "path": "E:/CCui/src/commands/reset-limits",
+      "label": "reset-limits",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/reset-limits/index.js",
+      "path": "E:/CCui/src/commands/reset-limits/index.js",
+      "label": "src/commands/reset-limits/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/resume",
+      "path": "E:/CCui/src/commands/resume",
+      "label": "resume",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/resume/index.ts",
+      "path": "E:/CCui/src/commands/resume/index.ts",
+      "label": "src/commands/resume/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/resume/resume.tsx",
+      "path": "E:/CCui/src/commands/resume/resume.tsx",
+      "label": "src/commands/resume/resume.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/review",
+      "path": "E:/CCui/src/commands/review",
+      "label": "review",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/review/reviewRemote.ts",
+      "path": "E:/CCui/src/commands/review/reviewRemote.ts",
+      "label": "src/commands/review/reviewRemote.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/review/ultrareviewCommand.tsx",
+      "path": "E:/CCui/src/commands/review/ultrareviewCommand.tsx",
+      "label": "src/commands/review/ultrareviewCommand.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/review/ultrareviewEnabled.ts",
+      "path": "E:/CCui/src/commands/review/ultrareviewEnabled.ts",
+      "label": "src/commands/review/ultrareviewEnabled.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/review/UltrareviewOverageDialog.tsx",
+      "path": "E:/CCui/src/commands/review/UltrareviewOverageDialog.tsx",
+      "label": "src/commands/review/UltrareviewOverageDialog.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/review.ts",
+      "path": "E:/CCui/src/commands/review.ts",
+      "label": "src/commands/review.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/rewind",
+      "path": "E:/CCui/src/commands/rewind",
+      "label": "rewind",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/rewind/index.ts",
+      "path": "E:/CCui/src/commands/rewind/index.ts",
+      "label": "src/commands/rewind/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/rewind/rewind.ts",
+      "path": "E:/CCui/src/commands/rewind/rewind.ts",
+      "label": "src/commands/rewind/rewind.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/sandbox-toggle",
+      "path": "E:/CCui/src/commands/sandbox-toggle",
+      "label": "sandbox-toggle",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/sandbox-toggle/index.ts",
+      "path": "E:/CCui/src/commands/sandbox-toggle/index.ts",
+      "label": "src/commands/sandbox-toggle/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/sandbox-toggle/sandbox-toggle.tsx",
+      "path": "E:/CCui/src/commands/sandbox-toggle/sandbox-toggle.tsx",
+      "label": "src/commands/sandbox-toggle/sandbox-toggle.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/security-review.ts",
+      "path": "E:/CCui/src/commands/security-review.ts",
+      "label": "src/commands/security-review.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/session",
+      "path": "E:/CCui/src/commands/session",
+      "label": "session",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/session/index.ts",
+      "path": "E:/CCui/src/commands/session/index.ts",
+      "label": "src/commands/session/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/session/session.tsx",
+      "path": "E:/CCui/src/commands/session/session.tsx",
+      "label": "src/commands/session/session.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/share",
+      "path": "E:/CCui/src/commands/share",
+      "label": "share",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/share/index.js",
+      "path": "E:/CCui/src/commands/share/index.js",
+      "label": "src/commands/share/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/skills",
+      "path": "E:/CCui/src/commands/skills",
+      "label": "skills",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/skills/index.ts",
+      "path": "E:/CCui/src/commands/skills/index.ts",
+      "label": "src/commands/skills/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/skills/skills.tsx",
+      "path": "E:/CCui/src/commands/skills/skills.tsx",
+      "label": "src/commands/skills/skills.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/stats",
+      "path": "E:/CCui/src/commands/stats",
+      "label": "stats",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/stats/index.ts",
+      "path": "E:/CCui/src/commands/stats/index.ts",
+      "label": "src/commands/stats/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/stats/stats.tsx",
+      "path": "E:/CCui/src/commands/stats/stats.tsx",
+      "label": "src/commands/stats/stats.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/status",
+      "path": "E:/CCui/src/commands/status",
+      "label": "status",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/status/index.ts",
+      "path": "E:/CCui/src/commands/status/index.ts",
+      "label": "src/commands/status/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/status/status.tsx",
+      "path": "E:/CCui/src/commands/status/status.tsx",
+      "label": "src/commands/status/status.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/statusline.tsx",
+      "path": "E:/CCui/src/commands/statusline.tsx",
+      "label": "src/commands/statusline.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/stickers",
+      "path": "E:/CCui/src/commands/stickers",
+      "label": "stickers",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/stickers/index.ts",
+      "path": "E:/CCui/src/commands/stickers/index.ts",
+      "label": "src/commands/stickers/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/stickers/stickers.ts",
+      "path": "E:/CCui/src/commands/stickers/stickers.ts",
+      "label": "src/commands/stickers/stickers.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/summary",
+      "path": "E:/CCui/src/commands/summary",
+      "label": "summary",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/summary/index.js",
+      "path": "E:/CCui/src/commands/summary/index.js",
+      "label": "src/commands/summary/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/tag",
+      "path": "E:/CCui/src/commands/tag",
+      "label": "tag",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/tag/index.ts",
+      "path": "E:/CCui/src/commands/tag/index.ts",
+      "label": "src/commands/tag/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/tag/tag.tsx",
+      "path": "E:/CCui/src/commands/tag/tag.tsx",
+      "label": "src/commands/tag/tag.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/tasks",
+      "path": "E:/CCui/src/commands/tasks",
+      "label": "tasks",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/tasks/index.ts",
+      "path": "E:/CCui/src/commands/tasks/index.ts",
+      "label": "src/commands/tasks/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/tasks/tasks.tsx",
+      "path": "E:/CCui/src/commands/tasks/tasks.tsx",
+      "label": "src/commands/tasks/tasks.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/teleport",
+      "path": "E:/CCui/src/commands/teleport",
+      "label": "teleport",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/teleport/index.js",
+      "path": "E:/CCui/src/commands/teleport/index.js",
+      "label": "src/commands/teleport/index.js",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/terminalSetup",
+      "path": "E:/CCui/src/commands/terminalSetup",
+      "label": "terminalSetup",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/terminalSetup/index.ts",
+      "path": "E:/CCui/src/commands/terminalSetup/index.ts",
+      "label": "src/commands/terminalSetup/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/terminalSetup/terminalSetup.tsx",
+      "path": "E:/CCui/src/commands/terminalSetup/terminalSetup.tsx",
+      "label": "src/commands/terminalSetup/terminalSetup.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/theme",
+      "path": "E:/CCui/src/commands/theme",
+      "label": "theme",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/theme/index.ts",
+      "path": "E:/CCui/src/commands/theme/index.ts",
+      "label": "src/commands/theme/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/theme/theme.tsx",
+      "path": "E:/CCui/src/commands/theme/theme.tsx",
+      "label": "src/commands/theme/theme.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/thinkback",
+      "path": "E:/CCui/src/commands/thinkback",
+      "label": "thinkback",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/thinkback/index.ts",
+      "path": "E:/CCui/src/commands/thinkback/index.ts",
+      "label": "src/commands/thinkback/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/thinkback/thinkback.tsx",
+      "path": "E:/CCui/src/commands/thinkback/thinkback.tsx",
+      "label": "src/commands/thinkback/thinkback.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/thinkback-play",
+      "path": "E:/CCui/src/commands/thinkback-play",
+      "label": "thinkback-play",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/thinkback-play/index.ts",
+      "path": "E:/CCui/src/commands/thinkback-play/index.ts",
+      "label": "src/commands/thinkback-play/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/thinkback-play/thinkback-play.ts",
+      "path": "E:/CCui/src/commands/thinkback-play/thinkback-play.ts",
+      "label": "src/commands/thinkback-play/thinkback-play.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/ultraplan.tsx",
+      "path": "E:/CCui/src/commands/ultraplan.tsx",
+      "label": "src/commands/ultraplan.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/upgrade",
+      "path": "E:/CCui/src/commands/upgrade",
+      "label": "upgrade",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/upgrade/index.ts",
+      "path": "E:/CCui/src/commands/upgrade/index.ts",
+      "label": "src/commands/upgrade/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/upgrade/upgrade.tsx",
+      "path": "E:/CCui/src/commands/upgrade/upgrade.tsx",
+      "label": "src/commands/upgrade/upgrade.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/usage",
+      "path": "E:/CCui/src/commands/usage",
+      "label": "usage",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/usage/index.ts",
+      "path": "E:/CCui/src/commands/usage/index.ts",
+      "label": "src/commands/usage/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/usage/usage.tsx",
+      "path": "E:/CCui/src/commands/usage/usage.tsx",
+      "label": "src/commands/usage/usage.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/version.ts",
+      "path": "E:/CCui/src/commands/version.ts",
+      "label": "src/commands/version.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/vim",
+      "path": "E:/CCui/src/commands/vim",
+      "label": "vim",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/vim/index.ts",
+      "path": "E:/CCui/src/commands/vim/index.ts",
+      "label": "src/commands/vim/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/vim/vim.ts",
+      "path": "E:/CCui/src/commands/vim/vim.ts",
+      "label": "src/commands/vim/vim.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/voice",
+      "path": "E:/CCui/src/commands/voice",
+      "label": "voice",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/commands/voice/index.ts",
+      "path": "E:/CCui/src/commands/voice/index.ts",
+      "label": "src/commands/voice/index.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands/voice/voice.ts",
+      "path": "E:/CCui/src/commands/voice/voice.ts",
+      "label": "src/commands/voice/voice.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/commands.ts",
+      "path": "E:/CCui/src/commands.ts",
+      "label": "src/commands.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components",
+      "path": "E:/CCui/src/components",
+      "label": "components",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/components/AgentProgressLine.tsx",
+      "path": "E:/CCui/src/components/AgentProgressLine.tsx",
+      "label": "src/components/AgentProgressLine.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents",
+      "path": "E:/CCui/src/components/agents",
+      "label": "agents",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/AgentDetail.tsx",
+      "path": "E:/CCui/src/components/agents/AgentDetail.tsx",
+      "label": "src/components/agents/AgentDetail.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/AgentEditor.tsx",
+      "path": "E:/CCui/src/components/agents/AgentEditor.tsx",
+      "label": "src/components/agents/AgentEditor.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/agentFileUtils.ts",
+      "path": "E:/CCui/src/components/agents/agentFileUtils.ts",
+      "label": "src/components/agents/agentFileUtils.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/AgentNavigationFooter.tsx",
+      "path": "E:/CCui/src/components/agents/AgentNavigationFooter.tsx",
+      "label": "src/components/agents/AgentNavigationFooter.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/AgentsList.tsx",
+      "path": "E:/CCui/src/components/agents/AgentsList.tsx",
+      "label": "src/components/agents/AgentsList.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/AgentsMenu.tsx",
+      "path": "E:/CCui/src/components/agents/AgentsMenu.tsx",
+      "label": "src/components/agents/AgentsMenu.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/ColorPicker.tsx",
+      "path": "E:/CCui/src/components/agents/ColorPicker.tsx",
+      "label": "src/components/agents/ColorPicker.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/generateAgent.ts",
+      "path": "E:/CCui/src/components/agents/generateAgent.ts",
+      "label": "src/components/agents/generateAgent.ts",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/ModelSelector.tsx",
+      "path": "E:/CCui/src/components/agents/ModelSelector.tsx",
+      "label": "src/components/agents/ModelSelector.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation",
+      "path": "E:/CCui/src/components/agents/new-agent-creation",
+      "label": "new-agent-creation",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/CreateAgentWizard.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/CreateAgentWizard.tsx",
+      "label": "src/components/agents/new-agent-creation/CreateAgentWizard.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "label": "wizard-steps",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ColorStep.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ColorStep.tsx",
+      "label": "src/components/agents/new-agent-creation/wizard-steps/ColorStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ConfirmStep.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ConfirmStep.tsx",
+      "label": "src/components/agents/new-agent-creation/wizard-steps/ConfirmStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ConfirmStepWrapper.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ConfirmStepWrapper.tsx",
+      "label": "src/components/agents/new-agent-creation/wizard-steps/ConfirmStepWrapper.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/DescriptionStep.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/DescriptionStep.tsx",
+      "label": "src/components/agents/new-agent-creation/wizard-steps/DescriptionStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/GenerateStep.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/GenerateStep.tsx",
+      "label": "src/components/agents/new-agent-creation/wizard-steps/GenerateStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/LocationStep.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/LocationStep.tsx",
+      "label": "src/components/agents/new-agent-creation/wizard-steps/LocationStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/MemoryStep.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/MemoryStep.tsx",
+      "label": "src/components/agents/new-agent-creation/wizard-steps/MemoryStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/MethodStep.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/MethodStep.tsx",
+      "label": "src/components/agents/new-agent-creation/wizard-steps/MethodStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ModelStep.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ModelStep.tsx",
+      "label": "src/components/agents/new-agent-creation/wizard-steps/ModelStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/PromptStep.tsx",
+      "path": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/PromptStep.tsx",
+      "label": "src/components/agents/new-agent-creation/wizard-steps/PromptStep.tsx",
+      "kind": "file"
+    },
+    {
+      "id": "E:/CCui/src/constants",
+      "path": "E:/CCui/src/constants",
+      "label": "constants",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/src/context",
+      "path": "E:/CCui/src/context",
+      "label": "context",
+      "kind": "dir"
+    },
+    {
+      "id": "E:/CCui/stubs",
+      "path": "E:/CCui/stubs",
+      "label": "stubs",
+      "kind": "dir"
+    }
+  ],
+  "edges": [
+    {
+      "from": "E:/CCui",
+      "to": "E:/CCui/src",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui",
+      "to": "E:/CCui/gui",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui",
+      "to": "E:/CCui/docs",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui",
+      "to": "E:/CCui/scripts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui",
+      "to": "E:/CCui/config",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/docs",
+      "to": "E:/CCui/docs/ARCHITECTURE.md",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/docs",
+      "to": "E:/CCui/docs/COMPETITOR_BENCHMARK.md",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/docs",
+      "to": "E:/CCui/docs/DEV.md",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/docs",
+      "to": "E:/CCui/docs/GUI_PLAN.md",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/docs",
+      "to": "E:/CCui/docs/MODULES.md",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/docs",
+      "to": "E:/CCui/docs/PRODUCT_DESIGN.md",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/docs",
+      "to": "E:/CCui/docs/REPLICATION_REPORT.md",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui",
+      "to": "E:/CCui/e",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/e",
+      "to": "E:/CCui/e/CCui",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/e/CCui",
+      "to": "E:/CCui/e/CCui/src",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/e/CCui/src",
+      "to": "E:/CCui/e/CCui/src/providers",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/e/CCui/src/providers",
+      "to": "E:/CCui/e/CCui/src/providers/anthropic",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/e/CCui/src/providers",
+      "to": "E:/CCui/e/CCui/src/providers/openai",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui",
+      "to": "E:/CCui/gui/app",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/api.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/branch-tree.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/command-palette.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/completion.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/icons.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/modal.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/parallel.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/permissions.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/thread.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/tips.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/vibe-clarifier.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app",
+      "to": "E:/CCui/gui/app/views",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/chat.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/collab.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/console.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/context-map.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/filetree.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/live2d.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/orchestrate.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/presets.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/settings.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/studio.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/templates.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/views",
+      "to": "E:/CCui/gui/app/views/theme-editor.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui",
+      "to": "E:/CCui/gui/index.html",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui",
+      "to": "E:/CCui/gui/main.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui",
+      "to": "E:/CCui/gui/package.json",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui",
+      "to": "E:/CCui/gui/preload.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui",
+      "to": "E:/CCui/gui/renderer.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui",
+      "to": "E:/CCui/gui/style.css",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui",
+      "to": "E:/CCui/package.json",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui",
+      "to": "E:/CCui/README.md",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/bootstrap-deps.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/build.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/deepseek-ask.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/dev.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/generate-sdk-types.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/gui-headless-demo.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/loadEnv.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/run-deepseek.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/seed-dev.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/smoke-test.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/startup-progress.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/test-console-protocol.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/test-daemon.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/test-model-router.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/scripts",
+      "to": "E:/CCui/scripts/warm-repl-cache.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/app",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/app",
+      "to": "E:/CCui/src/app/dialogLaunchers.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/app",
+      "to": "E:/CCui/src/app/interactiveHelpers.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/app",
+      "to": "E:/CCui/src/app/main.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/app",
+      "to": "E:/CCui/src/app/projectOnboardingState.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/app",
+      "to": "E:/CCui/src/app/replLauncher.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/app",
+      "to": "E:/CCui/src/app/setup.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/assistant",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/assistant",
+      "to": "E:/CCui/src/assistant/sessionHistory.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/bootstrap",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bootstrap",
+      "to": "E:/CCui/src/bootstrap/state.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/bridge",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/bridgeApi.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/bridgeConfig.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/bridgeDebug.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/bridgeEnabled.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/bridgeMain.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/bridgeMessaging.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/bridgePermissionCallbacks.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/bridgePointer.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/bridgeStatusUtil.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/bridgeUI.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/capacityWake.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/codeSessionApi.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/createSession.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/debugUtils.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/envLessBridgeConfig.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/flushGate.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/inboundAttachments.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/inboundMessages.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/initReplBridge.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/jwtUtils.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/pollConfig.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/pollConfigDefaults.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/remoteBridgeCore.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/replBridge.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/replBridgeHandle.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/replBridgeTransport.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/sessionIdCompat.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/sessionRunner.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/trustedDevice.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/types.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/bridge",
+      "to": "E:/CCui/src/bridge/workSecret.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/buddy",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/buddy",
+      "to": "E:/CCui/src/buddy/companion.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/buddy",
+      "to": "E:/CCui/src/buddy/CompanionSprite.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/buddy",
+      "to": "E:/CCui/src/buddy/prompt.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/buddy",
+      "to": "E:/CCui/src/buddy/sprites.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/buddy",
+      "to": "E:/CCui/src/buddy/types.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/buddy",
+      "to": "E:/CCui/src/buddy/useBuddyNotification.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/cli",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli",
+      "to": "E:/CCui/src/cli/exit.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli",
+      "to": "E:/CCui/src/cli/handlers",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/handlers",
+      "to": "E:/CCui/src/cli/handlers/agents.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/handlers",
+      "to": "E:/CCui/src/cli/handlers/auth.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/handlers",
+      "to": "E:/CCui/src/cli/handlers/autoMode.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/handlers",
+      "to": "E:/CCui/src/cli/handlers/mcp.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/handlers",
+      "to": "E:/CCui/src/cli/handlers/plugins.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/handlers",
+      "to": "E:/CCui/src/cli/handlers/util.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli",
+      "to": "E:/CCui/src/cli/ndjsonSafeStringify.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli",
+      "to": "E:/CCui/src/cli/print.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli",
+      "to": "E:/CCui/src/cli/remoteIO.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli",
+      "to": "E:/CCui/src/cli/structuredIO.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli",
+      "to": "E:/CCui/src/cli/transports",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/transports",
+      "to": "E:/CCui/src/cli/transports/ccrClient.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/transports",
+      "to": "E:/CCui/src/cli/transports/HybridTransport.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/transports",
+      "to": "E:/CCui/src/cli/transports/SerialBatchEventUploader.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/transports",
+      "to": "E:/CCui/src/cli/transports/SSETransport.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/transports",
+      "to": "E:/CCui/src/cli/transports/transportUtils.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/transports",
+      "to": "E:/CCui/src/cli/transports/WebSocketTransport.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli/transports",
+      "to": "E:/CCui/src/cli/transports/WorkerStateUploader.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/cli",
+      "to": "E:/CCui/src/cli/update.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/commands",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/add-dir",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/add-dir",
+      "to": "E:/CCui/src/commands/add-dir/add-dir.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/add-dir",
+      "to": "E:/CCui/src/commands/add-dir/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/add-dir",
+      "to": "E:/CCui/src/commands/add-dir/validation.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/advisor.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/agents",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/agents",
+      "to": "E:/CCui/src/commands/agents/agents.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/agents",
+      "to": "E:/CCui/src/commands/agents/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/ant-trace",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/ant-trace",
+      "to": "E:/CCui/src/commands/ant-trace/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/autofix-pr",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/autofix-pr",
+      "to": "E:/CCui/src/commands/autofix-pr/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/backfill-sessions",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/backfill-sessions",
+      "to": "E:/CCui/src/commands/backfill-sessions/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/branch",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/branch",
+      "to": "E:/CCui/src/commands/branch/branch.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/branch",
+      "to": "E:/CCui/src/commands/branch/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/break-cache",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/break-cache",
+      "to": "E:/CCui/src/commands/break-cache/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/bridge",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/bridge",
+      "to": "E:/CCui/src/commands/bridge/bridge.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/bridge",
+      "to": "E:/CCui/src/commands/bridge/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/bridge-kick.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/brief.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/btw",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/btw",
+      "to": "E:/CCui/src/commands/btw/btw.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/btw",
+      "to": "E:/CCui/src/commands/btw/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/bughunter",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/bughunter",
+      "to": "E:/CCui/src/commands/bughunter/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/chrome",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/chrome",
+      "to": "E:/CCui/src/commands/chrome/chrome.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/chrome",
+      "to": "E:/CCui/src/commands/chrome/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/clear",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/clear",
+      "to": "E:/CCui/src/commands/clear/caches.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/clear",
+      "to": "E:/CCui/src/commands/clear/clear.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/clear",
+      "to": "E:/CCui/src/commands/clear/conversation.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/clear",
+      "to": "E:/CCui/src/commands/clear/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/color",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/color",
+      "to": "E:/CCui/src/commands/color/color.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/color",
+      "to": "E:/CCui/src/commands/color/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/commit-push-pr.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/commit.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/compact",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/compact",
+      "to": "E:/CCui/src/commands/compact/compact.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/compact",
+      "to": "E:/CCui/src/commands/compact/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/config",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/config",
+      "to": "E:/CCui/src/commands/config/config.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/config",
+      "to": "E:/CCui/src/commands/config/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/context",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/context",
+      "to": "E:/CCui/src/commands/context/context-noninteractive.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/context",
+      "to": "E:/CCui/src/commands/context/context.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/context",
+      "to": "E:/CCui/src/commands/context/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/copy",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/copy",
+      "to": "E:/CCui/src/commands/copy/copy.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/copy",
+      "to": "E:/CCui/src/commands/copy/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/cost",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/cost",
+      "to": "E:/CCui/src/commands/cost/cost.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/cost",
+      "to": "E:/CCui/src/commands/cost/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/createMovedToPluginCommand.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/ctx_viz",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/ctx_viz",
+      "to": "E:/CCui/src/commands/ctx_viz/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/debug-tool-call",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/debug-tool-call",
+      "to": "E:/CCui/src/commands/debug-tool-call/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/desktop",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/desktop",
+      "to": "E:/CCui/src/commands/desktop/desktop.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/desktop",
+      "to": "E:/CCui/src/commands/desktop/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/diff",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/diff",
+      "to": "E:/CCui/src/commands/diff/diff.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/diff",
+      "to": "E:/CCui/src/commands/diff/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/doctor",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/doctor",
+      "to": "E:/CCui/src/commands/doctor/doctor.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/doctor",
+      "to": "E:/CCui/src/commands/doctor/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/effort",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/effort",
+      "to": "E:/CCui/src/commands/effort/effort.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/effort",
+      "to": "E:/CCui/src/commands/effort/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/env",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/env",
+      "to": "E:/CCui/src/commands/env/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/exit",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/exit",
+      "to": "E:/CCui/src/commands/exit/exit.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/exit",
+      "to": "E:/CCui/src/commands/exit/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/export",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/export",
+      "to": "E:/CCui/src/commands/export/export.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/export",
+      "to": "E:/CCui/src/commands/export/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/extra-usage",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/extra-usage",
+      "to": "E:/CCui/src/commands/extra-usage/extra-usage-core.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/extra-usage",
+      "to": "E:/CCui/src/commands/extra-usage/extra-usage-noninteractive.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/extra-usage",
+      "to": "E:/CCui/src/commands/extra-usage/extra-usage.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/extra-usage",
+      "to": "E:/CCui/src/commands/extra-usage/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/fast",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/fast",
+      "to": "E:/CCui/src/commands/fast/fast.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/fast",
+      "to": "E:/CCui/src/commands/fast/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/feedback",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/feedback",
+      "to": "E:/CCui/src/commands/feedback/feedback.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/feedback",
+      "to": "E:/CCui/src/commands/feedback/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/files",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/files",
+      "to": "E:/CCui/src/commands/files/files.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/files",
+      "to": "E:/CCui/src/commands/files/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/good-claude",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/good-claude",
+      "to": "E:/CCui/src/commands/good-claude/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/heapdump",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/heapdump",
+      "to": "E:/CCui/src/commands/heapdump/heapdump.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/heapdump",
+      "to": "E:/CCui/src/commands/heapdump/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/help",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/help",
+      "to": "E:/CCui/src/commands/help/help.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/help",
+      "to": "E:/CCui/src/commands/help/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/hooks",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/hooks",
+      "to": "E:/CCui/src/commands/hooks/hooks.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/hooks",
+      "to": "E:/CCui/src/commands/hooks/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/ide",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/ide",
+      "to": "E:/CCui/src/commands/ide/ide.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/ide",
+      "to": "E:/CCui/src/commands/ide/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/init-verifiers.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/init.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/insights.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/install-github-app",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/ApiKeyStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/CheckExistingSecretStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/CheckGitHubStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/ChooseRepoStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/CreatingStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/ErrorStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/ExistingWorkflowStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/install-github-app.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/InstallAppStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/OAuthFlowStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/setupGitHubActions.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/SuccessStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-github-app",
+      "to": "E:/CCui/src/commands/install-github-app/WarningsStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/install-slack-app",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-slack-app",
+      "to": "E:/CCui/src/commands/install-slack-app/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/install-slack-app",
+      "to": "E:/CCui/src/commands/install-slack-app/install-slack-app.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/install.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/issue",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/issue",
+      "to": "E:/CCui/src/commands/issue/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/keybindings",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/keybindings",
+      "to": "E:/CCui/src/commands/keybindings/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/keybindings",
+      "to": "E:/CCui/src/commands/keybindings/keybindings.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/login",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/login",
+      "to": "E:/CCui/src/commands/login/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/login",
+      "to": "E:/CCui/src/commands/login/login.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/logout",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/logout",
+      "to": "E:/CCui/src/commands/logout/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/logout",
+      "to": "E:/CCui/src/commands/logout/logout.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/mcp",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/mcp",
+      "to": "E:/CCui/src/commands/mcp/addCommand.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/mcp",
+      "to": "E:/CCui/src/commands/mcp/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/mcp",
+      "to": "E:/CCui/src/commands/mcp/mcp.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/mcp",
+      "to": "E:/CCui/src/commands/mcp/xaaIdpCommand.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/memory",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/memory",
+      "to": "E:/CCui/src/commands/memory/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/memory",
+      "to": "E:/CCui/src/commands/memory/memory.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/mobile",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/mobile",
+      "to": "E:/CCui/src/commands/mobile/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/mobile",
+      "to": "E:/CCui/src/commands/mobile/mobile.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/mock-limits",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/mock-limits",
+      "to": "E:/CCui/src/commands/mock-limits/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/model",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/model",
+      "to": "E:/CCui/src/commands/model/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/model",
+      "to": "E:/CCui/src/commands/model/model.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/oauth-refresh",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/oauth-refresh",
+      "to": "E:/CCui/src/commands/oauth-refresh/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/onboarding",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/onboarding",
+      "to": "E:/CCui/src/commands/onboarding/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/output-style",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/output-style",
+      "to": "E:/CCui/src/commands/output-style/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/output-style",
+      "to": "E:/CCui/src/commands/output-style/output-style.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/passes",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/passes",
+      "to": "E:/CCui/src/commands/passes/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/passes",
+      "to": "E:/CCui/src/commands/passes/passes.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/perf-issue",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/perf-issue",
+      "to": "E:/CCui/src/commands/perf-issue/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/permissions",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/permissions",
+      "to": "E:/CCui/src/commands/permissions/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/permissions",
+      "to": "E:/CCui/src/commands/permissions/permissions.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/plan",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plan",
+      "to": "E:/CCui/src/commands/plan/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plan",
+      "to": "E:/CCui/src/commands/plan/plan.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/plugin",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/AddMarketplace.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/BrowseMarketplace.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/DiscoverPlugins.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/index.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/ManageMarketplaces.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/ManagePlugins.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/parseArgs.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/plugin.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/pluginDetailsHelpers.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/PluginErrors.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/PluginOptionsDialog.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/PluginOptionsFlow.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/PluginSettings.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/PluginTrustWarning.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/UnifiedInstalledCell.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/usePagination.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/plugin",
+      "to": "E:/CCui/src/commands/plugin/ValidatePlugin.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/privacy-settings",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/privacy-settings",
+      "to": "E:/CCui/src/commands/privacy-settings/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/privacy-settings",
+      "to": "E:/CCui/src/commands/privacy-settings/privacy-settings.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/pr_comments",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/pr_comments",
+      "to": "E:/CCui/src/commands/pr_comments/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/rate-limit-options",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/rate-limit-options",
+      "to": "E:/CCui/src/commands/rate-limit-options/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/rate-limit-options",
+      "to": "E:/CCui/src/commands/rate-limit-options/rate-limit-options.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/registry.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/release-notes",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/release-notes",
+      "to": "E:/CCui/src/commands/release-notes/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/release-notes",
+      "to": "E:/CCui/src/commands/release-notes/release-notes.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/reload-plugins",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/reload-plugins",
+      "to": "E:/CCui/src/commands/reload-plugins/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/reload-plugins",
+      "to": "E:/CCui/src/commands/reload-plugins/reload-plugins.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/remote-env",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/remote-env",
+      "to": "E:/CCui/src/commands/remote-env/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/remote-env",
+      "to": "E:/CCui/src/commands/remote-env/remote-env.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/remote-setup",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/remote-setup",
+      "to": "E:/CCui/src/commands/remote-setup/api.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/remote-setup",
+      "to": "E:/CCui/src/commands/remote-setup/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/remote-setup",
+      "to": "E:/CCui/src/commands/remote-setup/remote-setup.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/rename",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/rename",
+      "to": "E:/CCui/src/commands/rename/generateSessionName.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/rename",
+      "to": "E:/CCui/src/commands/rename/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/rename",
+      "to": "E:/CCui/src/commands/rename/rename.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/reset-limits",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/reset-limits",
+      "to": "E:/CCui/src/commands/reset-limits/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/resume",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/resume",
+      "to": "E:/CCui/src/commands/resume/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/resume",
+      "to": "E:/CCui/src/commands/resume/resume.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/review",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/review",
+      "to": "E:/CCui/src/commands/review/reviewRemote.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/review",
+      "to": "E:/CCui/src/commands/review/ultrareviewCommand.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/review",
+      "to": "E:/CCui/src/commands/review/ultrareviewEnabled.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/review",
+      "to": "E:/CCui/src/commands/review/UltrareviewOverageDialog.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/review.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/rewind",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/rewind",
+      "to": "E:/CCui/src/commands/rewind/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/rewind",
+      "to": "E:/CCui/src/commands/rewind/rewind.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/sandbox-toggle",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/sandbox-toggle",
+      "to": "E:/CCui/src/commands/sandbox-toggle/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/sandbox-toggle",
+      "to": "E:/CCui/src/commands/sandbox-toggle/sandbox-toggle.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/security-review.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/session",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/session",
+      "to": "E:/CCui/src/commands/session/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/session",
+      "to": "E:/CCui/src/commands/session/session.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/share",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/share",
+      "to": "E:/CCui/src/commands/share/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/skills",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/skills",
+      "to": "E:/CCui/src/commands/skills/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/skills",
+      "to": "E:/CCui/src/commands/skills/skills.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/stats",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/stats",
+      "to": "E:/CCui/src/commands/stats/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/stats",
+      "to": "E:/CCui/src/commands/stats/stats.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/status",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/status",
+      "to": "E:/CCui/src/commands/status/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/status",
+      "to": "E:/CCui/src/commands/status/status.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/statusline.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/stickers",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/stickers",
+      "to": "E:/CCui/src/commands/stickers/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/stickers",
+      "to": "E:/CCui/src/commands/stickers/stickers.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/summary",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/summary",
+      "to": "E:/CCui/src/commands/summary/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/tag",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/tag",
+      "to": "E:/CCui/src/commands/tag/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/tag",
+      "to": "E:/CCui/src/commands/tag/tag.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/tasks",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/tasks",
+      "to": "E:/CCui/src/commands/tasks/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/tasks",
+      "to": "E:/CCui/src/commands/tasks/tasks.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/teleport",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/teleport",
+      "to": "E:/CCui/src/commands/teleport/index.js",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/terminalSetup",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/terminalSetup",
+      "to": "E:/CCui/src/commands/terminalSetup/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/terminalSetup",
+      "to": "E:/CCui/src/commands/terminalSetup/terminalSetup.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/theme",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/theme",
+      "to": "E:/CCui/src/commands/theme/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/theme",
+      "to": "E:/CCui/src/commands/theme/theme.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/thinkback",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/thinkback",
+      "to": "E:/CCui/src/commands/thinkback/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/thinkback",
+      "to": "E:/CCui/src/commands/thinkback/thinkback.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/thinkback-play",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/thinkback-play",
+      "to": "E:/CCui/src/commands/thinkback-play/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/thinkback-play",
+      "to": "E:/CCui/src/commands/thinkback-play/thinkback-play.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/ultraplan.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/upgrade",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/upgrade",
+      "to": "E:/CCui/src/commands/upgrade/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/upgrade",
+      "to": "E:/CCui/src/commands/upgrade/upgrade.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/usage",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/usage",
+      "to": "E:/CCui/src/commands/usage/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/usage",
+      "to": "E:/CCui/src/commands/usage/usage.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/version.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/vim",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/vim",
+      "to": "E:/CCui/src/commands/vim/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/vim",
+      "to": "E:/CCui/src/commands/vim/vim.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands",
+      "to": "E:/CCui/src/commands/voice",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/voice",
+      "to": "E:/CCui/src/commands/voice/index.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/commands/voice",
+      "to": "E:/CCui/src/commands/voice/voice.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/commands.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/components",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components",
+      "to": "E:/CCui/src/components/AgentProgressLine.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components",
+      "to": "E:/CCui/src/components/agents",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents",
+      "to": "E:/CCui/src/components/agents/AgentDetail.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents",
+      "to": "E:/CCui/src/components/agents/AgentEditor.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents",
+      "to": "E:/CCui/src/components/agents/agentFileUtils.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents",
+      "to": "E:/CCui/src/components/agents/AgentNavigationFooter.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents",
+      "to": "E:/CCui/src/components/agents/AgentsList.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents",
+      "to": "E:/CCui/src/components/agents/AgentsMenu.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents",
+      "to": "E:/CCui/src/components/agents/ColorPicker.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents",
+      "to": "E:/CCui/src/components/agents/generateAgent.ts",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents",
+      "to": "E:/CCui/src/components/agents/ModelSelector.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents",
+      "to": "E:/CCui/src/components/agents/new-agent-creation",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/CreateAgentWizard.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ColorStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ConfirmStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ConfirmStepWrapper.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/DescriptionStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/GenerateStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/LocationStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/MemoryStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/MethodStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/ModelStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps",
+      "to": "E:/CCui/src/components/agents/new-agent-creation/wizard-steps/PromptStep.tsx",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/constants",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/src",
+      "to": "E:/CCui/src/context",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui",
+      "to": "E:/CCui/stubs",
+      "kind": "contains"
+    },
+    {
+      "from": "E:/CCui/gui/app/command-palette.js",
+      "to": "E:/CCui/gui/app/modal.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/command-palette.js",
+      "to": "E:/CCui/gui/app/icons.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/parallel.js",
+      "to": "E:/CCui/gui/app/api.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/parallel.js",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/permissions.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/permissions.js",
+      "to": "E:/CCui/gui/app/api.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/thread.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/tips.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/tips.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/ui.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/vibe-clarifier.js",
+      "to": "E:/CCui/gui/app/modal.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/vibe-clarifier.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/api.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/views/templates.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/views/settings.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/icons.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/permissions.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/parallel.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/thread.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/completion.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/branch-tree.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/chat.js",
+      "to": "E:/CCui/gui/app/vibe-clarifier.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/collab.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/collab.js",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/collab.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/console.js",
+      "to": "E:/CCui/gui/app/api.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/console.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/console.js",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/console.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/context-map.js",
+      "to": "E:/CCui/gui/app/api.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/context-map.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/filetree.js",
+      "to": "E:/CCui/gui/app/api.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/filetree.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/filetree.js",
+      "to": "E:/CCui/gui/app/icons.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/live2d.js",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/orchestrate.js",
+      "to": "E:/CCui/gui/app/parallel.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/presets.js",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/presets.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/presets.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/presets.js",
+      "to": "E:/CCui/gui/app/icons.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/settings.js",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/settings.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/settings.js",
+      "to": "E:/CCui/gui/app/api.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/settings.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/settings.js",
+      "to": "E:/CCui/gui/app/icons.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/settings.js",
+      "to": "E:/CCui/gui/app/modal.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/settings.js",
+      "to": "E:/CCui/gui/app/permissions.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/studio.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/studio.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/studio.js",
+      "to": "E:/CCui/gui/app/modal.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/studio.js",
+      "to": "E:/CCui/gui/app/branch-tree.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/templates.js",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/templates.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/templates.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/templates.js",
+      "to": "E:/CCui/gui/app/icons.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/theme-editor.js",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/theme-editor.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/theme-editor.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/theme-editor.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/app/views/theme-editor.js",
+      "to": "E:/CCui/gui/app/icons.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/store.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/ui.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/db.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/permissions.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/chat.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/presets.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/templates.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/theme-editor.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/studio.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/settings.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/console.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/filetree.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/orchestrate.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/collab.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/context-map.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/views/live2d.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/icons.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/command-palette.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/modal.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/gui/renderer.js",
+      "to": "E:/CCui/gui/app/api.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/autofix-pr/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/backfill-sessions/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/good-claude/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/issue/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/ctx_viz/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/break-cache/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/onboarding/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/share/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/teleport/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/bughunter/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/mock-limits/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/summary/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/reset-limits/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/ant-trace/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/perf-issue/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/env/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/oauth-refresh/index.js",
+      "kind": "imports"
+    },
+    {
+      "from": "E:/CCui/src/commands/registry.ts",
+      "to": "E:/CCui/src/commands/debug-tool-call/index.js",
+      "kind": "imports"
+    }
+  ],
+  "summary": "# Project graph\n\n## Areas\n- **root** — E:/CCui\n- **src** — E:/CCui/src\n- **gui** — E:/CCui/gui\n- **docs** — E:/CCui/docs\n- **scripts** — E:/CCui/scripts\n\n## Key files\n- `docs/ARCHITECTURE.md`\n- `docs/COMPETITOR_BENCHMARK.md`\n- `docs/DEV.md`\n- `docs/GUI_PLAN.md`\n- `docs/MODULES.md`\n- `docs/PRODUCT_DESIGN.md`\n- `docs/REPLICATION_REPORT.md`\n- `gui/app/api.js`\n- `gui/app/branch-tree.js`\n- `gui/app/command-palette.js`\n- `gui/app/completion.js`\n- `gui/app/db.js`\n- `gui/app/icons.js`\n- `gui/app/modal.js`\n- `gui/app/parallel.js`\n- `gui/app/permissions.js`\n- `gui/app/store.js`\n- `gui/app/thread.js`\n- `gui/app/tips.js`\n- `gui/app/ui.js`\n- `gui/app/vibe-clarifier.js`\n- `gui/app/views/chat.js`\n- `gui/app/views/collab.js`\n- `gui/app/views/console.js`\n\n## Import edges (sample)\n- command-palette.js → modal.js\n- command-palette.js → icons.js\n- parallel.js → api.js\n- parallel.js → store.js\n- permissions.js → db.js\n- permissions.js → api.js\n- thread.js → db.js\n- tips.js → db.js\n- tips.js → ui.js\n- ui.js → db.js\n- vibe-clarifier.js → modal.js\n- vibe-clarifier.js → ui.js\n- chat.js → store.js\n- chat.js → api.js\n- chat.js → db.js\n- chat.js → ui.js\n- chat.js → templates.js\n- chat.js → settings.js\n- chat.js → icons.js\n- chat.js → permissions.js",
+  "stats": {
+    "dirs": 116,
+    "files": 350,
+    "importEdges": 101
+  }
+}

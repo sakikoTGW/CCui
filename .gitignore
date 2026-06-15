@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+*.log
+.env
+.env.*
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
+.idea/
+.vscode/
+coverage/
+logs/
+.ccui-vendor/
+.claude/skills/
+human-run.log

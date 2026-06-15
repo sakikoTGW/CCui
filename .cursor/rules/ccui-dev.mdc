@@ -1,0 +1,55 @@
+---
+description: CCui 开发/启动约定 — 防止 AI 漏验证、半途收口
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+## 用户开箱（GUI 为主）
+
+**双击 `e:\CCui\start.bat`**（等同 `start-gui.bat`）→ Electron 桌面端，等 daemon ready（约 20–40 秒）。
+
+- 终端 REPL（备用）：`bun run repl` 或 `start-repl.bat`（若有）
+- 单次快问：`start-print.bat`（可加参数，如 `start-print.bat hello`）
+- `.env` 已配 DeepSeek；已自动信任目录，无 trust 对话框
+- GUI 日志：`e:\CCui\logs\gui-latest.log`；状态：`logs\gui-status.json`
+
+## Agent 验收（模拟人类，完成前必做）
+
+**禁止**只跑 `smoke` 就声称「人类可用」。必须：
+
+```powershell
+bun run human
+# 或: powershell -ExecutionPolicy Bypass -File e:\CCui\scripts\simulate-human.ps1
+```
+
+脚本模拟人类路径（GUI）：
+1. 检查 `start-gui.bat` + `.env` 存在
+2. 确认 `gui\node_modules\electron` 已安装
+3. `cmd /c start-gui.bat`，90s 内 `gui-status.json` 显示 `daemonStatus=ready` + `rendererBoot=ok`
+4. `verify-gui-layout.ps1` 布局通过
+
+全绿后 **再** 双击 `start.bat` 给用户留窗口。
+
+用户说「像人类跑通 / 开起来让我用」→ 先 `bun run human`，再弹窗。
+
+## 技术验收
+
+- `bun run smoke`：CI/改代码后用（CLI 路径）
+- `scripts\verify-gui-layout.ps1`：GUI 布局回归
+- **禁止** `.bat` 里 `for /f` 解析 `.env`
+- `bun` 绝对路径：`%APPDATA%\npm\node_modules\bun\bin\bun.exe`
+- GUI 启动：`gui\node_modules\electron\dist\electron.exe`（禁止 `npm start` 兜底）
+
+## 勿回退
+
+- `src/app/setup.ts`（shim → core/setup）
+- `src/utils/filePersistence/types.ts`
+- `CLAUDE_CODE_DEV` + `scripts/seed-dev.ts` 自动信任
+- GUI daemon：`src/gui-service/bootstrap.ts` 挂 CCUI_STACK（记忆/结构/headroom 分层）
+
+## 常见坑
+
+- Agent 后台无法操作 Electron 窗口；人类用 `start.bat` 弹窗实测
+- GUI daemon 不走 `setup()`，靠 `bootstrapGuiDev()` 初始化 CCUI 栈
+- 缺 `setup.ts` → CLI 冷启动卡死数分钟（GUI 不受影响）

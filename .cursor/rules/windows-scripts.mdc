@@ -1,0 +1,26 @@
+---
+description: Windows 启动脚本铁律（防"双击打不开"）
+globs:
+  - "*.bat"
+  - "*.cmd"
+  - "*.ps1"
+alwaysApply: true
+---
+
+## .bat / .cmd 铁律（违反 = 用户双击直接失败）
+
+1. **正文禁止中文/任何非 ASCII**。cmd 按系统 OEM(GBK) 读取 .bat 字节，UTF-8 中文会变乱码并被当成命令执行（如 `'锛氬畨瑁?' 不是命令`），还会污染相邻行解析。所有 `echo`/提示一律英文。
+2. **用绝对路径 + `%~dp0`**，配 `setlocal`。不要假设当前工作目录；切目录用 `pushd/popd`。
+3. **不要用 `npm start` 兜底启动**：可能在错误目录跑成别的 package（如根目录的 dev.ts）。直接调目标二进制绝对路径（如 `node_modules\electron\dist\electron.exe`）。
+4. 已知可用模板见 `start.bat`（全英文 echo + 绝对 BUN 路径）。新脚本照此模式。
+
+## 交付即验证（强制）
+
+任何"双击启动"脚本，交付前**必须实际启动验证**，不准只写不跑：
+
+```powershell
+cmd /c "e:\CCui\start-xxx.bat"   # 后台启动
+Get-Process electron,bun -ErrorAction SilentlyContinue   # 确认进程存活、无报错
+```
+
+进程起来且日志无 error 才算通过。GUI 窗口能否点由用户双击，但"能启动不崩"必须 agent 自验。

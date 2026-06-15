@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CCui — 变更审查</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="review.css" />
+  </head>
+  <body class="review-body">
+    <div class="review-app" id="reviewApp">
+      <header class="review-head">
+        <div class="review-head-left">
+          <h1>变更审查</h1>
+          <span class="review-count" id="reviewCount">0 待处理</span>
+        </div>
+        <div class="review-head-actions">
+          <button type="button" class="rv-btn" id="rvSelectAll">全选</button>
+          <button type="button" class="rv-btn rv-primary" id="rvAllowSel">允许所选</button>
+          <button type="button" class="rv-btn rv-danger" id="rvDenySel">拒绝所选</button>
+          <span class="review-sep"></span>
+          <button type="button" class="rv-btn rv-primary" id="rvAllowAll">全部允许</button>
+          <button type="button" class="rv-btn rv-danger" id="rvDenyAll">全部拒绝</button>
+        </div>
+      </header>
+      <div class="review-empty" id="reviewEmpty">暂无待审查项。Agent 请求工具权限或产生文件 diff 时会出现在这里。</div>
+      <div class="review-list" id="reviewList"></div>
+    </div>
+    <script type="module" src="review.js"></script>
+  </body>
+</html>
