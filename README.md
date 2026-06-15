@@ -17,11 +17,8 @@ GUI 主要能力：
 
 - **工作区**：多会话、分支树、Compare 三路对比、Task Brief
 - **变更审查**：应用内页面，批处理允许/拒绝 diff 与工具权限（`Ctrl+Shift+R`）
-- **命令面板**：右侧抽屉，`Ctrl+K`
-- **文件树**：右侧抽屉，预览代码/Markdown
-- **外观**：强调色、纯色/图片背景、系统字体、背景视差、自适应文字色
-- **页面切换**：opacity + 轻微位移交叉过渡
-- **Windows 标题栏**：无边框 + 自定义最小化/最大化/关闭
+- **命令面板**：`Ctrl+K` 快速搜索功能
+- **文件树**：浏览项目文件，预览代码/Markdown
 
 ### 终端 REPL
 
@@ -46,7 +43,7 @@ CCui/
 │   ├── app/              # 渲染进程模块（views、nav、theme…）
 │   ├── main.js           # 主进程
 │   ├── renderer.js       # 入口
-│   └── style.css         # 设计系统
+│   └── style.css
 ├── docs/                 # 架构与产品文档
 ├── scripts/              # dev / deepseek / smoke / start
 ├── src/                  # Bun 核心（CLI、query、tools）
