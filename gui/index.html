@@ -8,26 +8,45 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="boot-splash" id="bootSplash" role="status" aria-live="polite" aria-label="正在加载">
+      <div class="boot-spinner" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+    </div>
     <div class="app" id="appRoot">
-      <nav class="activity" id="activityNav" aria-label="主导航"></nav>
+        <aside class="activity" id="activityNav" aria-label="一级导航"></aside>
 
       <div class="workspace" id="workspace">
         <!-- Cursor Agents Window / Codex: 左侧 thread 列表常驻 -->
-        <aside class="session-rail" id="sessionRail" aria-label="会话列表">
+        <aside class="session-rail" id="sessionRail" aria-label="二级侧栏 · 会话列表">
           <div class="sr-head">
             <span class="sr-title">会话</span>
-            <button class="sr-toggle" id="srCollapse" type="button" title="收起会话列表" aria-label="收起会话列表">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
-            </button>
           </div>
           <div class="sr-actions">
             <button class="sr-btn sr-primary" id="newConvo" type="button">+ 新对话</button>
             <button class="sr-btn" id="newCompare" type="button" title="同题创建 A/B/C 三路对比">+ 对比</button>
           </div>
-          <div class="history-list" id="historyList"></div>
+          <div class="sr-upper">
+            <div class="history-list" id="historyList"></div>
+          </div>
+          <section class="sr-branch-pane" id="srBranchPanel" aria-label="分支树">
+            <div class="sr-branch-head">
+              <span class="sr-branch-title">分支树</span>
+              <button type="button" class="sr-branch-toggle" id="toggleBranchPanel" title="收起分支树" aria-label="收起分支树" aria-expanded="true">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+            </div>
+            <div class="sr-branch-body" id="branchTreeHost"></div>
+          </section>
         </aside>
 
         <div class="main-col">
+          <button type="button" class="panel-edge-tab panel-edge-rail" id="toggleSessionRail" title="收起会话列表" aria-label="收起会话列表" aria-expanded="true">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <button type="button" class="panel-edge-tab panel-edge-insp" id="toggleInspector" title="收起任务面板" aria-label="收起任务面板" aria-expanded="true">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
           <header class="topbar">
             <div class="topbar-left">
               <button type="button" class="tb-project" id="projectBtn" title="项目管理">CCui</button>
@@ -50,9 +69,6 @@
         <aside class="inspector" id="inspector" aria-label="任务面板">
           <div class="insp-head">
             <span class="insp-title">任务</span>
-            <button class="insp-toggle" id="inspToggle" type="button" title="收起任务面板" aria-label="收起任务面板">
-              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-            </button>
           </div>
           <section class="insp-sec">
             <div class="k">模型</div>

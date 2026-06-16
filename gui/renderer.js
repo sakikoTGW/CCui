@@ -3,7 +3,7 @@ import { store } from './app/store.js'
 import { loadTheme, applyTheme, applyThemeWithFade, toast } from './app/ui.js'
 import { db } from './app/db.js'
 import { permSummary, getAllowedTools } from './app/permissions.js'
-import { mountChat } from './app/views/chat.js'
+import { mountChat, syncBranchPanelLayout } from './app/views/chat.js'
 import { mountPresets, initPresetHotkeys } from './app/views/presets.js'
 import { mountTemplates } from './app/views/templates.js'
 import { mountThemeEditor, restoreCustomStyle } from './app/views/theme-editor.js'
@@ -28,6 +28,8 @@ import { api } from './app/api.js'
 import { getProjectsState, onProjectChanged, projectDisplayName } from './app/project-registry.js'
 import { initTitleBar } from './app/titlebar.js'
 import { initBgParallax } from './app/bg-parallax.js'
+import { initWindowChromeAnim } from './app/window-chrome-anim.js'
+import { markBootSplashStart, finishBootSplash } from './app/boot-splash.js'
 import { runViewTransition, warmView } from './app/view-transition.js'
 
 const VIEWS = {
@@ -48,8 +50,11 @@ const VIEWS = {
 
 function $(id) { return document.getElementById(id) }
 
+markBootSplashStart()
+
 async function boot() {
   initRendererDiag()
+  initWindowChromeAnim()
   reportDiag('info', 'boot start')
   await loadTheme()
   await restoreCustomStyle()
@@ -57,6 +62,7 @@ async function boot() {
   else setTimeout(() => preloadSystemFonts(), 1500)
   store.set({ theme: document.documentElement.dataset.theme || 'light' })
   applyWorkspaceLayout(store.get())
+  syncBranchPanelLayout()
 
   try {
     const presets = await db.getAll('presets')
@@ -141,6 +147,7 @@ function setupViewportLayout() {
     root.classList.toggle('vp-compact', w < 1120)
     root.classList.toggle('vp-narrow', w < 920)
     root.classList.toggle('vp-tiny', w < 760)
+    syncPanelEdgeTabs(store.get())
     applyChatWidth()
   }
   apply()
@@ -264,6 +271,34 @@ async function switchView(name) {
   }
 }
 
+function syncPanelEdgeTabs(s) {
+  const root = $('appRoot')
+  if (!root) return
+  const isChat = s.view === 'chat'
+  const compact = root.classList.contains('vp-compact') || root.classList.contains('vp-narrow')
+  const show = isChat && !compact
+
+  const railBtn = $('toggleSessionRail')
+  const inspBtn = $('toggleInspector')
+  railBtn?.classList.toggle('is-hidden', !show)
+  inspBtn?.classList.toggle('is-hidden', !show)
+
+  if (railBtn) {
+    const collapsed = s.sessionRailCollapsed
+    const label = collapsed ? '展开会话列表' : '收起会话列表'
+    railBtn.title = label
+    railBtn.setAttribute('aria-label', label)
+    railBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true')
+  }
+  if (inspBtn) {
+    const collapsed = s.inspectorCollapsed
+    const label = collapsed ? '展开任务面板' : '收起任务面板'
+    inspBtn.title = label
+    inspBtn.setAttribute('aria-label', label)
+    inspBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true')
+  }
+}
+
 function applyWorkspaceLayout(s) {
   const root = $('appRoot')
   if (!root) return
@@ -271,19 +306,25 @@ function applyWorkspaceLayout(s) {
   root.classList.toggle('chat-layout', isChat)
   root.classList.toggle('rail-collapsed', isChat && s.sessionRailCollapsed)
   root.classList.toggle('insp-collapsed', isChat && s.inspectorCollapsed)
+  syncPanelEdgeTabs(s)
   applyChatWidth()
 }
 
 function setupChrome() {
-  $('srCollapse')?.addEventListener('click', () => {
+  $('toggleSessionRail')?.addEventListener('click', () => {
     const next = !store.get().sessionRailCollapsed
     store.set({ sessionRailCollapsed: next })
     localStorage.setItem('ccui:session-rail', next ? '1' : '0')
   })
-  $('inspToggle')?.addEventListener('click', () => {
+  $('toggleInspector')?.addEventListener('click', () => {
     const next = !store.get().inspectorCollapsed
     store.set({ inspectorCollapsed: next })
     localStorage.setItem('ccui:inspector', next ? '1' : '0')
+  })
+  $('toggleBranchPanel')?.addEventListener('click', () => {
+    const collapsed = localStorage.getItem('ccui:branch-panel') === '1'
+    localStorage.setItem('ccui:branch-panel', collapsed ? '0' : '1')
+    syncBranchPanelLayout()
   })
   $('inspOpenSettings')?.addEventListener('click', () => switchView('settings'))
   $('inspOpenConsole')?.addEventListener('click', () => switchView('console'))
@@ -382,13 +423,15 @@ boot().then(async () => {
   await syncAllowedTools()
   const allowed = await getAllowedTools()
   refreshPermInsp(allowed)
+  await finishBootSplash()
   maybeWelcome()
-}).catch(err => {
+}).catch(async err => {
   reportDiag('error', 'boot failed', err?.message || err)
   console.error('[CCui] boot failed:', err)
   const host = $('viewHost')
   if (host) {
     host.innerHTML = `<div class="error-state" style="padding:32px;margin:24px">界面加载失败：${err?.message || err}<br/><small>请打开 DevTools (Ctrl+Shift+I) 查看详情，或重启 CCui。</small></div>`
   }
+  await finishBootSplash()
   toast('界面加载失败，请重启', { type: 'error' })
 })

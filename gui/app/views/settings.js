@@ -3,7 +3,7 @@ import { store } from '../store.js'
 import { db } from '../db.js'
 import { api } from '../api.js'
 import { toast, applyPersonalize, savePersonalize, getPersonalize } from '../ui.js'
-import { DEFAULT_PERSONALIZE, deriveAccentWeak } from '../theme-personalize.js'
+import { DEFAULT_PERSONALIZE, deriveAccentWeak, TEXT_COLOR_PARTS, getDefaultTextColor } from '../theme-personalize.js'
 import { ICONS } from '../icons.js'
 import { registerOverlay } from '../modal.js'
 import { PERM_TOOL_GROUPS, PERM_EXPLAIN, getAllowedTools, saveAllowedTools } from '../permissions.js'
@@ -15,6 +15,9 @@ const APP_VERSION = '0.1.0'
 let container = null
 /** @type {string[]|null} */
 let cachedSystemFonts = null
+/** @type {{ light: Record<string, string|null>, dark: Record<string, string|null> }} */
+let textColorDraft = { light: {}, dark: {} }
+let textColorEditingMode = 'light'
 const FONT_FALLBACK = ['PingFang SC', 'PingFang TC', 'Microsoft YaHei UI', '微软雅黑', 'Segoe UI', 'SimSun', 'Arial']
 
 /** 后台预热字体列表，避免首次打开设置卡顿 */
@@ -159,6 +162,15 @@ export async function mountSettings(c) {
         </label>
         <p class="set-hint set-font-hint" id="set-font-hint">从本机已安装字体中选择；默认优先使用苹方（PingFang SC）。</p>
         <label class="set-check"><input id="set-adaptive-text" type="checkbox" checked /> 文字随背景自适应（提高可读性）</label>
+        <h3 class="set-sub">文字颜色</h3>
+        <p class="set-hint">按浅色/深色界面分别设置各区域颜色；留空或恢复默认则跟随主题。当前界面明暗决定实际生效的一组。</p>
+        <label class="set-row"><span>编辑配色</span>
+          <select id="set-text-color-mode">
+            <option value="light">浅色界面</option>
+            <option value="dark">深色界面</option>
+          </select>
+        </label>
+        <div class="set-text-colors" id="set-text-color-fields"></div>
         <div class="set-actions">
           <button class="btn-ghost" id="set-appearance-reset">恢复默认外观</button>
           <button class="btn-primary" id="set-save-appearance">保存并应用</button>
@@ -331,6 +343,73 @@ export async function mountSettings(c) {
   }
 }
 
+function persistTextColorFieldsFromUI() {
+  if (!container) return
+  const mode = container.querySelector('#set-text-color-mode')?.value || textColorEditingMode
+  const bucket = {}
+  for (const part of TEXT_COLOR_PARTS) {
+    const input = container.querySelector(`input[data-text-part="${part.key}"]`)
+    const reset = container.querySelector(`.set-text-color-reset[data-text-part="${part.key}"]`)
+    if (reset?.dataset.cleared === '1') bucket[part.key] = null
+    else if (input?.dataset.custom === '1') bucket[part.key] = input.value
+  }
+  textColorDraft[mode] = bucket
+}
+
+function readTextColorsDraft() {
+  persistTextColorFieldsFromUI()
+  return {
+    light: { ...textColorDraft.light },
+    dark: { ...textColorDraft.dark },
+  }
+}
+
+function renderTextColorFields() {
+  if (!container) return
+  const fields = container.querySelector('#set-text-color-fields')
+  if (!fields) return
+  const mode = textColorEditingMode
+  fields.innerHTML = TEXT_COLOR_PARTS.map(part => {
+    const custom = textColorDraft[mode]?.[part.key]
+    const isCustom = typeof custom === 'string' && !!custom
+    const isCleared = custom === null
+    const displayVal = isCustom ? custom : getDefaultTextColor(part.key, mode)
+    return `<label class="set-row color-row-set set-text-color-row">
+      <span>${part.label}</span>
+      <input type="color" data-text-part="${part.key}" value="${displayVal}" data-custom="${isCustom ? '1' : '0'}" />
+      <button type="button" class="btn-ghost set-text-color-reset" data-text-part="${part.key}" data-cleared="${isCleared ? '1' : '0'}" ${isCustom ? '' : 'disabled'}>恢复默认</button>
+    </label>`
+  }).join('')
+}
+
+function bindTextColorFieldEvents() {
+  if (!container || container.dataset.textColorBound === '1') return
+  container.dataset.textColorBound = '1'
+  container.addEventListener('input', e => {
+    const input = e.target.closest('input[data-text-part]')
+    if (!input || !container.contains(input)) return
+    input.dataset.custom = '1'
+    const reset = container.querySelector(`.set-text-color-reset[data-text-part="${input.dataset.textPart}"]`)
+    if (reset) {
+      reset.disabled = false
+      reset.dataset.cleared = '0'
+    }
+    previewAppearance()
+  })
+  container.addEventListener('click', e => {
+    const reset = e.target.closest('.set-text-color-reset[data-text-part]')
+    if (!reset || reset.disabled || !container.contains(reset)) return
+    const partKey = reset.dataset.textPart
+    const input = container.querySelector(`input[data-text-part="${partKey}"]`)
+    if (!input) return
+    input.value = getDefaultTextColor(partKey, textColorEditingMode)
+    input.dataset.custom = '0'
+    reset.disabled = true
+    reset.dataset.cleared = '1'
+    previewAppearance()
+  })
+}
+
 function readAppearanceDraft() {
   const $ = id => container.querySelector(id)
   const cleared = $('#set-accent-reset')?.dataset.cleared === '1'
@@ -346,6 +425,7 @@ function readAppearanceDraft() {
     },
     fontFamily: fontVal || null,
     adaptiveText: $('#set-adaptive-text')?.checked !== false,
+    textColors: readTextColorsDraft(),
   }
 }
 
@@ -445,6 +525,24 @@ function mountAppearanceSettings() {
   $('#set-bg-overlay').value = Math.round((personalize.bg.overlay ?? 0.42) * 100)
   $('#set-bg-blur').value = personalize.bg.blur || 0
   $('#set-adaptive-text').checked = personalize.adaptiveText !== false
+  textColorDraft = {
+    light: { ...(personalize.textColors?.light || {}) },
+    dark: { ...(personalize.textColors?.dark || {}) },
+  }
+  textColorEditingMode = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'
+  const textColorModeEl = $('#set-text-color-mode')
+  if (textColorModeEl) textColorModeEl.value = textColorEditingMode
+  renderTextColorFields()
+  bindTextColorFieldEvents()
+  mountCcSelect('set-text-color-mode', {
+    variant: 'form',
+    menuPlacement: 'below',
+    onChange: () => {
+      persistTextColorFieldsFromUI()
+      textColorEditingMode = $('#set-text-color-mode')?.value === 'dark' ? 'dark' : 'light'
+      renderTextColorFields()
+    },
+  })
   $('#set-bg-overlay-v').textContent = `${$('#set-bg-overlay').value}%`
   $('#set-bg-blur-v').textContent = `${$('#set-bg-blur').value}px`
   $('#set-bg-filehint').textContent = personalize.bg.image?.startsWith('data:') ? '已使用本地图片' : '未选择'

@@ -77,5 +77,10 @@ contextBridge.exposeInMainWorld('ccui', {
     ipcRenderer.on('window-maximized', h)
     return () => ipcRenderer.removeListener('window-maximized', h)
   },
+  onWindowChromeAnim: cb => {
+    const h = (_e, payload) => cb(payload)
+    ipcRenderer.on('window-chrome-anim', h)
+    return () => ipcRenderer.removeListener('window-chrome-anim', h)
+  },
   listFonts: () => ipcRenderer.invoke('fonts:list'),
 })

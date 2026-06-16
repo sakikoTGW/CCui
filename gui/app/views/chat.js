@@ -35,7 +35,7 @@ const EMPTY_HTML = `<div class="empty-brand" aria-hidden="true">C</div>
   <h1>开始对话</h1>
   <p>左侧每条都是独立会话。拖拽文件到输入框可附加路径。<br/>
   悬停你的消息可<strong>编辑并分叉</strong>；<kbd>Ctrl+Shift+E</kbd> 编辑上一条。<br/>
-  左侧<strong>分支树</strong> · 发送框上方可<strong>钉住这次要做</strong>（<kbd>Ctrl+Shift+B</kbd>） · 活动栏<strong>结构图</strong>。</p>
+  会话栏下半<strong>分支树</strong> · 发送框上方可<strong>钉住这次要做</strong>（<kbd>Ctrl+Shift+B</kbd>） · 活动栏<strong>结构图</strong>。</p>
   <div class="examples">
     <button class="ex" type="button">解释这段代码在做什么</button>
     <button class="ex" type="button">帮我写单元测试</button>
@@ -126,13 +126,6 @@ export function mountChat(container) {
   container.innerHTML = `
     <div class="ws">
       <div class="stage-chat" id="stageChat">
-        <aside class="branch-sidebar" id="branchSidebar" aria-label="分支树">
-          <div class="bs-head">
-            <span>分支树</span>
-            <button type="button" class="bs-toggle" id="branchSidebarToggle" title="收起">‹</button>
-          </div>
-          <div class="bs-body" id="branchTreeHost"></div>
-        </aside>
         <div class="stage-main">
           <div class="branch-bar" id="branchBar" style="display:none"></div>
           <div class="messages" id="messages">
@@ -234,12 +227,6 @@ export function mountChat(container) {
     if (card) card.remove()
     persist()
   })
-  container.querySelector('#branchSidebarToggle')?.addEventListener('click', () => {
-    const collapsed = localStorage.getItem('ccui:branch-sidebar') === '1'
-    localStorage.setItem('ccui:branch-sidebar', collapsed ? '0' : '1')
-    applyBranchSidebarLayout()
-  })
-  applyBranchSidebarLayout()
   restoreDraft()
 
   window.addEventListener('ccui:hljs-theme', rehighlightVisibleCode)
@@ -276,9 +263,24 @@ export function startCompareMode() {
   els?.input?.focus()
 }
 
-function applyBranchSidebarLayout() {
-  const collapsed = localStorage.getItem('ccui:branch-sidebar') === '1'
-  document.getElementById('branchSidebar')?.classList.toggle('collapsed', collapsed)
+function applyBranchPanelLayout() {
+  if (localStorage.getItem('ccui:branch-panel') == null && localStorage.getItem('ccui:branch-sidebar') === '1') {
+    localStorage.setItem('ccui:branch-panel', '1')
+  }
+  const collapsed = localStorage.getItem('ccui:branch-panel') === '1'
+  const panel = document.getElementById('srBranchPanel')
+  panel?.classList.toggle('collapsed', collapsed)
+  const btn = document.getElementById('toggleBranchPanel')
+  if (btn) {
+    const label = collapsed ? '展开分支树' : '收起分支树'
+    btn.title = label
+    btn.setAttribute('aria-label', label)
+    btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true')
+  }
+}
+
+export function syncBranchPanelLayout() {
+  applyBranchPanelLayout()
 }
 
 function refreshBranchTreePanel() {
@@ -1075,9 +1077,6 @@ function finishAssistantTurn(completed) {
   clearStreamBubble()
   setBusy(false)
   if (convo?.items?.length) addCheckpoint()
-  if (completed) {
-    maybeTip('first-reply', '提示：悬停消息可编辑分叉；Ctrl+Shift+E；+ Compare 三路变异')
-  }
   renderBranchBar()
   persist()
 }

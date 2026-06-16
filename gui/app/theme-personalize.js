@@ -2,7 +2,33 @@
 import { db } from './db.js'
 
 /** @typedef {{ mode: 'default'|'color'|'image', color?: string, image?: string, overlay?: number, blur?: number }} BgPrefs */
-/** @typedef {{ accent: string|null, bg: BgPrefs, fontFamily: string|null, adaptiveText: boolean }} ThemePersonalize */
+/** @typedef {{ primary?: string|null, secondary?: string|null, muted?: string|null, nav?: string|null, topbar?: string|null, sidebar?: string|null, content?: string|null }} TextColorSet */
+/** @typedef {{ light?: TextColorSet, dark?: TextColorSet }} TextColorsByMode */
+/** @typedef {{ accent: string|null, bg: BgPrefs, fontFamily: string|null, adaptiveText: boolean, textColors?: TextColorsByMode }} ThemePersonalize */
+
+export const TEXT_COLOR_PARTS = [
+  { key: 'primary', label: '正文', cssVar: '--text' },
+  { key: 'secondary', label: '次要', cssVar: '--text-2' },
+  { key: 'muted', label: '辅助', cssVar: '--text-3' },
+  { key: 'nav', label: '左侧导航', cssVar: '--text-nav' },
+  { key: 'topbar', label: '顶栏', cssVar: '--text-topbar' },
+  { key: 'sidebar', label: '右侧面板', cssVar: '--text-sidebar' },
+  { key: 'content', label: '内容区', cssVar: '--text-content' },
+]
+
+const REGIONAL_TEXT_VARS = new Set(['--text-nav', '--text-topbar', '--text-sidebar', '--text-content'])
+
+const BUILTIN_TEXT = {
+  light: { primary: '#1a1a1a', secondary: '#6b6b6b', muted: '#999999' },
+  dark: { primary: '#f2f2f2', secondary: '#a8a8ac', muted: '#7a7a7e' },
+}
+
+const REGIONAL_TEXT_FALLBACK = {
+  nav: 'secondary',
+  topbar: 'primary',
+  sidebar: 'muted',
+  content: 'primary',
+}
 
 export const DEFAULT_FONT_STACK =
   '"PingFang SC", "PingFang TC", "Hiragino Sans GB", "Microsoft YaHei UI", "微软雅黑", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif'
@@ -38,7 +64,46 @@ export const DEFAULT_PERSONALIZE = () => ({
   bg: { mode: 'default', color: '#f5f5f7', image: '', overlay: 0.42, blur: 0 },
   fontFamily: null,
   adaptiveText: true,
+  textColors: { light: {}, dark: {} },
 })
+
+/** @param {string} partKey @param {'light'|'dark'} mode */
+export function getDefaultTextColor(partKey, mode) {
+  const base = BUILTIN_TEXT[mode] || BUILTIN_TEXT.light
+  const mapped = REGIONAL_TEXT_FALLBACK[partKey] || partKey
+  return base[mapped] || base.primary
+}
+
+function normalizeTextColors(raw) {
+  const out = { light: {}, dark: {} }
+  for (const mode of ['light', 'dark']) {
+    const bucket = raw?.[mode]
+    if (!bucket || typeof bucket !== 'object') continue
+    for (const part of TEXT_COLOR_PARTS) {
+      const val = bucket[part.key]
+      if (val === null) out[mode][part.key] = null
+      else if (typeof val === 'string' && /^#[0-9a-fA-F]{6}$/.test(val.trim())) out[mode][part.key] = val.trim()
+    }
+  }
+  return out
+}
+
+function getThemeMode() {
+  return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'
+}
+
+function applyCustomTextColors() {
+  const mode = getThemeMode()
+  const colors = cached.textColors?.[mode] || {}
+  for (const { key, cssVar } of TEXT_COLOR_PARTS) {
+    const val = colors[key]
+    if (typeof val === 'string' && val) {
+      document.documentElement.style.setProperty(cssVar, val)
+    } else if (REGIONAL_TEXT_VARS.has(cssVar) || val === null) {
+      document.documentElement.style.removeProperty(cssVar)
+    }
+  }
+}
 
 let cached = DEFAULT_PERSONALIZE()
 /** @type {'light'|'dark'|null} */
@@ -51,6 +116,10 @@ export function getPersonalize() {
     bg: { ...cached.bg },
     fontFamily: cached.fontFamily || null,
     adaptiveText: cached.adaptiveText !== false,
+    textColors: {
+      light: { ...(cached.textColors?.light || {}) },
+      dark: { ...(cached.textColors?.dark || {}) },
+    },
   }
 }
 
@@ -235,6 +304,7 @@ async function refreshAdaptiveText(prefs, themeVars) {
 
   if (!enabled || !custom) {
     clearAdaptiveText()
+    applyCustomTextColors()
     return
   }
 
@@ -247,6 +317,7 @@ async function refreshAdaptiveText(prefs, themeVars) {
   }
 
   applyTextPaletteFromLuminance(lum)
+  applyCustomTextColors()
 }
 
 /** @param {ThemePersonalize} prefs @param {Record<string,string>} [themeVars] */
@@ -256,6 +327,7 @@ export function applyPersonalize(prefs, themeVars) {
     bg: { ...DEFAULT_PERSONALIZE().bg, ...(prefs?.bg || {}) },
     fontFamily: prefs?.fontFamily || null,
     adaptiveText: prefs?.adaptiveText !== false,
+    textColors: normalizeTextColors(prefs?.textColors),
   }
   const vars = themeVars || readThemeVars()
   const dark = document.documentElement.dataset.theme === 'dark'
@@ -298,7 +370,9 @@ export function applyPersonalize(prefs, themeVars) {
     }
   }
 
-  refreshAdaptiveText(cached, vars).catch(() => {})
+  refreshAdaptiveText(cached, vars)
+    .then(() => applyCustomTextColors())
+    .catch(() => applyCustomTextColors())
 
   window.dispatchEvent(new CustomEvent('ccui:personalize-changed', { detail: getPersonalize() }))
 }
@@ -313,6 +387,7 @@ export async function loadPersonalize() {
         bg: { ...DEFAULT_PERSONALIZE().bg, ...saved.value?.bg },
         fontFamily: saved.value?.fontFamily || null,
         adaptiveText: saved.value?.adaptiveText !== false,
+        textColors: normalizeTextColors(saved.value?.textColors),
       }
     }
   } catch {}
@@ -327,6 +402,7 @@ export async function savePersonalize(prefs) {
     bg: { ...DEFAULT_PERSONALIZE().bg, ...(prefs.bg || {}) },
     fontFamily: prefs.fontFamily || null,
     adaptiveText: prefs.adaptiveText !== false,
+    textColors: normalizeTextColors(prefs.textColors),
   }
   await db.put('settings', { id: 'themePersonalize', value: next })
   applyPersonalize(next)

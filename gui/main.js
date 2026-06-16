@@ -351,7 +351,9 @@ ipcMain.handle('window:setChrome', async (_evt, patch) => {
 ipcMain.handle('window:minimize', () => { win?.minimize() })
 ipcMain.handle('window:maximize', () => {
   if (!win) return false
-  if (win.isMaximized()) win.unmaximize()
+  const maxed = win.isMaximized()
+  safeSend(win, 'window-chrome-anim', { mode: maxed ? 'restore' : 'maximize' })
+  if (maxed) win.unmaximize()
   else win.maximize()
   return win.isMaximized()
 })

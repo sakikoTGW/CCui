@@ -52,6 +52,11 @@ export function initBgParallax() {
   if (wired) return
   wired = true
 
+  window.addEventListener('ccui:parallax-pause', e => {
+    enabled = e.detail !== true
+    if (!enabled) resetBgParallax()
+  })
+
   const app = document.getElementById('appRoot')
   if (!app) return
 
