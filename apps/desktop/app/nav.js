@@ -32,6 +32,11 @@ export const NAV_UTILS = [
 ]
 
 const LS_KEY = 'ccui:nav-expanded'
+/** ≥ 此宽：inline 推开式展开（236px 占列）；更窄：改 overlay 抽屉浮层（与 style.css .nav-overlay 对齐） */
+export const NAV_INLINE_MIN_WIDTH = 1120
+
+/** 窄窗 overlay 抽屉的临时展开态 —— 不写 localStorage，缩窗自动收起 */
+let overlayOpen = false
 
 function el(tag, cls, html) {
   const node = document.createElement(tag)
@@ -40,34 +45,56 @@ function el(tag, cls, html) {
   return node
 }
 
-function isExpanded() {
+/** 当前是否走 overlay 抽屉模式（窄窗） */
+function isOverlay() {
+  return window.innerWidth < NAV_INLINE_MIN_WIDTH
+}
+
+/** 用户在宽窗记住的展开意图（localStorage） */
+function intentExpanded() {
   return localStorage.getItem(LS_KEY) !== '0'
 }
 
-function canExpandNav() {
-  return window.innerWidth >= 760
+/** 当前实际是否展开：窄窗看临时浮层态，宽窗看持久意图 */
+function isExpanded() {
+  return isOverlay() ? overlayOpen : intentExpanded()
 }
 
-function setExpanded(expanded) {
-  if (expanded && !canExpandNav()) expanded = false
-  localStorage.setItem(LS_KEY, expanded ? '1' : '0')
-  applyNavLayout(expanded)
-}
-
-function syncNavViewport() {
-  if (!canExpandNav()) {
-    applyNavLayout(false)
-    return
+function setExpanded(next, opts = {}) {
+  if (isOverlay()) {
+    overlayOpen = next
+  } else {
+    localStorage.setItem(LS_KEY, next ? '1' : '0')
   }
+  if (opts.instant) document.getElementById('appRoot')?.classList.add('nav-instant')
+  applyNavLayout()
+  if (opts.instant) {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.getElementById('appRoot')?.classList.remove('nav-instant')
+      })
+    })
+  }
+}
+
+export function syncNavViewport() {
+  // 进入/处于 overlay 模式时收起浮层，避免缩窗后抽屉盖住正文
+  if (isOverlay()) overlayOpen = false
   applyNavLayout()
 }
 
-export function applyNavLayout(expanded = isExpanded()) {
-  if (expanded && !canExpandNav()) expanded = false
+export function applyNavLayout() {
+  const overlay = isOverlay()
+  const expanded = overlay ? overlayOpen : intentExpanded()
   const app = document.getElementById('appRoot')
   const nav = document.getElementById('activityNav')
-  if (app) app.classList.toggle('nav-expanded', expanded)
+  if (app) {
+    app.classList.toggle('nav-overlay', overlay)
+    app.classList.toggle('nav-expanded', expanded)
+  }
   if (nav) nav.classList.toggle('expanded', expanded)
+  const scrim = document.getElementById('navScrim')
+  if (scrim) scrim.classList.toggle('show', overlay && expanded)
   const btn = document.getElementById('navExpandToggle')
   if (btn) {
     btn.title = expanded ? '收起边栏 (Ctrl+B)' : '展开边栏 (Ctrl+B)'
@@ -128,10 +155,7 @@ export function initActivityNav() {
   toggle.id = 'navExpandToggle'
   toggle.type = 'button'
   toggle.setAttribute('aria-label', '展开或收起边栏')
-  toggle.onclick = () => {
-    if (!isExpanded() && !canExpandNav()) return
-    setExpanded(!isExpanded())
-  }
+  toggle.onclick = () => setExpanded(!isExpanded())
   head.append(brand, toggle)
   nav.append(head)
 
@@ -147,12 +171,30 @@ export function initActivityNav() {
   for (const item of NAV_UTILS) utils.append(renderNavUtil(item))
   nav.append(utils)
 
+  // 窄窗 overlay：capture 阶段先瞬时收起，再让按钮 onclick 切视图 —— 避免双动画叠加重排
+  nav.addEventListener('click', e => {
+    if (!isOverlay() || !overlayOpen) return
+    const t = e.target
+    if (!(t instanceof HTMLElement)) return
+    if (t.closest('.nav-expand-toggle')) return
+    if (t.closest('.act[data-view], .act-action, .nav-util')) setExpanded(false, { instant: true })
+  }, true)
+
+  // overlay 抽屉遮罩：点击收起浮层（仅窄窗展开时可点）
+  const app = document.getElementById('appRoot')
+  if (app && !document.getElementById('navScrim')) {
+    const scrim = el('div', 'nav-scrim')
+    scrim.id = 'navScrim'
+    scrim.setAttribute('aria-hidden', 'true')
+    scrim.addEventListener('click', () => setExpanded(false))
+    app.appendChild(scrim)
+  }
+
   document.addEventListener('keydown', e => {
     if (!e.ctrlKey || e.key.toLowerCase() !== 'b' || e.shiftKey || e.altKey) return
     const t = e.target
     if (t instanceof HTMLElement && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return
     e.preventDefault()
-    if (!isExpanded() && !canExpandNav()) return
     setExpanded(!isExpanded())
   })
   applyNavLayout()

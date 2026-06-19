@@ -66,7 +66,7 @@ export function initCommandPalette(switchView) {
     wired = true
     document.addEventListener('mousedown', onOutsidePointer)
     document.addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); toggle() }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); toggleCommandPalette() }
     })
   }
 }

@@ -8,6 +8,9 @@
   --border: #e6e4e1; --text: #1a1a1a; --text-2: #6b6b6b; --text-3: #999999;
   --text-nav: var(--text-2); --text-topbar: var(--text); --text-sidebar: var(--text-3); --text-content: var(--text);
   --accent: #d97757; --accent-weak: #f6e6df; --glass: rgba(255,255,255,0.72);
+  /* 毛玻璃模糊半径：backdrop-filter 开销 ∝ 面积×半径²，大窗下 40px 横跨整宽会拖垮 GPU 合成。
+     收敛到单一变量，统一降到 16px（视觉保留，开销约降至 1/6）。 */
+  --glass-blur: 16px;
   --tier-weak: #5b8a72; --risk: #c0492f; --warn: #c98a2b;
   --hover-bg: color-mix(in srgb, var(--text) 6%, transparent);
   --divider: color-mix(in srgb, var(--border) 65%, transparent);
@@ -219,7 +222,10 @@ html.window-chrome-anim .inspector {
   position: relative;
   z-index: 1;
 }
-.app.nav-expanded { grid-template-columns: 236px 1fr; }
+/* workspace 恒占第 2 列：overlay 下 activity 脱流后避免主列坍缩/宽度异常 */
+.app > .workspace { grid-column: 2; min-width: 0; }
+/* 宽窗 inline：grid 列宽瞬时切换（不重排动画），文字/按钮仍走 compositor 过渡 */
+.app.nav-expanded:not(.nav-overlay) { grid-template-columns: 236px 1fr; }
 .app::before {
   content: none;
 }
@@ -275,11 +281,11 @@ html.bg-tone-dark .set-card {
 .app:not(.chat-layout) .inspector { display: none; }
 .app:not(.chat-layout) .workspace { grid-template-columns: 1fr; }
 
-/* 对话布局 — 二级侧栏列宽（仅过渡 CSS 变量，避免与 grid 双重补间造成中段卡顿） */
+/* 对话布局 — 二级侧栏列宽（瞬时切换，禁止 @property 过渡：大窗展开时 0→240/260
+   每帧重排整页三列 grid，是「大窗卡死」根因；log 可见 mainCol 卡在 528px） */
 .app.chat-layout {
   --rail-w: 240px;
   --insp-w: 260px;
-  transition: --rail-w var(--panel-d) var(--ease-view), --insp-w var(--panel-d) var(--ease-view);
 }
 .app.chat-layout.rail-collapsed { --rail-w: 0px; }
 .app.chat-layout.insp-collapsed { --insp-w: 0px; }
@@ -312,14 +318,68 @@ html.bg-tone-dark .set-card {
 .app.vp-tiny.chat-layout .composer { padding: var(--sp-2) var(--sp-3); }
 .app.vp-tiny.chat-layout .msg { margin-bottom: var(--sp-4); }
 .app.vp-tiny .activity { padding-top: 8px; }
-.app.vp-tiny.nav-expanded { grid-template-columns: 52px 1fr; }
-/* 紧凑/窄视口：即使 nav 处于展开态也收回 52px，避免 236px 导航吃掉主列横向空间
-   (compact 布局校验要求 mainCol ≥ 92% usable)。 */
-.app.vp-compact.nav-expanded,
-.app.vp-narrow.nav-expanded { grid-template-columns: 52px 1fr; }
 
-/* 一级活动栏 — 列宽过渡（与工作区侧栏变量分离） */
-.app { transition: grid-template-columns var(--panel-d) var(--ease-view); }
+/* 窄窗（< NAV_INLINE_MIN_WIDTH，nav.js 切 .nav-overlay）：侧栏 = 覆盖式抽屉。
+   ① grid 第一列恒 52px，且 workspace 锁死第 2 列 —— activity 脱流浮起也绝不让主列坍缩/变白。
+   ② activity 始终 absolute，仅宽度 52↔236 过渡；act-icon/act-text 皆 absolute 定位，
+      改宽度不触发子项重排 → 顺滑不卡，收起同样有动画（不再瞬跳）。
+   ③ 时长/缓动复用 --panel-d / --ease-view，与宽窗推开式完全一致。 */
+.app.nav-overlay { grid-template-columns: 52px 1fr; }
+.app.nav-overlay .activity {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 52px;
+  z-index: 60;
+  will-change: width;
+  transition:
+    width var(--panel-d) var(--ease-view),
+    box-shadow var(--panel-d) var(--ease-view);
+}
+.app.nav-overlay.nav-expanded .activity {
+  width: 236px;
+  box-shadow: var(--shadow-3);
+}
+.nav-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 55;
+  background: color-mix(in srgb, #000 26%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--panel-d) var(--ease-view);
+}
+.nav-scrim.show { opacity: 1; pointer-events: auto; }
+
+/* 切视图 / 点导航项时跳过侧栏过渡，避免与视图淡入叠加重排 */
+.app.nav-suspend > .activity,
+.app.nav-instant > .activity,
+.app.nav-suspend .nav-scrim,
+.app.nav-instant .nav-scrim {
+  transition: none !important;
+}
+
+/* 极小窗顶栏：省横向空间 */
+.app.vp-tiny .tb-sep { display: none; }
+.app.vp-tiny .tb-title { max-width: min(140px, 32vw); }
+.app.vp-tiny #statusLabel { display: none; }
+.app.vp-tiny .status-pill { padding: 5px 8px; }
+
+/* 窄窗插件列表：侧栏改上下堆叠 */
+.app.vp-tiny .plg-root { flex-direction: column; }
+.app.vp-tiny .plg-side {
+  width: 100%;
+  flex: 0 0 auto;
+  max-height: 38%;
+  border-right: none;
+  border-bottom: 1px solid var(--border);
+}
+.app.vp-narrow .plg-side { width: 200px; flex: 0 0 200px; }
+
+/* 窄窗记忆召回卡：理由换行到下一行 */
+.app.vp-narrow .rc-row,
+.app.vp-tiny .rc-row { grid-template-columns: 16px 38px minmax(0, 1fr); }
+.app.vp-narrow .rc-why,
+.app.vp-tiny .rc-why { grid-column: 1 / -1; padding-left: 54px; }
 
 /* 对话视图铺满主列 — 不依赖 chat-layout class，view-chat 内一律全宽 */
 .view-chat .messages > .msg,
@@ -473,8 +533,8 @@ html.bg-tone-dark .set-card {
   height: 48px; min-height: 48px;
   padding: 0 var(--sp-3);
   background: var(--glass);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
   border-bottom: 1px solid var(--divider);
 }
 .sr-title { font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: var(--text-3); }
@@ -611,8 +671,8 @@ html.bg-tone-dark .set-card {
   height: 48px; min-height: 48px;
   padding: 0 var(--sp-4);
   background: var(--glass);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
   border-bottom: 1px solid var(--divider);
   font-weight: 600; font-size: 13px;
   flex-shrink: 0;
@@ -770,7 +830,6 @@ html.bg-tone-dark .set-card {
 .act-spacer {
   flex: 1 1 8px;
   min-height: 8px;
-  transition: flex-grow 220ms var(--ease), flex-basis 220ms var(--ease), min-height 220ms var(--ease);
 }
 .activity.expanded .act-spacer {
   flex-grow: 0;
@@ -830,7 +889,7 @@ html.bg-tone-dark .set-card {
 .topbar {
   height: 48px; flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
   padding: 0 var(--sp-4); border-bottom: 1px solid var(--divider);
-  background: var(--glass); -webkit-backdrop-filter: blur(40px) saturate(180%); backdrop-filter: blur(40px) saturate(180%);
+  background: var(--glass); -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%); backdrop-filter: blur(var(--glass-blur)) saturate(180%);
   -webkit-app-region: drag;
   user-select: none;
   color: var(--text-topbar, var(--text));

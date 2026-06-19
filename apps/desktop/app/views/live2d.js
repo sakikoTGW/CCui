@@ -29,17 +29,24 @@ export function initLive2D() {
     e.stopPropagation()
     root.classList.toggle('l2d-hidden')
     root.classList.remove('l2d-active')
+    if (root.classList.contains('l2d-hidden')) ticking = false
+    else startTick()
   }
   root.onclick = e => {
-    if (e.target === root || e.target === canvas) root.classList.toggle('l2d-hidden')
+    if (e.target === root || e.target === canvas) {
+      root.classList.toggle('l2d-hidden')
+      if (!root.classList.contains('l2d-hidden')) startTick()
+      else ticking = false
+    }
   }
 
   unsub = store.subscribe(s => {
     const next = s.busy || s.orchBusy ? (s.busy ? 'talk' : 'think') : 'idle'
     if (next !== mood) { mood = next; updateTip(s) }
-    root?.classList.toggle('l2d-active', !!(s.busy || s.orchBusy))
+    const active = !!(s.busy || s.orchBusy)
+    root?.classList.toggle('l2d-active', active)
+    if (active && !root.classList.contains('l2d-hidden')) startTick()
   })
-  requestAnimationFrame(tick)
   loadExternalModel().catch(() => {})
 }
 
@@ -49,7 +56,19 @@ function updateTip(s) {
   tip.textContent = s.busy ? '思考中…' : s.orchBusy ? '编排中…' : 'CCui 助手'
 }
 
+let ticking = false
+
+function startTick() {
+  if (ticking) return
+  ticking = true
+  requestAnimationFrame(tick)
+}
+
 function tick() {
+  if (!root || root.classList.contains('l2d-hidden')) {
+    ticking = false
+    return
+  }
   frame++
   drawCharacter()
   requestAnimationFrame(tick)

@@ -23,7 +23,7 @@ import { mountBriefLibrary } from './app/views/brief-library.js'
 import { mountReview } from './app/views/review.js'
 import { mountPlugins } from './app/views/plugins.js'
 import { initLive2D } from './app/views/live2d.js'
-import { initActivityNav } from './app/nav.js'
+import { initActivityNav, syncNavViewport } from './app/nav.js'
 import { ICONS } from './app/icons.js'
 import { initCommandPalette, toggleCommandPalette } from './app/command-palette.js'
 import { initGlobalEsc, registerOverlay } from './app/modal.js'
@@ -140,7 +140,13 @@ async function boot() {
   $('cmdPaletteBtn')?.addEventListener('click', () => toggleCommandPalette())
 
   bus.on('switch-view', view => switchView(view))
-  store.subscribe(s => applyWorkspaceLayout(s))
+  let lastLayoutKey = ''
+  store.subscribe(s => {
+    const key = `${s.view}|${s.sessionRailCollapsed}|${s.inspectorCollapsed}`
+    if (key === lastLayoutKey) return
+    lastLayoutKey = key
+    applyWorkspaceLayout(s)
+  })
   void refreshProjectLabel()
 }
 
@@ -190,6 +196,7 @@ function setupViewportLayout() {
     root.classList.toggle('vp-compact', w < 1120)
     root.classList.toggle('vp-narrow', w < 920)
     root.classList.toggle('vp-tiny', w < 760)
+    syncNavViewport()
     syncPanelEdgeTabs(store.get())
     applyChatWidth()
   }
@@ -202,7 +209,7 @@ function setupViewportLayout() {
     })
   })
   window.addEventListener('load', () => setTimeout(reportLayoutCheck, 800))
-  bus.on('layout-check', () => reportLayoutCheck())
+  bus.on('layout-check', () => scheduleLayoutCheck())
 }
 
 function applyChatWidth() {
@@ -211,7 +218,16 @@ function applyChatWidth() {
   if (!ws && !stage) return
   ws?.classList.add('chat-wide')
   stage?.classList.add('chat-wide')
-  reportLayoutCheck()
+  scheduleLayoutCheck()
+}
+
+let layoutCheckTimer = 0
+function scheduleLayoutCheck() {
+  if (layoutCheckTimer) return
+  layoutCheckTimer = window.setTimeout(() => {
+    layoutCheckTimer = 0
+    reportLayoutCheck()
+  }, 120)
 }
 
 function reportLayoutCheck() {
@@ -275,7 +291,9 @@ async function switchView(name) {
   if ((name === activeViewName && activeViewEl) || viewSwitching) return
 
   const host = $('viewHost')
+  const root = $('appRoot')
   viewSwitching = true
+  root?.classList.add('nav-suspend')
 
   document.querySelectorAll('.act[data-view]').forEach(b => {
     b.classList.toggle('act-on', b.dataset.view === name)
@@ -311,6 +329,7 @@ async function switchView(name) {
     }
   } finally {
     viewSwitching = false
+    root?.classList.remove('nav-suspend')
   }
 }
 
