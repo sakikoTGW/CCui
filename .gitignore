@@ -4,6 +4,7 @@ build/
 *.log
 .env
 .env.*
+!.env.example
 .DS_Store
 Thumbs.db
 *.tsbuildinfo
@@ -14,3 +15,7 @@ logs/
 .ccui-vendor/
 .claude/skills/
 human-run.log
+crates/*/target/
+.codegraph/
+skills-lock.json
+apps/desktop/bun.lock

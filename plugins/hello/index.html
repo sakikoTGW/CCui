@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        font: 14px/1.6 system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+        margin: 0; padding: 24px; color: #1c1c22; background: #f7f7fa;
+      }
+      h1 { font-size: 18px; margin: 0 0 4px; }
+      p.sub { margin: 0 0 20px; color: #6b6b76; }
+      .row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+      button {
+        border: 1px solid #d4d4dd; background: #fff; color: #1c1c22;
+        padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px;
+      }
+      button:hover { border-color: #8a7cff; color: #6a4bff; }
+      pre {
+        background: #15151b; color: #d6d6e0; padding: 14px; border-radius: 10px;
+        font: 12px/1.5 ui-monospace, Consolas, monospace; white-space: pre-wrap;
+        max-height: 320px; overflow: auto; margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello 插件</h1>
+    <p class="sub">运行在沙箱 iframe（无 same-origin），仅经 <code>window.ccui</code> 与宿主通信。</p>
+    <div class="row">
+      <button id="btnToast">弹 Toast</button>
+      <button id="btnSwitch">切到对话视图</button>
+      <button id="btnState">读 Store 快照</button>
+      <button id="btnProject">读项目信息</button>
+    </div>
+    <pre id="out">就绪等待…</pre>
+    <script>
+      const out = document.getElementById('out')
+      function log(label, data) {
+        out.textContent = `[${label}]\n` + (typeof data === 'string' ? data : JSON.stringify(data, null, 2))
+      }
+      ;(async () => {
+        const r = await window.ccui.ready
+        log('ready', { permissions: r.permissions })
+        document.getElementById('btnToast').onclick = async () => {
+          await window.ccui.toast('来自 Hello 插件的问候 👋')
+          log('toast', 'sent')
+        }
+        document.getElementById('btnSwitch').onclick = async () => {
+          await window.ccui.emit('switch-view', 'chat')
+          log('emit', 'switch-view -> chat')
+        }
+        document.getElementById('btnState').onclick = async () => {
+          const s = await window.ccui.getState()
+          log('store.get', { view: s.view, theme: s.theme, model: s.model, projectName: s.projectName })
+        }
+        document.getElementById('btnProject').onclick = async () => {
+          try {
+            const resp = await window.ccui.daemon({ cmd: 'getProjectInfo' })
+            log('daemon.getProjectInfo', resp)
+          } catch (e) {
+            log('daemon error', String(e))
+          }
+        }
+      })().catch(e => log('init error', String(e)))
+    </script>
+  </body>
+</html>

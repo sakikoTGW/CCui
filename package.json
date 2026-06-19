@@ -13,6 +13,9 @@
     "deepseek": "bun run scripts/run-deepseek.ts",
     "ask": "bun run scripts/deepseek-ask.ts",
     "smoke": "bun run scripts/smoke-test.ts",
+    "test:plugins": "bun run scripts/test-plugin-sdk.ts",
+    "test:protocol": "bun run scripts/test-protocol.ts",
+    "test:unit": "bun run scripts/test-protocol.ts && bun run scripts/test-plugin-sdk.ts",
     "setup": "powershell -ExecutionPolicy Bypass -File scripts/setup-ready.ps1",
     "human": "powershell -ExecutionPolicy Bypass -File scripts/simulate-human.ps1",
     "seed-skills": "bun run scripts/seed-ccui-skills.ts",
@@ -21,6 +24,7 @@
     "start:here": "powershell -ExecutionPolicy Bypass -File scripts/start-terminal.ps1",
     "bootstrap": "bun run scripts/bootstrap-deps.ts",
     "build": "bun run scripts/build.ts",
+    "build:indexer": "bun run scripts/build-indexer.ts",
     "typecheck": "tsc --noEmit",
     "lint": "biome check src",
     "format": "biome format --write src"

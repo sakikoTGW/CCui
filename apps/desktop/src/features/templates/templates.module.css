@@ -1,0 +1,22 @@
+.hint {
+  margin: 0 0 var(--sp-4, 16px);
+  padding: var(--sp-3, 12px) var(--sp-4, 16px);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-3, #888);
+  background: var(--surface, rgba(127, 127, 127, 0.06));
+  border: 1px solid var(--divider, rgba(127, 127, 127, 0.15));
+  border-radius: 10px;
+}
+
+.hint code {
+  padding: 1px 5px;
+  font-size: 12px;
+  border-radius: 4px;
+  background: var(--hover-bg, rgba(127, 127, 127, 0.12));
+}
+
+.confirm {
+  display: inline-flex;
+  gap: 4px;
+}

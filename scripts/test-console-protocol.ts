@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const bun = process.execPath
-const daemon = join(root, 'src', 'gui-service', 'daemon.ts')
+const daemon = join(root, 'services', 'daemon', 'daemon.ts')
 
 const child = spawn(bun, [daemon], { cwd: root, stdio: ['pipe', 'pipe', 'inherit'] })
 

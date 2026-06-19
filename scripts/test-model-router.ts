@@ -7,7 +7,7 @@ import {
   ModelRouter,
   type RoutingRequest,
   type UsageRecord,
-} from '../src/gui-service/modelRouter.js'
+} from '../services/daemon/modelRouter.js'
 
 let pass = 0
 let fail = 0

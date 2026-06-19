@@ -13,6 +13,12 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
+      "@ccui/protocol": ["packages/protocol/index.ts"],
+      "@ccui/protocol/*": ["packages/protocol/*"],
+      "@ccui/engine-api": ["packages/engine-api/index.ts"],
+      "@ccui/engine-memory": ["packages/engine-memory/index.ts"],
+      "@ccui/plugin-sdk": ["packages/plugin-sdk/index.ts"],
+      "@ccui/plugin-sdk/guest": ["packages/plugin-sdk/guest.js"],
       "src/*": ["src/*"],
       "@app/*": ["src/app/*"],
       "@core/*": ["src/core/*"],
@@ -26,6 +32,6 @@
     },
     "types": ["bun-types"]
   },
-  "include": ["src/**/*", "scripts/**/*"],
+  "include": ["src/**/*", "scripts/**/*", "packages/**/*", "services/**/*"],
   "exclude": ["node_modules", "dist"]
 }

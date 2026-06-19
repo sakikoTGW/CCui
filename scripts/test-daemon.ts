@@ -8,7 +8,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
-const daemonPath = join(root, 'src', 'gui-service', 'daemon.ts')
+const daemonPath = join(root, 'services', 'daemon', 'daemon.ts')
 
 const proc = Bun.spawn(['bun', daemonPath], {
   cwd: root,

@@ -4,7 +4,7 @@ $Root = "e:\CCui"
 $Log = Join-Path $Root "human-run.log"
 $Bun = Join-Path $env:APPDATA "npm\node_modules\bun\bin\bun.exe"
 if (-not (Test-Path $Bun)) { $Bun = Join-Path $env:USERPROFILE ".bun\bin\bun.exe" }
-$Electron = Join-Path $Root "gui\node_modules\electron\dist\electron.exe"
+$Electron = Join-Path $Root "apps\desktop\node_modules\electron\dist\electron.exe"
 $Status = Join-Path $Root "logs\gui-status.json"
 
 function Log([string]$msg) {
@@ -24,8 +24,8 @@ if (-not (Test-Path (Join-Path $Root ".env"))) { throw "missing .env" }
 Log "[2/5] .env exists OK"
 
 if (-not (Test-Path $Electron)) {
-  Log "[3/5] electron missing, running npm install in gui/ ..."
-  Push-Location (Join-Path $Root "gui")
+  Log "[3/5] electron missing, running npm install in apps/desktop/ ..."
+  Push-Location (Join-Path $Root "apps\desktop")
   npm install 2>&1 | Out-Null
   Pop-Location
 }

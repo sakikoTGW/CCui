@@ -21,7 +21,7 @@ process.env.CLAUDE_CODE_DEV ??= '1'
 
 const prompt = process.argv.slice(2).join(' ').trim() || '用一句话介绍你自己'
 
-const { AgentSession } = await import('../src/gui-service/agentSession.js')
+  const { AgentSession } = await import('../services/daemon/agentSession.js')
 
 const session = new AgentSession({ cwd: root, autoApprove: true })
 

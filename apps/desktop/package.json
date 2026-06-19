@@ -1,0 +1,29 @@
+{
+  "name": "ccui-gui",
+  "private": true,
+  "version": "0.1.0",
+  "description": "CCui 桌面端 — Electron 薄壳 + Bun core daemon",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:islands": "vite build",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "electron": "^42.4.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16",
+    "vite-plugin-css-injected-by-js": "^5.0.1"
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1",
+    "marked": "^18.0.5",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "ws": "^8.21.0",
+    "zustand": "^5.0.14"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "hello",
+  "name": "Hello Plugin",
+  "version": "0.1.0",
+  "description": "示例插件：演示 toast / bus / store / daemon 能力与沙箱隔离。",
+  "author": "CCui",
+  "ui": {
+    "kind": "view",
+    "title": "Hello 插件",
+    "icon": "plugins",
+    "entry": "index.html"
+  },
+  "permissions": ["toast", "bus:emit", "store:read", "daemon:request"]
+}
