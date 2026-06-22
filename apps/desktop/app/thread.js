@@ -22,7 +22,7 @@ export function blankThread(title = '新对话') {
 export function laneThread(lane, prompt, groupId) {
   return {
     id: uid('c'),
-    title: `Lane ${lane} · ${prompt.slice(0, 22)}`,
+    title: `路线 ${lane} · ${prompt.slice(0, 22)}`,
     sessionId: newSessionId(`lane_${lane}`),
     lane,
     compareGroupId: groupId,

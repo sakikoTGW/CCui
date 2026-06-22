@@ -4,9 +4,9 @@ import { store } from './store.js'
 import { bus } from './bus.js'
 
 const DEFAULT_LANES = [
-  { id: 'A', label: 'Lane A' },
-  { id: 'B', label: 'Lane B' },
-  { id: 'C', label: 'Lane C' },
+  { id: 'A', label: '路线 A' },
+  { id: 'B', label: '路线 B' },
+  { id: 'C', label: '路线 C' },
 ]
 
 export function setParallelRunning(v) {
@@ -49,9 +49,9 @@ export async function runCompare(prompt, laneConfigs = {}, sessionByLane = {}) {
 export function mountOrchestrate(container) {
   container.innerHTML = `
     <div class="redirect-pane">
-      <h1>Compare = 三条 Thread</h1>
-      <p>不是另一种页面类型。点 Sidebar「+ Compare」，输入任务后会创建 Lane A/B/C 三条独立 Thread，各自有 transcript 和 sessionId。</p>
-      <button class="btn-primary" id="go-par">开始 Compare</button>
+      <h1>对比 = 三条独立会话</h1>
+      <p>不是另一种页面类型。点侧栏「+ 对比」，输入任务后会创建路线 A/B/C 三条独立会话，各自有对话记录和 sessionId。</p>
+      <button class="btn-primary" id="go-par">开始对比</button>
     </div>`
   container.querySelector('#go-par').onclick = () => {
     bus.emit('switch-view', 'chat')

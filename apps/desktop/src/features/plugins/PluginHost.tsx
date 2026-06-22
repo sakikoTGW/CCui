@@ -1,13 +1,5 @@
 /**
  * 插件宿主孤岛（P9）。
- *
- * - 发现：经 daemon 只读命令扫 <project>/plugins/<name>/ccui.plugin.json，
- *   用 @ccui/plugin-sdk 的 collectPlugins 校验。
- * - 隔离：每个插件渲染进 sandbox="allow-scripts"（无 allow-same-origin → 唯一
- *   通道是 postMessage）的 iframe，内容用 srcdoc（宿主读 HTML 文本 + 注入
- *   window.ccui 引导）。插件崩溃/越权都困在 iframe 内。
- * - 桥：createPluginBridge 把访客 RPC 按 manifest.permissions + 白名单门控后，
- *   翻译成宿主 toast / bus / store / daemon 调用。
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
@@ -26,6 +18,12 @@ interface LoadedPlugin {
   record: PluginRecord
   srcdoc: string
 }
+
+const PLG_ICON = (
+  <svg viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" aria-hidden="true">
+    <path d="M10 4a2 2 0 1 1 4 0v2h3a1 1 0 0 1 1 1v3h2a2 2 0 1 1 0 4h-2v3a1 1 0 0 1-1 1h-3v-2a2 2 0 1 0-4 0v2H6a1 1 0 0 1-1-1v-3H4a2 2 0 1 1 0-4h1V7a1 1 0 0 1 1-1h4z" />
+  </svg>
+)
 
 async function discover(): Promise<{ records: PluginRecord[]; errors: string[] }> {
   let dirs: string[] = []
@@ -54,6 +52,12 @@ async function discover(): Promise<{ records: PluginRecord[]; errors: string[] }
   return { records, errors: errors.map(e => `${e.dir}: ${e.error}`) }
 }
 
+function permLabel(perms: string[]): string {
+  if (!perms.length) return '无特权'
+  if (perms.length <= 2) return perms.join(' · ')
+  return `${perms.length} 项权限`
+}
+
 export function PluginHost(): React.ReactElement {
   const [records, setRecords] = useState<PluginRecord[]>([])
   const [errors, setErrors] = useState<string[]>([])
@@ -79,7 +83,6 @@ export function PluginHost(): React.ReactElement {
     void rescan()
   }, [rescan])
 
-  // 单一 window 消息监听（组件生命周期内常驻），按 iframe 源过滤后交当前 bridge。
   useEffect(() => {
     function onMessage(e: MessageEvent): void {
       const frame = iframeRef.current
@@ -92,6 +95,12 @@ export function PluginHost(): React.ReactElement {
       bridgeRef.current?.dispose()
       bridgeRef.current = null
     }
+  }, [])
+
+  const closePlugin = useCallback(() => {
+    bridgeRef.current?.dispose()
+    bridgeRef.current = null
+    setActive(null)
   }, [])
 
   const openPlugin = useCallback(async (record: PluginRecord) => {
@@ -130,49 +139,68 @@ export function PluginHost(): React.ReactElement {
 
   const list = useMemo(
     () =>
-      records.map(r => {
+      records.map((r, i) => {
         const m = r.manifest
         const on = active?.record.manifest.id === m.id
+        const busy = loadingId === m.id
         return (
           <button
             key={m.id}
             type="button"
-            className={`plg-item${on ? ' plg-on' : ''}`}
+            className={`plg-item${on ? ' plg-on' : ''}${busy ? ' plg-busy' : ''}`}
+            style={{ animationDelay: `${Math.min(i, 8) * 40}ms` }}
             onClick={() => void openPlugin(r)}
-            disabled={loadingId === m.id}
+            disabled={busy}
           >
-            <span className="plg-name">{m.ui?.title ?? m.name}</span>
-            <span className="plg-meta">
-              v{m.version}
-              {m.permissions.length ? ` · ${m.permissions.length} 权限` : ' · 无特权'}
+            <span className="plg-item-ico" aria-hidden="true">{PLG_ICON}</span>
+            <span className="plg-item-body">
+              <span className="plg-name">{m.ui?.title ?? m.name}</span>
+              <span className="plg-meta">
+                v{m.version}
+                {' · '}
+                {permLabel(m.permissions)}
+              </span>
+              {m.description ? <span className="plg-desc">{m.description}</span> : null}
             </span>
-            {m.description ? <span className="plg-desc">{m.description}</span> : null}
+            {busy ? <span className="plg-item-spin" aria-hidden="true" /> : null}
           </button>
         )
       }),
     [records, active, loadingId, openPlugin],
   )
 
+  const activeTitle = active?.record.manifest.ui?.title ?? active?.record.manifest.name
+
   return (
     <div className="view view-plugins plg-root">
       <aside className="plg-side">
         <header className="plg-side-head">
-          <span className="plg-side-title">扩展</span>
+          <div className="plg-side-title-wrap">
+            <span className="plg-side-title">扩展</span>
+            {!scanning && records.length > 0 ? (
+              <span className="plg-count">{records.length}</span>
+            ) : null}
+          </div>
           <button type="button" className="plg-rescan" onClick={() => void rescan()} disabled={scanning}>
             {scanning ? '扫描中…' : '重新扫描'}
           </button>
         </header>
-        {records.length === 0 && !scanning ? (
+        {scanning && records.length === 0 ? (
+          <div className="plg-skeleton" aria-hidden="true">
+            <div className="plg-sk" /><div className="plg-sk" /><div className="plg-sk" />
+          </div>
+        ) : null}
+        {!scanning && records.length === 0 ? (
           <div className="plg-empty">
-            <p>未发现插件。</p>
+            <span className="plg-empty-ico" aria-hidden="true">{PLG_ICON}</span>
+            <p className="plg-empty-title">未发现插件</p>
             <p className="plg-hint">
-              在项目根 <code>plugins/&lt;名称&gt;/</code> 放 <code>ccui.plugin.json</code> 与入口 HTML，
-              用 <code>window.ccui</code> 调用宿主能力。
+              在项目根 <code>plugins/&lt;名称&gt;/</code> 放置
+              <code>ccui.plugin.json</code> 与入口 HTML，通过 <code>window.ccui</code> 调用宿主能力。
             </p>
           </div>
-        ) : (
-          <div className="plg-list">{list}</div>
-        )}
+        ) : null}
+        {records.length > 0 ? <div className="plg-list">{list}</div> : null}
         {errors.length ? (
           <div className="plg-errors">
             {errors.map((e, i) => (
@@ -183,16 +211,27 @@ export function PluginHost(): React.ReactElement {
       </aside>
       <section className="plg-stage">
         {active ? (
-          <iframe
-            ref={iframeRef}
-            className="plg-frame"
-            title={active.record.manifest.name}
-            sandbox="allow-scripts"
-            srcDoc={active.srcdoc}
-          />
+          <>
+            <header className="plg-stage-head">
+              <span className="plg-stage-title">{activeTitle}</span>
+              <span className="plg-stage-id">{active.record.manifest.id}</span>
+              <button type="button" className="plg-stage-close" onClick={closePlugin} title="关闭插件">
+                关闭
+              </button>
+            </header>
+            <iframe
+              ref={iframeRef}
+              className="plg-frame"
+              title={active.record.manifest.name}
+              sandbox="allow-scripts"
+              srcDoc={active.srcdoc}
+            />
+          </>
         ) : (
           <div className="plg-stage-empty">
-            {scanning ? '正在扫描插件…' : '选择左侧插件以加载'}
+            <span className="plg-stage-empty-ico" aria-hidden="true">{PLG_ICON}</span>
+            <p>{scanning ? '正在扫描插件…' : '从左侧选择插件以加载'}</p>
+            <p className="plg-stage-empty-sub">插件在沙箱 iframe 中运行，权限由清单声明</p>
           </div>
         )}
       </section>

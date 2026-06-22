@@ -77,6 +77,13 @@ function setExpanded(next, opts = {}) {
   }
 }
 
+/** overlay 抽屉展开时，点导航项后带动画收起（供外部在切视图前调用） */
+export function collapseNavIfOverlay() {
+  if (!isOverlay() || !overlayOpen) return false
+  setExpanded(false)
+  return true
+}
+
 export function syncNavViewport() {
   // 进入/处于 overlay 模式时收起浮层，避免缩窗后抽屉盖住正文
   if (isOverlay()) overlayOpen = false
@@ -163,21 +170,22 @@ export function initActivityNav() {
 
   nav.append(el('div', 'act-spacer'))
 
+  const foot = el('div', 'nav-foot')
   const bottom = el('div', 'nav-bottom')
   for (const item of NAV_ACTIONS) bottom.append(renderNavAction(item))
-  nav.append(bottom)
-
+  foot.append(bottom)
   const utils = el('div', 'nav-utils')
   for (const item of NAV_UTILS) utils.append(renderNavUtil(item))
-  nav.append(utils)
+  foot.append(utils)
+  nav.append(foot)
 
-  // 窄窗 overlay：capture 阶段先瞬时收起，再让按钮 onclick 切视图 —— 避免双动画叠加重排
+  // 窄窗 overlay：capture 阶段先带动画收起，再让按钮 onclick 切视图/开面板
   nav.addEventListener('click', e => {
     if (!isOverlay() || !overlayOpen) return
     const t = e.target
     if (!(t instanceof HTMLElement)) return
     if (t.closest('.nav-expand-toggle')) return
-    if (t.closest('.act[data-view], .act-action, .nav-util')) setExpanded(false, { instant: true })
+    if (t.closest('.act[data-view], .act-action, .nav-util')) setExpanded(false)
   }, true)
 
   // overlay 抽屉遮罩：点击收起浮层（仅窄窗展开时可点）

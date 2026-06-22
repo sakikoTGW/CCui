@@ -276,14 +276,14 @@ export function editLastUserMessage() {
   let userN = 0
   for (let i = 0; i <= idx; i++) if (ctx.convo.items[i].t === 'user') userN++
   const el = ctx.els.messages.querySelectorAll('.msg.user')[userN - 1]
-  if (!el) { toast('消息未渲染，请切换 Thread 后重试', { type: 'warn' }); return }
+  if (!el) { toast('消息未渲染，请切换会话后重试', { type: 'warn' }); return }
   startEdit(idx, ctx.convo.items[idx].text, el)
 }
 
 function syncComposerPlaceholder() {
   if (!ctx.els?.input) return
   if (store.get().comparePending) {
-    ctx.els.input.placeholder = '同一任务 → 创建 Lane A/B/C 三条 Thread，Enter 启动…'
+    ctx.els.input.placeholder = '同一任务 → 创建路线 A/B/C 三条对比会话，Enter 启动…'
     return
   }
   ctx.els.input.placeholder = '输入消息，Enter 发送 / Shift+Enter 换行'
@@ -305,7 +305,7 @@ async function runCompareAsThreeThreads(prompt) {
   ctx.els.input.style.height = 'auto'
 
   loadConversation(threads[0])
-  toast('已创建 Lane A/B/C，正在并行运行…', { type: 'info' })
+  toast('已创建路线 A/B/C，正在并行运行…', { type: 'info' })
 
   const sessionByLane = Object.fromEntries(threads.map(t => [t.lane, t.sessionId]))
   setBusy(true)
@@ -336,7 +336,7 @@ async function runCompareAsThreeThreads(prompt) {
       renderItems()
     }
     refreshIntentRail()
-    toast('Lane A/B/C 已完成', { type: 'success' })
+    toast('路线 A/B/C 已完成', { type: 'success' })
   } catch (e) {
     toast(`Compare 失败：${e.message}`, { type: 'error' })
   } finally {
@@ -527,7 +527,7 @@ function appendHistoryItem(c) {
     const siblings = c.compareGroupId
       ? (store.get().conversations || []).filter(x => x.compareGroupId === c.compareGroupId)
       : [c]
-    const msg = siblings.length > 1 ? `删除 Compare 组（${siblings.length} 条 Thread）？` : `删除「${c.title || '未命名'}」？`
+    const msg = siblings.length > 1 ? `删除对比组（${siblings.length} 条会话）？` : `删除「${c.title || '未命名'}」？`
     confirmPopover(e.target, msg, async () => {
       for (const s of siblings) await db.delete('conversations', s.id)
       toast('已删除', { type: 'success' })

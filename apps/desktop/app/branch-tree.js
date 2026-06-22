@@ -74,7 +74,7 @@ export function buildBranchRows(convo) {
     rows.push({
       id: 'cmp',
       kind: 'compare',
-      label: `Compare · Lane ${convo.lane || '?'}`,
+      label: `对比 · 路线 ${convo.lane || '?'}`,
       sub: convo.compareGroupId,
       depth: 0,
     })

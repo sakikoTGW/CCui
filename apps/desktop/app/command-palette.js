@@ -18,7 +18,7 @@ const ACTIONS = [
   { id: 'presets', label: '参数预设', hint: 'Ctrl+1~9 切换', keys: ['preset', '预设'], run: () => switchView('presets') },
   { id: 'templates', label: '提示词模板', hint: '输入 / 唤起', keys: ['template', '模板'], run: () => switchView('templates') },
   { id: 'theme', label: '主题编辑器', hint: '颜色 / 圆角 / CSS', keys: ['theme', '主题'], run: () => switchView('theme') },
-  { id: 'orchestrate', label: '+ Compare 三路变异', hint: 'Lane A/B/C 独立 Thread', keys: ['orch', '编排', 'compare', '并行', '变异'], run: () => { switchView('chat'); bus.emit('start-compare') } },
+  { id: 'orchestrate', label: '+ 对比 三路变异', hint: '路线 A/B/C 独立会话', keys: ['orch', '编排', 'compare', '并行', '变异'], run: () => { switchView('chat'); bus.emit('start-compare') } },
   { id: 'branch-edit', label: '编辑上一条并分叉', hint: 'Ctrl+Shift+E', keys: ['branch', '分支', '编辑', '分叉'], run: () => { switchView('chat'); import('./views/chat.js').then(m => m.editLastUserMessage()) } },
   { id: 'collab', label: '协作空间', hint: 'WebSocket 房间', keys: ['collab', '协作'], run: () => switchView('collab') },
   { id: 'files', label: '文件面板', hint: '浏览项目文件', keys: ['file', '文件'], run: () => document.getElementById('treeToggle')?.click() },

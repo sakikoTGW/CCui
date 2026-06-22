@@ -292,8 +292,10 @@ async function switchView(name) {
 
   const host = $('viewHost')
   const root = $('appRoot')
+  const navOverlay = root?.classList.contains('nav-overlay')
   viewSwitching = true
-  root?.classList.add('nav-suspend')
+  // overlay 抽屉收起时保留侧栏宽度过渡，不与视图淡入抢 compositor
+  if (!navOverlay) root?.classList.add('nav-suspend')
 
   document.querySelectorAll('.act[data-view]').forEach(b => {
     b.classList.toggle('act-on', b.dataset.view === name)
@@ -329,7 +331,7 @@ async function switchView(name) {
     }
   } finally {
     viewSwitching = false
-    root?.classList.remove('nav-suspend')
+    if (!navOverlay) root?.classList.remove('nav-suspend')
   }
 }
 

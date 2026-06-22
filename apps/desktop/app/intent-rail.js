@@ -82,7 +82,7 @@ export function mountIntentRail(host, opts) {
         gb.classList.add('cc-goal-empty')
       }
       if (snap.mode === 'compare' && opts.getConvo()?.lane) {
-        gb.textContent = `对比中 · Lane ${opts.getConvo().lane} · ${snap.north || '选主路'}`
+        gb.textContent = `对比中 · 路线 ${opts.getConvo().lane} · ${snap.north || '选主路'}`
       }
     }
 
@@ -110,7 +110,7 @@ export function mountIntentRail(host, opts) {
     const cur = opts.getConvo()?.intentNorth || ''
     const inp = document.createElement('input')
     inp.className = 'cc-goal-input'
-    inp.value = cur || (curBtn.textContent.startsWith('点此') ? '' : curBtn.textContent.replace(/^这次要做：/, '').replace(/^对比中 · Lane \S+ · /, ''))
+    inp.value = cur || (curBtn.textContent.startsWith('点此') ? '' : curBtn.textContent.replace(/^这次要做：/, '').replace(/^对比中 · 路线 \S+ · /, ''))
     inp.placeholder = '这次要做到哪（一句）'
     curBtn.replaceWith(inp)
     inp.focus()
