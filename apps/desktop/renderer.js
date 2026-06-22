@@ -305,7 +305,7 @@ async function switchView(name) {
     const result = await runViewTransition(VIEWS, host, name, {
       fromName: activeViewName,
       fromEl: activeViewEl,
-      reduceMotion: false,
+      reduceMotion: window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false,
       onLayoutPrepare: viewName => {
         // 进入对话工作区时提前切 layout，避免分支树在淡入期间先露出再被收起
         if (viewName === 'chat') store.set({ view: 'chat' })

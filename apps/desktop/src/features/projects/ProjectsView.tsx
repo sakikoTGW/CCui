@@ -55,6 +55,25 @@ function infoChips(info: ProjectInfo): string[] {
   ].filter((s): s is string => Boolean(s))
 }
 
+function ProjectsSkeleton() {
+  return (
+    <div className="proj-skel" aria-hidden="true">
+      <div className="view-head">
+        <div className="sk sk-title" />
+        <div className="sk sk-btn" />
+      </div>
+      <div className="sk sk-hint" />
+      <div className="sk sk-current" />
+      <div className="proj-skel-head"><div className="sk sk-h2" /></div>
+      <div className="proj-grid proj-skel-grid">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div className="sk sk-card" key={i} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function ProjectsView() {
   const [state, setState] = useState<ProjectsState | null>(null)
   const [info, setInfo] = useState<ProjectInfo | null>(null)
@@ -93,7 +112,7 @@ export function ProjectsView() {
     }
   }
 
-  if (phase === 'loading') return <div className="proj-loading">加载项目…</div>
+  if (phase === 'loading') return <ProjectsSkeleton />
   if (phase === 'error') return <div className="proj-error">加载失败：{errMsg}</div>
   if (!state) return null
 

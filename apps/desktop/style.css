@@ -1008,6 +1008,21 @@ html.bg-tone-dark .set-card {
 .view:not(.view-chat) { overflow-y: auto; }
 .view-chat { overflow: hidden; }
 
+/* 视图内容进场：主要子块分层上浮淡入，让每次切换有「落位」感而非整片硬切 */
+@media (prefers-reduced-motion: no-preference) {
+  .view:not(.view-chat):not(.view-review).is-current > * {
+    animation: view-content-in 380ms var(--ease-view) backwards;
+  }
+  .view:not(.view-chat):not(.view-review).is-current > *:nth-child(1) { animation-delay: 30ms; }
+  .view:not(.view-chat):not(.view-review).is-current > *:nth-child(2) { animation-delay: 80ms; }
+  .view:not(.view-chat):not(.view-review).is-current > *:nth-child(3) { animation-delay: 130ms; }
+  .view:not(.view-chat):not(.view-review).is-current > *:nth-child(n+4) { animation-delay: 175ms; }
+}
+@keyframes view-content-in {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
 /* ============ 对话工作区 — Codex transcript-first ============ */
 .ws { height: 100%; display: flex; flex-direction: column; min-height: 0; }
 .stage-chat { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
@@ -2206,3 +2221,31 @@ html.theme-sync .cc-select-menu {
 .rc-why { font-size: 11px; color: var(--text-3); overflow-wrap: anywhere; }
 .rc-empty { color: var(--text-3); }
 .rc-graph { margin-top: 4px; font-size: 11px; color: var(--text-3); overflow-wrap: anywhere; }
+
+/* ============ 加载骨架（取代裸文字「加载中」，进场不闪空白）============ */
+.sk {
+  border-radius: var(--r-card);
+  background: linear-gradient(90deg, var(--surface-2) 25%, color-mix(in srgb, var(--surface) 70%, var(--surface-2)) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+.proj-skel { padding-bottom: var(--sp-8); }
+.proj-skel .view-head { align-items: center; }
+.proj-skel .sk-title { height: 28px; width: 132px; border-radius: 9px; }
+.proj-skel .sk-btn { height: 34px; width: 120px; border-radius: var(--r-btn); }
+.proj-skel .sk-hint { height: 14px; width: min(60%, 460px); margin: 0 var(--sp-8) var(--sp-5); border-radius: 7px; }
+.proj-skel .sk-current { height: 148px; margin: 0 var(--sp-8) var(--sp-6); border-radius: var(--r-card); }
+.proj-skel-head { padding: 0 var(--sp-8); margin-bottom: var(--sp-4); }
+.proj-skel .sk-h2 { height: 18px; width: 96px; border-radius: 7px; }
+.proj-skel-grid { padding: 0 var(--sp-8); }
+.proj-skel .sk-card { height: 156px; border-radius: var(--r-card); }
+
+/* ============ 无障碍：尊重系统「减少动态效果」偏好（taste 强制）============ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
