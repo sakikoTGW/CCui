@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp",
+        "--path",
+        "e:\\CCui"
+      ],
+      "env": {
+        "CODEGRAPH_NO_DAEMON": "1"
+      }
+    }
+  }
+}
