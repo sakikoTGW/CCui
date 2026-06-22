@@ -1,16 +1,24 @@
 # L2D Vtuber Host — 参考
 
-项目根：`c:\Users\Brs\Desktop\L2d_vdprod`
+## 路径（不写死）
+
+- 流水线根：`L2D_VDPROD_ROOT`（环境变量或 `.env`）
+- 资源根：`SAKIKO_ROOT`（环境变量或 `.env`）
+- CCui 用户可在仓库根 `.env` 增加（见 `.env.example` 注释）
+
+解析失败时：在 `%L2D_VDPROD_ROOT%` 执行 `run_pipeline.bat doctor`。
 
 ## 一键
+
+在 `%L2D_VDPROD_ROOT%`：
 
 ```bat
 一键生成.bat "video.mp4"
 run_pipeline.bat go "video.mp4"
-python -m src.cli go "video.mp4"
+"%SAKIKO_ROOT%\runtime\python.exe" -m src.cli go "video.mp4"
 ```
 
-拖视频到 bat 文件上亦可。完成后自动打开 `outputs/<名>/<名>_anon.mp4`。
+拖视频到 bat 上亦可。完成后输出在 `outputs/<名>/<名>_anon.mp4`。
 
 ## CLI 全集
 
@@ -25,14 +33,14 @@ run_pipeline.bat composite outputs\<v>\timeline.json -o out.mp4
 
 ## 自动配置（src/auto_config.py）
 
-- sakiko：`D:/Backup/sakiko` 或 Desktop/Project assistance/sakiko
-- LLM：API Key.txt → 环境变量 → Ollama → rules 规则标注
+- sakiko：优先 `SAKIKO_ROOT`，否则常见相对路径（Desktop、`Project assistance/sakiko` 等）
+- LLM：API Key.txt → 环境变量 → Ollama → rules
 - ASR：有 CUDA 用 GPU，否则 CPU
 
 ## 手改 timeline 后重跑
 
-- 改文案/情绪 → `synthesize` 起
-- 改动作 → `render` 起
+- 改文案/情绪 → 从 `synthesize` 起
+- 改动作 → 从 `render` 起
 - 改左下角大小 → `config.yaml` 的 `render.overlay.scale` 后 `composite`
 
 ## 动作映射
