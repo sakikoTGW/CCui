@@ -3,13 +3,15 @@ import { ICONS } from './icons.js'
 import { bus } from './bus.js'
 
 const ACTIONS = [
-  { id: 'projects', label: '项目管理', hint: '最近工作区 / 打开文件夹', keys: ['project', '项目', '工作区', 'folder'], run: () => switchView('projects') },
+  { id: 'launcher', label: '主页', hint: '选 project、看 instance、进对话（独立窗口）', keys: ['home', '主页', '首页', 'project', '项目', '工作区', 'folder'], run: () => window.ccui?.openLauncherWindow?.() },
+  { id: 'projects', label: '项目详情', hint: '结构 / 装备 / 心智存档', keys: ['project', '项目详情', '结构', '装备'], run: () => switchView('projects') },
   { id: 'open-project', label: '打开项目文件夹', hint: '切换工作区', keys: ['open', '打开'], run: () => { switchView('projects'); import('./project-registry.js').then(m => m.pickAndOpenProject()) } },
   { id: 'chat', label: '对话', hint: '主界面', keys: ['chat'], run: () => switchView('chat') },
   { id: 'new', label: '新对话', hint: '清空并开始', keys: ['new', '对话'], run: () => bus.emit('new-convo') },
-  { id: 'console', label: '控制台', hint: 'Skills / Agents / Rules / MCP', keys: ['console', '控制台'], run: () => switchView('console') },
+  { id: 'harness', label: 'Harness · 运行时→实例→能力', hint: '选 harness、管 instance、装 pack（独立窗口）', keys: ['harness', 'agent', 'pack', '整合包', '运行时', 'runtime', 'instance', '实例', 'pcl', 'mods', 'openclaw', 'hermes', 'codex', 'capabilities', '装备', '能力', 'mcp', 'skill', 'rule'], run: () => window.ccui?.openHarnessWindow?.() },
+  { id: 'console', label: '控制台（旧）', hint: 'Skills / Agents / Rules / MCP 开关', keys: ['console', '控制台'], run: () => switchView('console') },
   { id: 'studio', label: '数据工作室', hint: '搜索 / 导出 / 分支树', keys: ['studio', '数据'], run: () => switchView('studio') },
-  { id: 'map', label: '项目结构图', hint: '目录 + import 边 · Agent 记忆', keys: ['map', 'graph', '结构', '脑图'], run: () => switchView('map') },
+  { id: 'structure', label: '项目结构', hint: '在项目页查看 / 喂给 Agent', keys: ['map', 'graph', '结构', 'repomap'], run: () => switchView('projects') },
   { id: 'brief-lib', label: '简报库', hint: '曾存下的任务规格', keys: ['brief', '简报'], run: () => switchView('brief') },
   { id: 'focus-goal', label: '钉住这次要做', hint: 'Ctrl+Shift+B · 发送框上方任务钉', keys: ['任务', '目标', '这次要做', '钉住'], run: () => { switchView('chat'); bus.emit('focus-goal') } },
   { id: 'align-check', label: '核对进度', hint: 'Ctrl+Shift+A · 对照当前目标是否偏离', keys: ['核对', '进度', 'align', '目标', '这次要做'], run: () => { switchView('chat'); bus.emit('align-check') } },

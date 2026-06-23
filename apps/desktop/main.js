@@ -47,6 +47,8 @@ if (!gotLock) {
 
 let win = null
 let reviewWin = null
+let harnessWin = null
+let launcherWin = null
 let daemon = null
 let chromeStore = null
 let stdoutBuf = ''
@@ -136,6 +138,79 @@ function ensureReviewWindow() {
   return reviewWin
 }
 
+function ensureLauncherWindow() {
+  if (launcherWin && !launcherWin.isDestroyed()) {
+    if (!launcherWin.isVisible()) launcherWin.show()
+    launcherWin.focus()
+    return launcherWin
+  }
+  launcherWin = new BrowserWindow({
+    width: 960,
+    height: 720,
+    minWidth: 640,
+    minHeight: 520,
+    show: true,
+    backgroundColor: '#FAF9F5',
+    title: 'CCui — 主页',
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  })
+  launcherWin.on('closed', () => {
+    launcherWin = null
+    const winVisible = !!(win && !win.isDestroyed() && win.isVisible())
+    diag.appendLog('main', 'info', 'launcher closed', { winVisible })
+    // 主页关闭且主窗从未显示 → 退出 app（避免无可见窗口卡死）
+    if (!winVisible) {
+      if (win && !win.isDestroyed()) win.close()
+      else app.quit()
+    }
+  })
+  launcherWin.loadFile(path.join(__dirname, 'launcher.html'))
+  diag.appendLog('main', 'info', 'launcher window created')
+  return launcherWin
+}
+
+/** 进入工作区：显示/聚焦主工作区窗口，转发要打开的内容 */
+function enterWorkspace(payload) {
+  if (!win || win.isDestroyed()) createWindow({ autoShow: true })
+  const deliver = () => {
+    if (!win || win.isDestroyed()) return
+    win.show()
+    win.focus()
+    safeSend(win, 'enter-workspace', payload || {})
+  }
+  if (win.webContents.isLoading()) win.webContents.once('did-finish-load', deliver)
+  else deliver()
+}
+
+function ensureHarnessWindow() {
+  if (harnessWin && !harnessWin.isDestroyed()) {
+    if (!harnessWin.isVisible()) harnessWin.show()
+    harnessWin.focus()
+    return harnessWin
+  }
+  harnessWin = new BrowserWindow({
+    width: 1040,
+    height: 720,
+    minWidth: 760,
+    minHeight: 460,
+    show: true,
+    backgroundColor: '#FAF9F5',
+    title: 'CCui — Harness',
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  })
+  harnessWin.on('closed', () => { harnessWin = null })
+  harnessWin.loadFile(path.join(__dirname, 'harness.html'))
+  return harnessWin
+}
+
 function startDaemon(projectRoot) {
   const cwd = projectRoot || projectsStore?.getCurrentRoot() || ROOT
   const bun = resolveBun()
@@ -172,6 +247,8 @@ function startDaemon(projectRoot) {
       try {
         const msg = JSON.parse(line)
         safeSend(win, 'daemon', msg)
+        safeSend(harnessWin, 'daemon', msg)
+        safeSend(launcherWin, 'daemon', msg)
       } catch (e) {
         diag.appendLog('daemon', 'warn', 'stdout non-json line', line.slice(0, 500))
       }
@@ -190,12 +267,9 @@ function startDaemon(projectRoot) {
   })
 }
 
-function restartDaemon(projectRoot) {
-  if (daemon) {
-    try { daemon.kill() } catch {}
-    daemon = null
-  }
-  startDaemon(projectRoot)
+function switchProjectDaemon(projectRoot) {
+  const cwd = projectRoot || projectsStore?.getCurrentRoot() || ROOT
+  sendToDaemon({ cmd: 'setProjectRoot', path: cwd, reqId: `proj_${Date.now()}` })
 }
 
 function notifyProjectChanged() {
@@ -221,7 +295,7 @@ function listSystemFonts() {
     try {
       const out = execSync(
         'powershell -NoProfile -Command "Add-Type -AssemblyName System.Drawing; [System.Drawing.FontFamily]::Families | ForEach-Object { $_.Name } | Sort-Object -Unique"',
-        { encoding: 'utf8', maxBuffer: 12 * 1024 * 1024, timeout: 12000 },
+        { encoding: 'utf8', maxBuffer: 12 * 1024 * 1024, timeout: 12000, windowsHide: true },
       )
       const fonts = [...new Set(out.split(/\r?\n/).map(s => s.trim()).filter(Boolean))]
       if (fonts.length > 20) {
@@ -259,18 +333,18 @@ ipcMain.handle('collab-port', () => COLLAB_PORT)
 
 ipcMain.handle('projects:get', () => projectsStore?.getState() || { current: ROOT, recent: [] })
 ipcMain.handle('projects:pick', async () => {
-  const r = await dialog.showOpenDialog(win, { properties: ['openDirectory'] })
+  const r = await dialog.showOpenDialog(BrowserWindow.getFocusedWindow() || win, { properties: ['openDirectory'] })
   if (r.canceled || !r.filePaths?.[0]) return { ok: false, canceled: true }
   const sw = projectsStore?.switchTo(r.filePaths[0])
   if (!sw?.ok) return sw || { ok: false, error: 'switch failed' }
-  restartDaemon(projectsStore.getCurrentRoot())
+  switchProjectDaemon(projectsStore.getCurrentRoot())
   notifyProjectChanged()
   return { ok: true, path: projectsStore.getCurrentRoot(), name: path.basename(projectsStore.getCurrentRoot()), recent: projectsStore.getState().recent }
 })
 ipcMain.handle('projects:switch', (_evt, projectPath) => {
   const sw = projectsStore?.switchTo(projectPath)
   if (!sw?.ok) return sw || { ok: false, error: 'path not found' }
-  restartDaemon(projectsStore.getCurrentRoot())
+  switchProjectDaemon(projectsStore.getCurrentRoot())
   notifyProjectChanged()
   return { ok: true, path: projectsStore.getCurrentRoot(), name: path.basename(projectsStore.getCurrentRoot()) }
 })
@@ -290,6 +364,9 @@ ipcMain.handle('projects:open-explorer', (_evt, projectPath) => {
 
 ipcMain.on('review-queue', (_evt, items) => pushReviewQueueToWindows(items))
 ipcMain.on('review-open', () => ensureReviewWindow())
+ipcMain.on('harness-open', () => ensureHarnessWindow())
+ipcMain.on('launcher-open', () => ensureLauncherWindow())
+ipcMain.on('enter-workspace', (_evt, payload) => enterWorkspace(payload))
 ipcMain.on('review-action', (_evt, payload) => {
   safeSend(win, 'review-action', payload)
 })
@@ -360,6 +437,30 @@ ipcMain.handle('window:maximize', () => {
 ipcMain.handle('window:close', () => { win?.close() })
 ipcMain.handle('window:isMaximized', () => win?.isMaximized() ?? false)
 ipcMain.handle('fonts:list', () => listSystemFonts())
+ipcMain.handle('dialog:pickFiles', async () => {
+  if (!win) return []
+  const r = await dialog.showOpenDialog(win, { properties: ['openFile', 'multiSelections'] })
+  return r.canceled ? [] : r.filePaths
+})
+ipcMain.handle('dialog:pickDir', async () => {
+  if (!win) return null
+  const r = await dialog.showOpenDialog(win, { properties: ['openDirectory'] })
+  return r.canceled || !r.filePaths?.[0] ? null : r.filePaths[0]
+})
+ipcMain.handle('clipboard:saveImage', () => {
+  try {
+    const { clipboard } = require('electron')
+    const img = clipboard.readImage()
+    if (img.isEmpty()) return null
+    const dir = path.join(app.getPath('temp'), 'ccui-paste')
+    fs.mkdirSync(dir, { recursive: true })
+    const file = path.join(dir, `paste-${Date.now()}.png`)
+    fs.writeFileSync(file, img.toPNG())
+    return file
+  } catch {
+    return null
+  }
+})
 
 function createWindow(opts = {}) {
   Menu.setApplicationMenu(null)
@@ -384,7 +485,7 @@ function createWindow(opts = {}) {
   if (bounds?.y != null) winOpts.y = bounds.y
   win = new BrowserWindow(winOpts)
   if (opts.maximized) win.maximize()
-  win.once('ready-to-show', () => { safeSend(win, 'ready', true); if (win) win.show() })
+  win.once('ready-to-show', () => { safeSend(win, 'ready', true); if (win && opts.autoShow !== false) win.show() })
   win.on('closed', () => { win = null })
   win.on('maximize', () => safeSend(win, 'window-maximized', true))
   win.on('unmaximize', () => safeSend(win, 'window-maximized', false))
@@ -399,13 +500,19 @@ if (gotLock) {
     projectsStore = createProjectsStore(ROOT, app.getPath('userData'))
     chromeStore = createChromeStore(app.getPath('userData'))
     startCollabServer()
-    createWindow()
+    // 主工作区窗口隐藏创建：绑定/通道就绪，但等「进入工作区」才显示（PCL 式）
+    createWindow({ autoShow: false })
     startDaemon(projectsStore.getCurrentRoot())
-    app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow() })
+    // 主页是第一个可见窗口
+    ensureLauncherWindow()
+    app.on('activate', () => {
+      if (BrowserWindow.getAllWindows().length === 0) ensureLauncherWindow()
+    })
   })
 }
 
 app.on('window-all-closed', () => {
+  diag.appendLog('main', 'info', 'window-all-closed → quit')
   if (daemon) daemon.kill()
   if (wss) wss.close()
   if (process.platform !== 'darwin') app.quit()

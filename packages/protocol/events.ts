@@ -47,6 +47,26 @@ export const MessagesMsgSchema = z.object({
   messages: z.array(z.unknown()),
 })
 
+/** 抓包克隆：代理在瓶口抓到一次请求并蒸馏出整合包草稿后，实时推给 UI。 */
+export const CaptureSummarySchema = z.object({
+  id: z.string(),
+  at: z.string(),
+  method: z.string(),
+  path: z.string(),
+  status: z.number(),
+  streamed: z.boolean(),
+  model: z.string().nullable(),
+  basePromptLen: z.number(),
+  toolCount: z.number(),
+  requestPreview: z.string(),
+  responsePreview: z.string(),
+  pack: z.unknown().nullable(),
+})
+export const CaptureMsgSchema = z.object({
+  kind: z.literal('capture'),
+  record: CaptureSummarySchema,
+})
+
 /** 协议级错误（坏 JSON、未知命令）—— 与业务 resp.error 区分。 */
 export const ErrorMsgSchema = z.object({
   kind: z.literal('error'),
@@ -60,6 +80,7 @@ export const DaemonMessageSchema = z.union([
   StatusMsgSchema,
   PongMsgSchema,
   MessagesMsgSchema,
+  CaptureMsgSchema,
   ErrorMsgSchema,
 ])
 
@@ -68,6 +89,8 @@ export type RespMsg = z.infer<typeof RespMsgSchema>
 export type AckMsg = z.infer<typeof AckMsgSchema>
 export type StatusMsg = z.infer<typeof StatusMsgSchema>
 export type MessagesMsg = z.infer<typeof MessagesMsgSchema>
+export type CaptureSummary = z.infer<typeof CaptureSummarySchema>
+export type CaptureMsg = z.infer<typeof CaptureMsgSchema>
 export type ErrorMsg = z.infer<typeof ErrorMsgSchema>
 export type DaemonMessage = z.infer<typeof DaemonMessageSchema>
 

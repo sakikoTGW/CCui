@@ -48,7 +48,9 @@ function firstLine(s: string, n = 120): string {
 async function scanSkills(cwd: string): Promise<ResItem[]> {
   const roots = [
     { dir: join(cwd, '.claude', 'skills'), source: 'project' },
+    { dir: join(cwd, '.agents', 'skills'), source: 'project-agents' },
     { dir: join(homedir(), '.claude', 'skills'), source: 'user' },
+    { dir: join(homedir(), '.agents', 'skills'), source: 'user-agents' },
   ]
   const items: ResItem[] = []
   for (const { dir, source } of roots) {
@@ -165,7 +167,7 @@ export async function listResources(cwd: string): Promise<ResItem[]> {
 // ---------- MCP 真开关（best-effort） ----------
 export async function toggleMcp(name: string, enabled: boolean): Promise<boolean> {
   try {
-    const mod = await import('../services/mcp/config.js')
+    const mod = await import('../../src/services/mcp/config.js')
     const fn = (mod as Record<string, unknown>).setMcpServerEnabled as
       | ((n: string, e: boolean) => void)
       | undefined
@@ -296,7 +298,7 @@ function buildSummary(nodes: GraphNode[], edges: GraphEdge[], _root: string): st
  * 当 native 缺失/失败时由门面回退到此。封顶 350 文件以保证降级时仍可控。
  * 缓存写入统一由 projectIndexer 门面负责，本函数只产图。
  */
-export async function scanProjectGraphTs(cwd: string, maxFiles = 350): Promise<ProjectGraph> {
+export async function scanProjectGraphTs(cwd: string, maxFiles = 1500): Promise<ProjectGraph> {
   const nodes: GraphNode[] = []
   const edges: GraphEdge[] = []
   const seen = new Set<string>()
@@ -314,7 +316,7 @@ export async function scanProjectGraphTs(cwd: string, maxFiles = 350): Promise<P
   }
 
   async function walk(dir: string, depth: number): Promise<void> {
-    if (depth > 5 || filePaths.length >= maxFiles) return
+    if (depth > 7 || filePaths.length >= maxFiles) return
     let raw: import('node:fs').Dirent[] = []
     try { raw = await fs.readdir(dir, { withFileTypes: true }) } catch { return }
     for (const e of raw) {

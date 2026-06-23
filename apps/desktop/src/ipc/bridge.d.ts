@@ -47,7 +47,7 @@ export interface CcuiBridge {
     systemPrompt?: string
     sessionId?: string
   }): void
-  respondPermission(id: string, allow: boolean, updatedInput?: unknown): void
+  respondPermission(id: string, allow: boolean, updatedInput?: unknown, sessionId?: string): void
   interrupt(sessionId?: string): void
   reset(sessionId?: string): void
   hydrateSession(sessionId: string, payload: Record<string, unknown>): void
@@ -58,6 +58,10 @@ export interface CcuiBridge {
   exportPdf(html: string, title: string): Promise<unknown>
   pushReviewQueue(items: unknown[]): void
   openReviewWindow(): void
+  openHarnessWindow(): void
+  openLauncherWindow(): void
+  enterWorkspace(payload?: { newConvo?: boolean; prompt?: string; convoId?: string; send?: boolean }): void
+  onEnterWorkspace(cb: (payload: { newConvo?: boolean; prompt?: string; convoId?: string }) => void): () => void
   reviewAction(payload: unknown): void
   onReviewQueue(cb: (items: unknown[]) => void): () => void
   onReviewAction(cb: (payload: unknown) => void): () => void
@@ -82,6 +86,9 @@ export interface CcuiBridge {
   onWindowMaximized(cb: (v: boolean) => void): () => void
   onWindowChromeAnim(cb: (payload: unknown) => void): () => void
   listFonts(): Promise<unknown>
+  pickFiles(): Promise<string[]>
+  pickDir(): Promise<string | null>
+  saveClipboardImage(): Promise<string | null>
 }
 
 declare global {
@@ -116,6 +123,7 @@ declare global {
       registerOverlay(el: HTMLElement, onClose: () => void): () => void
       openConversation(convo: unknown): void
       exportAll(): Promise<unknown>
+      importAll(payload: unknown): Promise<void>
     }
     ccuiPerms?: {
       groups: { id: string; label: string; tools: string[] }[]

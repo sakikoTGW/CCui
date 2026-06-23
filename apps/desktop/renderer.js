@@ -22,6 +22,9 @@ import { mountProjects } from './app/views/projects.js'
 import { mountBriefLibrary } from './app/views/brief-library.js'
 import { mountReview } from './app/views/review.js'
 import { mountPlugins } from './app/views/plugins.js'
+import { mountCapture } from './app/views/capture.js'
+import { mountCapabilities } from './app/views/capabilities.js'
+import { mountPacks } from './app/views/packs.js'
 import { initLive2D } from './app/views/live2d.js'
 import { initActivityNav, syncNavViewport } from './app/nav.js'
 import { ICONS } from './app/icons.js'
@@ -35,7 +38,9 @@ import { initTitleBar } from './app/titlebar.js'
 import { initBgParallax } from './app/bg-parallax.js'
 import { initWindowChromeAnim } from './app/window-chrome-anim.js'
 import { bus } from './app/bus.js'
-import { markBootSplashStart, finishBootSplash } from './app/boot-splash.js'
+import { markBootSplashStart, finishBootSplash, setBootPhase } from './app/boot-splash.js'
+import { getBootAnim, saveBootAnim, previewBootAnim } from './app/boot-anim.js'
+import { PREF_DEFS, getUiPrefs, saveUiPrefs, applyUiPrefs } from './app/ui-prefs.js'
 import { runViewTransition, warmView } from './app/view-transition.js'
 
 const VIEWS = {
@@ -53,6 +58,9 @@ const VIEWS = {
   brief: { el: null, mounted: false, mount: mountBriefLibrary, keepAlive: false },
   review: { el: null, mounted: false, mount: mountReview, keepAlive: true },
   plugins: { el: null, mounted: false, mount: mountPlugins, keepAlive: false },
+  capture: { el: null, mounted: false, mount: mountCapture, keepAlive: true },
+  capabilities: { el: null, mounted: false, mount: mountCapabilities, keepAlive: false },
+  packs: { el: null, mounted: false, mount: mountPacks, keepAlive: true },
 }
 
 function $(id) { return document.getElementById(id) }
@@ -88,6 +96,7 @@ async function boot() {
     registerOverlay: (el, onClose) => registerOverlay(el, onClose),
     openConversation: convo => openConversation(convo),
     exportAll: () => db.exportAll(),
+    importAll: payload => db.importAll(payload),
   }
   // Settings 桥：权限组/外观个性化(有模块级 cached)/窗口外观/欢迎引导，单一真相留 vanilla
   window.ccuiPerms = { groups: PERM_TOOL_GROUPS, explain: PERM_EXPLAIN, get: getAllowedTools, save: saveAllowedTools }
@@ -97,6 +106,11 @@ async function boot() {
   }
   window.ccuiChrome = { get: getChromePrefs, save: saveChrome }
   window.ccuiWelcome = () => showWelcome()
+  // 启动动画自定义桥：设置页编辑/预览，启动屏读同一 localStorage 配置
+  window.ccuiBootAnim = { get: getBootAnim, save: saveBootAnim, preview: previewBootAnim }
+  // 偏好注册表桥：设置页渲染/保存，chat 等运行时读取
+  window.ccuiPrefs = { defs: PREF_DEFS, get: getUiPrefs, save: saveUiPrefs, apply: applyUiPrefs }
+  applyUiPrefs()
   initWindowChromeAnim()
   reportDiag('info', 'boot start')
   await loadTheme()
@@ -130,6 +144,7 @@ async function boot() {
   setupReviewEntry()
   initBgParallax()
   setupViewportLayout()
+  setupEnterWorkspace()
   void switchView('chat')
   if (typeof requestIdleCallback === 'function') {
     requestIdleCallback(() => warmView(VIEWS, $('viewHost'), 'settings'), { timeout: 2500 })
@@ -274,6 +289,24 @@ function reportLayoutCheck() {
 function setupActivityBar() {
   document.querySelectorAll('.act[data-view]').forEach(btn => {
     btn.onclick = () => switchView(btn.dataset.view)
+  })
+  $('launcherWin')?.addEventListener('click', () => window.ccui?.openLauncherWindow?.())
+  $('harnessWin')?.addEventListener('click', () => window.ccui?.openHarnessWindow?.())
+}
+
+// 主页「进入工作区」跨窗联动：主窗收到后切到对话
+function setupEnterWorkspace() {
+  window.ccui?.onEnterWorkspace?.(async payload => {
+    await switchView('chat')
+    if (payload?.convoId) {
+      try { const c = await db.get('conversations', payload.convoId); if (c) openConversation(c) } catch {}
+    } else if (payload?.newConvo) {
+      bus.emit('new-convo')
+    } else if (payload?.send && payload?.prompt) {
+      bus.emit('home-send', payload.prompt)
+    } else if (payload?.prompt) {
+      bus.emit('insert-prompt', payload.prompt)
+    }
   })
 }
 
@@ -422,17 +455,21 @@ function setupDaemonStatus() {
   api.onMessage(msg => {
     if (msg.kind === 'status') {
       store.set({ daemonStatus: msg.state })
+      if (msg.state === 'starting') setBootPhase('正在启动核心引擎…')
     } else if (msg.kind === 'exit') {
       store.set({ daemonStatus: 'offline' })
     } else if (msg.kind === 'event' && msg.event?.type === 'done') {
       if (store.get().daemonStatus !== 'error') store.set({ daemonStatus: 'ready' })
     }
   })
+  setBootPhase('正在连接核心引擎…')
   api.request({ cmd: 'ping' }, 45000).then(() => {
     store.set({ daemonStatus: 'ready' })
+    setBootPhase('就绪')
     reportDiag('info', 'daemon ready')
   }).catch(err => {
     store.set({ daemonStatus: 'error' })
+    setBootPhase('引擎启动失败')
     reportDiag('error', 'daemon error', err?.message || err)
   })
 }
@@ -467,9 +504,13 @@ function bindInspector() {
     if (dot) dot.dataset.state = state
     if (pill) pill.dataset.state = state
     if (label) {
-      label.textContent = {
+      const apiSt = s.apiStatus
+      const base = {
         starting: '连接中…', ready: '已就绪', busy: '生成中…', error: '连接异常', offline: '已断开',
       }[state] || state
+      if (state === 'ready' && apiSt === 'ok') label.textContent = '引擎+API 就绪'
+      else if (state === 'ready' && apiSt === 'error') label.textContent = '引擎就绪 · API 异常'
+      else label.textContent = base
     }
   })
   bus.on('perms-updated', list => refreshPermInsp(list || []))

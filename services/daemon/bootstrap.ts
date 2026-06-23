@@ -64,3 +64,10 @@ export async function bootstrapGuiDev(cwd = process.cwd()): Promise<void> {
   setProjectRoot(cwd)
   initCcuiStack()
 }
+
+/** 热切换项目根 — 不重置 bootstrapped 标志 */
+export async function applyProjectRoot(cwd: string): Promise<void> {
+  loadDotEnv(root)
+  setOriginalCwd(cwd)
+  setProjectRoot(cwd)
+}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CCui — Harness</title>
+    <script>
+      // 独立窗口跟随系统明暗（主窗主题不在此进程，先按系统色，避免闪白）
+      document.documentElement.dataset.theme =
+        window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    </script>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      html, body { height: 100%; margin: 0; }
+      #harnessRoot { height: 100vh; display: flex; flex-direction: column; background: var(--bg); color: var(--text); }
+    </style>
+  </head>
+  <body>
+    <div id="harnessRoot"></div>
+    <script type="module" src="harness-window.js"></script>
+  </body>
+</html>

@@ -11,8 +11,8 @@ contextBridge.exposeInMainWorld('ccui', {
       systemPrompt: opts.systemPrompt,
       sessionId: opts.sessionId,
     }),
-  respondPermission: (id, allow, updatedInput) =>
-    ipcRenderer.send('cmd', { cmd: 'respondPermission', id, allow, updatedInput }),
+  respondPermission: (id, allow, updatedInput, sessionId) =>
+    ipcRenderer.send('cmd', { cmd: 'respondPermission', id, allow, updatedInput, sessionId }),
   interrupt: (sessionId) => ipcRenderer.send('cmd', { cmd: 'interrupt', sessionId }),
   reset: (sessionId) => ipcRenderer.send('cmd', { cmd: 'reset', sessionId }),
   hydrateSession: (sessionId, payload) =>
@@ -24,6 +24,14 @@ contextBridge.exposeInMainWorld('ccui', {
   exportPdf: (html, title) => ipcRenderer.invoke('export-pdf', { html, title }),
   pushReviewQueue: items => ipcRenderer.send('review-queue', items),
   openReviewWindow: () => ipcRenderer.send('review-open'),
+  openHarnessWindow: () => ipcRenderer.send('harness-open'),
+  openLauncherWindow: () => ipcRenderer.send('launcher-open'),
+  enterWorkspace: payload => ipcRenderer.send('enter-workspace', payload || {}),
+  onEnterWorkspace: cb => {
+    const h = (_e, payload) => cb(payload)
+    ipcRenderer.on('enter-workspace', h)
+    return () => ipcRenderer.removeListener('enter-workspace', h)
+  },
   reviewAction: payload => ipcRenderer.send('review-action', payload),
   onReviewQueue: cb => {
     const h = (_e, items) => cb(items)
@@ -38,6 +46,9 @@ contextBridge.exposeInMainWorld('ccui', {
   getPathForFile: file => {
     try { return webUtils.getPathForFile(file) } catch { return file?.path || '' }
   },
+  pickFiles: () => ipcRenderer.invoke('dialog:pickFiles'),
+  pickDir: () => ipcRenderer.invoke('dialog:pickDir'),
+  saveClipboardImage: () => ipcRenderer.invoke('clipboard:saveImage'),
   onDaemon: cb => {
     const h = (_e, msg) => cb(msg)
     ipcRenderer.on('daemon', h)

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CCui — 主页</title>
+    <script>
+      document.documentElement.dataset.theme =
+        window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    </script>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      html, body { height: 100%; margin: 0; }
+      #launcherRoot { height: 100vh; overflow-y: auto; background: var(--bg); color: var(--text); }
+    </style>
+  </head>
+  <body>
+    <div id="launcherRoot"></div>
+    <script type="module" src="launcher-window.js"></script>
+  </body>
+</html>

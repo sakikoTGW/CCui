@@ -68,7 +68,7 @@ export class Orchestrator {
       this.lanes.set(laneId, session)
       return session
     }
-    const session = new AgentSession({ cwd: process.cwd(), autoApprove: true, maxTurns: 12 })
+    const session = new AgentSession({ cwd: process.cwd(), autoApprove: false, maxTurns: 12 })
     session.onEvent(event => this.emit({ kind: 'orch_event', laneId, event }))
     this.lanes.set(laneId, session)
     return session

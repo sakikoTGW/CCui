@@ -33,20 +33,28 @@ import { buildHydratePayload } from '../session-sync.js'
 import { createCcSelect } from '../cc-select.js'
 import { bus } from '../bus.js'
 import { ctx, h, setReviewState, clearEmpty, scrollDown, lastUserText } from './chat/ctx.js'
+import { diagCatch } from '../diag.js'
 import { renderMarkdown, rehighlightVisibleCode } from './chat/markdown.js'
 import { userDisplayText } from './chat/format.js'
-import { appendDelta, clearStreamBubble } from './chat/stream.js'
+import { appendDelta, clearStreamBubble, showThinking, hideThinking, appendThinkingDelta, finalizeThinkBubble, commitThinkBubbleIfNeeded } from './chat/stream.js'
+import { initMention } from './chat/mention.js'
 import { addToolCard, fillToolResult, addPermCard } from './chat/toolcards.js'
 import { renderBranchBar, addCheckpoint, snapshotBranch, syncBranchPanelLayout } from './chat/branches.js'
 
 export { syncBranchPanelLayout }
 
 const DRAFT_KEY = id => `ccui:draft:${id || 'new'}`
-const EMPTY_HTML = `<div class="empty-brand" aria-hidden="true">C</div>
-  <h1>开始对话</h1>
-  <p>左侧每条都是独立会话。拖拽文件到输入框可附加路径。<br/>
-  悬停你的消息可<strong>编辑并分叉</strong>；<kbd>Ctrl+Shift+E</kbd> 编辑上一条。<br/>
-  会话栏下半<strong>分支树</strong> · 发送框上方可<strong>钉住这次要做</strong>（<kbd>Ctrl+Shift+B</kbd>） · 活动栏<strong>结构图</strong>。</p>
+const EMPTY_HTML = `<div class="empty-hero">
+    <div class="empty-brand" aria-hidden="true">C</div>
+    <h1>开始对话</h1>
+    <p class="empty-sub">把任务交给 AI，全程可审、可分叉、可回溯。</p>
+  </div>
+  <div class="empty-caps">
+    <div class="cap"><span class="cap-ico">@</span><div><b>指文件</b><i>拖入文件或输入 @ 选择</i></div></div>
+    <div class="cap"><span class="cap-ico">/</span><div><b>用技能</b><i>输入 / 唤起 skills 与命令</i></div></div>
+    <div class="cap"><span class="cap-ico">⌘K</span><div><b>快速搜索</b><i>Ctrl+K 跳转任意功能</i></div></div>
+    <div class="cap"><span class="cap-ico">⎇</span><div><b>分叉对比</b><i>悬停消息编辑并建立分支</i></div></div>
+  </div>
   <div class="examples">
     <button class="ex" type="button">解释这段代码在做什么</button>
     <button class="ex" type="button">帮我写单元测试</button>
@@ -56,6 +64,8 @@ const EMPTY_HTML = `<div class="empty-brand" aria-hidden="true">C</div>
 
 /** @type {ReturnType<typeof createCcSelect> | null} */
 let presetSelect = null
+/** @type {ReturnType<typeof createCcSelect> | null} */
+let modelSelect = null
 
 function refreshIntentRail() {
   ctx.intentRail?.refresh()
@@ -109,6 +119,10 @@ export function mountChat(container) {
       <div class="stage-chat" id="stageChat">
         <div class="stage-main">
           <div class="branch-bar" id="branchBar" style="display:none"></div>
+          <div class="compare-panel" id="comparePanel" hidden>
+            <div class="cp-head">三路对比 · 选择采纳继续</div>
+            <div class="pl-lanes" id="compareLanes"></div>
+          </div>
           <div class="messages" id="messages">
             <div class="empty" id="empty">${EMPTY_HTML}</div>
           </div>
@@ -116,11 +130,14 @@ export function mountChat(container) {
       </div>
       <div class="composer">
         <div class="composer-meta">
+          <div id="modelPickerHost"></div>
           <div id="presetPickerHost"></div>
         </div>
         <div id="composerContextHost"></div>
+        <div class="composer-attachments" id="attachRow" hidden></div>
         <div class="composer-inner">
-          <textarea id="input" rows="1" placeholder="输入消息，Enter 发送 / Shift+Enter 换行"></textarea>
+          <button id="attachBtn" class="attach-btn" type="button" title="附加文件"></button>
+          <textarea id="input" rows="1" placeholder="输入消息，Enter 发送 / Shift+Enter 换行 / 拖入文件"></textarea>
           <button id="send" class="send" title="发送"></button>
         </div>
       </div>
@@ -130,8 +147,13 @@ export function mountChat(container) {
     messages: container.querySelector('#messages'),
     input: container.querySelector('#input'),
     send: container.querySelector('#send'),
+    attachBtn: container.querySelector('#attachBtn'),
+    attachRow: container.querySelector('#attachRow'),
     historyList: document.getElementById('historyList'),
     presetPickerHost: container.querySelector('#presetPickerHost'),
+    modelPickerHost: container.querySelector('#modelPickerHost'),
+    comparePanel: container.querySelector('#comparePanel'),
+    compareLanes: container.querySelector('#compareLanes'),
   }
   // wire 跨模块回调（子模块经 ctx.hooks 调用，绕开循环依赖）
   ctx.hooks.persist = persist
@@ -141,11 +163,22 @@ export function mountChat(container) {
   ctx.hooks.refreshIntentRail = refreshIntentRail
 
   initPresetSelect()
+  initModelSelect()
 
-  ctx.els.send.innerHTML = ICONS.send
+  bus.on('project-changed', payload => { void handleProjectChanged(payload) })
+  window.ccui?.onProjectChanged?.(payload => { void handleProjectChanged(payload) })
+  bus.on('mention-file', ({ path, rel }) => {
+    if (path || rel) addAttachmentPaths([path || rel])
+  })
   ctx.els.send.onclick = onSend
   ctx.els.input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); onSend() }
+    if (e.key !== 'Enter') return
+    const sendKey = (() => { try { return window.ccuiPrefs?.get?.().sendKey } catch { return 'enter' } })() || 'enter'
+    if (sendKey === 'ctrlenter') {
+      if (e.ctrlKey || e.metaKey) { e.preventDefault(); onSend() }
+    } else if (!e.shiftKey) {
+      e.preventDefault(); onSend()
+    }
   })
   ctx.els.input.addEventListener('input', () => {
     ctx.els.input.style.height = 'auto'
@@ -156,6 +189,21 @@ export function mountChat(container) {
   document.getElementById('newConvo')?.addEventListener('click', () => newConversation(true))
   document.getElementById('newCompare')?.addEventListener('click', () => startCompareMode())
   attachTemplateEngine(ctx.els.input)
+  initMention(ctx.els.input)
+  if (ctx.els.attachBtn) {
+    ctx.els.attachBtn.innerHTML = ATTACH_ICON
+    ctx.els.attachBtn.onclick = async () => {
+      const picked = (await window.ccui?.pickFiles?.()) || []
+      if (picked.length) addAttachments(picked)
+    }
+  }
+  ctx.els.input.addEventListener('paste', async e => {
+    const items = e.clipboardData?.items
+    if (!items || ![...items].some(it => it.type?.startsWith('image/'))) return
+    e.preventDefault()
+    const p = await window.ccui?.saveClipboardImage?.()
+    if (p) addAttachments([p]); else toast('剪贴板没有可用图片', { type: 'warn' })
+  })
   bindFileDrop(container)
   ctx.intentRail = mountIntentRail(container.querySelector('#composerContextHost'), {
     getConvo: () => ctx.convo,
@@ -227,6 +275,15 @@ export function mountChat(container) {
     ctx.els.input.value = `${prefix || ''}${ctx.els.input.value}`.trim()
     ctx.els.input.dispatchEvent(new Event('input'))
     ctx.els.input.focus()
+  })
+  bus.on('home-send', text => {
+    if (!ctx.els?.input) return
+    const q = String(text || '').trim()
+    if (!q) return
+    newConversation(true)
+    ctx.els.input.value = q
+    ctx.els.input.dispatchEvent(new Event('input'))
+    void onSend()
   })
   bus.on('set-prompt', val => {
     if (!ctx.els?.input) return
@@ -337,6 +394,7 @@ async function runCompareAsThreeThreads(prompt) {
     }
     refreshIntentRail()
     toast('路线 A/B/C 已完成', { type: 'success' })
+    showComparePanel(threads, resp.synthesis, resp.reviews)
   } catch (e) {
     toast(`Compare 失败：${e.message}`, { type: 'error' })
   } finally {
@@ -345,12 +403,93 @@ async function runCompareAsThreeThreads(prompt) {
   }
 }
 
+function showComparePanel(threads, synthesis, reviews) {
+  const panel = ctx.els?.comparePanel
+  const lanes = ctx.els?.compareLanes
+  if (!panel || !lanes) return
+  panel.hidden = false
+  lanes.innerHTML = ''
+  for (const th of threads.sort((a, b) => (a.lane || '').localeCompare(b.lane || ''))) {
+    const lane = th.lane || '?'
+    const last = [...(th.items || [])].reverse().find(it => it.t === 'msg' && it.sdk?.type === 'assistant')
+    const text = last?.sdk?.message?.content?.find?.(b => b?.type === 'text')?.text || '（空）'
+    const card = h('div', 'pl-lane')
+    card.innerHTML = `<div class="pl-label">路线 ${lane}</div><div class="pl-body"></div><button type="button" class="pl-adopt">采用此路线</button>`
+    card.querySelector('.pl-body').textContent = text.slice(0, 800) + (text.length > 800 ? '…' : '')
+    card.querySelector('.pl-adopt').onclick = () => {
+      adoptCompareLane(th, synthesis)
+      panel.hidden = true
+    }
+    lanes.appendChild(card)
+  }
+  if (Array.isArray(reviews) && reviews.length) {
+    const rv = h('div', 'pl-reviews', `<div class="pl-label">交叉评审</div><pre></pre>`)
+    rv.querySelector('pre').textContent = reviews.map(r => `[${r.fromLane || '?'}→${r.targetLane || '?'}] ${r.summary || r.text || ''}`).join('\n\n')
+    lanes.appendChild(rv)
+  }
+}
+
+function adoptCompareLane(thread, synthesis) {
+  loadConversation(thread)
+  if (synthesis) {
+    ctx.convo.items.push({ t: 'msg', sdk: synthesisSdk(synthesis) })
+    persist()
+    renderItems()
+  }
+  toast(`已采用路线 ${thread.lane || ''}，可在此 Thread 继续`, { type: 'success' })
+}
+
 /** 写入或更新 thread 最后一条 assistant 消息（避免流式 + 批量重复） */
 function writeAssistantItem(th, text) {
   const sdk = assistantSdk(text)
   const last = th.items[th.items.length - 1]
   if (last?.t === 'msg') last.sdk = sdk
   else th.items.push({ t: 'msg', sdk })
+}
+
+function initModelSelect() {
+  if (!ctx.els?.modelPickerHost) return
+  const buildOpts = () => {
+    const s = store.get()
+    const conn = (() => { try { return JSON.parse(localStorage.getItem('ccui:conn') || '{}') } catch { return {} } })()
+    const models = new Set([
+      conn.model,
+      s.model,
+      'deepseek-v4-pro',
+      'deepseek-v4-flash',
+      'deepseek-chat',
+    ].filter(Boolean))
+    return [{ value: '', label: '自动', desc: '跟随预设/路由' }, ...[...models].map(m => ({ value: m, label: m }))]
+  }
+  modelSelect = createCcSelect({
+    variant: 'pill',
+    menuPlacement: 'above',
+    fullWidth: false,
+    placeholder: '模型',
+    options: buildOpts(),
+    value: store.get().chatModel || '',
+    onChange: id => store.set({ chatModel: id || null }),
+  })
+  ctx.els.modelPickerHost.appendChild(modelSelect.el)
+}
+
+function inferTaskType(text) {
+  const t = String(text || '')
+  if (/规划|方案|架构|设计|plan/i.test(t)) return 'plan'
+  if (/搜索|查找|glob|grep|find/i.test(t)) return 'search'
+  if (/总结|摘要|summarize/i.test(t)) return 'summarize'
+  if (/审查|review/i.test(t)) return 'review'
+  if (/重构|refactor|edit/i.test(t)) return 'edit'
+  return 'chat'
+}
+
+async function handleProjectChanged(payload) {
+  const path = payload?.path || store.get().projectPath || ''
+  if (path) store.set({ projectPath: path, projectName: payload?.name || path.split(/[/\\]/).pop() || '' })
+  await refreshHistory()
+  const list = (store.get().conversations || []).filter(c => !c.projectPath || c.projectPath === path)
+  if (list.length) loadConversation(list[0])
+  else showEmptySession()
 }
 
 function initPresetSelect() {
@@ -408,19 +547,76 @@ function bindFileDrop(root) {
         .map(f => window.ccui?.getPathForFile?.(f) || f.path)
         .filter(Boolean)
       if (!paths.length) return
-      insertFilePaths(paths)
+      addAttachments(paths)
     })
   }
 }
 
-function insertFilePaths(paths) {
-  if (!ctx.els?.input) return
-  const refs = paths.map(p => `@${p.replace(/\\/g, '/')}`).join('\n')
-  const sep = ctx.els.input.value.trim() ? '\n' : ''
-  ctx.els.input.value = `${ctx.els.input.value}${sep}${refs}`
-  ctx.els.input.dispatchEvent(new Event('input'))
-  ctx.els.input.focus()
-  toast(`已附加 ${paths.length} 个文件`, { type: 'info' })
+// ---------- 附件块（拖拽/选择文件 → 小图标 chip，发送时转 @path） ----------
+const ATTACH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5l-8.5 8.5a5 5 0 0 1-7-7l8.5-8.5a3.5 3.5 0 0 1 5 5L10.5 18a2 2 0 0 1-3-3l7.5-7.5"/></svg>'
+const IMG_EXT = new Set(['png', 'jpg', 'jpeg', 'gif', 'webp', 'bmp', 'svg', 'ico', 'avif'])
+const CODE_EXT = new Set(['ts', 'tsx', 'js', 'jsx', 'mjs', 'cjs', 'py', 'go', 'rs', 'java', 'c', 'h', 'cpp', 'cs', 'rb', 'php', 'swift', 'kt', 'sh', 'sql', 'json', 'yaml', 'yml', 'toml', 'css', 'scss', 'html', 'vue', 'svelte'])
+
+function fileKind(ext) {
+  if (IMG_EXT.has(ext)) return 'img'
+  if (CODE_EXT.has(ext)) return 'code'
+  if (['md', 'txt', 'pdf', 'doc', 'docx', 'rtf'].includes(ext)) return 'doc'
+  return 'file'
+}
+
+function kindIcon(kind) {
+  if (kind === 'img') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5-5L5 20"/></svg>'
+  if (kind === 'code') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-3 3 3 3M16 9l3 3-3 3M13 6l-2 12"/></svg>'
+  if (kind === 'doc') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></svg>'
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>'
+}
+
+function addAttachments(paths) {
+  if (!ctx.els?.attachRow) return
+  ctx.attachments = ctx.attachments || []
+  let added = 0
+  for (const raw of paths) {
+    const p = String(raw).replace(/\\/g, '/')
+    if (ctx.attachments.some(a => a.path === p)) continue
+    const name = p.split('/').pop() || p
+    const ext = name.includes('.') ? name.slice(name.lastIndexOf('.') + 1).toLowerCase() : ''
+    ctx.attachments.push({ path: p, name, ext, kind: fileKind(ext) })
+    added++
+  }
+  if (added) renderAttachments()
+}
+
+function removeAttachment(path) {
+  if (!ctx.attachments) return
+  ctx.attachments = ctx.attachments.filter(a => a.path !== path)
+  renderAttachments()
+}
+
+function clearAttachments() {
+  ctx.attachments = []
+  renderAttachments()
+}
+
+function renderAttachments() {
+  const row = ctx.els?.attachRow
+  if (!row) return
+  const list = ctx.attachments || []
+  row.innerHTML = ''
+  if (!list.length) { row.hidden = true; return }
+  row.hidden = false
+  for (const a of list) {
+    const chip = h('div', `attach-chip kind-${a.kind}`)
+    chip.title = a.path
+    const icon = h('span', 'attach-ico'); icon.innerHTML = kindIcon(a.kind)
+    const label = h('span', 'attach-name'); label.textContent = a.name
+    const del = h('button', 'attach-x'); del.type = 'button'; del.textContent = '×'
+    del.title = '移除'
+    del.onclick = () => removeAttachment(a.path)
+    chip.append(icon, label)
+    if (a.ext) { const badge = h('span', 'attach-ext'); badge.textContent = a.ext; chip.append(badge) }
+    chip.append(del)
+    row.appendChild(chip)
+  }
 }
 
 /** 供 Studio / 命令面板打开会话 */
@@ -447,6 +643,7 @@ function newConversation(resetEngine = true) {
   ctx.convo = blankThread()
   store.set({ currentConversationId: ctx.convo.id, activeSessionId: ctx.convo.sessionId, comparePending: false })
   if (resetEngine) api.reset(ctx.convo.sessionId)
+  clearAttachments()
   syncComposerPlaceholder()
   showEmptyState(true)
   renderBranchBar()
@@ -491,8 +688,9 @@ function restoreDraft() {
 async function refreshHistory() {
   if (!ctx.els) return
   let list = []
-  try { list = await db.getAll('conversations') } catch {}
-  list = list.filter(c => c.kind !== 'compare')
+  try { list = await db.getAll('conversations') } catch (e) { diagCatch('refreshHistory', e) }
+  const pp = store.get().projectPath
+  list = list.filter(c => c.kind !== 'compare' && (!pp || !c.projectPath || c.projectPath === pp))
   list.sort((a, b) => b.updatedAt - a.updatedAt)
   store.set({ conversations: list })
   ctx.els.historyList.innerHTML = ''
@@ -551,6 +749,8 @@ function syncEngineContext() {
 
 function loadConversation(c) {
   clearReviewQueue()
+  clearAttachments()
+  try { if (window.ccuiPrefs?.get?.().enterToFocus !== false) setTimeout(() => ctx.els?.input?.focus(), 60) } catch { /* prefs 未就绪 */ }
   ctx.convo = JSON.parse(JSON.stringify(c))
   if (ctx.convo.kind === 'compare') {
     toast('旧版 Compare 格式已废弃，请用 + Compare 重新创建', { type: 'warn' })
@@ -640,14 +840,14 @@ async function persist() {
       if (resp?.ok && Array.isArray(resp.messages) && resp.messages.length) {
         ctx.convo.engineMessages = resp.messages
       }
-    } catch {}
+    } catch (e) { diagCatch('syncEngineMessages', e) }
   }
   try {
     await db.put('conversations', ctx.convo)
     refreshHistory()
     updateSessionTitle()
-    import('./collab.js').then(m => m.broadcastConversation?.(ctx.convo)).catch(() => {})
-  } catch {}
+    import('./collab.js').then(m => m.broadcastConversation?.(ctx.convo)).catch(e => diagCatch('collab', e))
+  } catch (e) { diagCatch('persist', e) }
 }
 
 // ---------- 消息级渲染（编排子模块） ----------
@@ -667,6 +867,7 @@ function addUser(text, record = true, idx = null, brief = null) {
   const display = brief ? userDisplayText(text, brief) : text
   el.querySelector('.bubble').textContent = display
   el.querySelector('.msg-edit').onclick = () => startEdit(idx, text, el)
+  el.appendChild(buildMsgActions(display, false))
   ctx.els.messages.appendChild(el)
   scrollDown()
 }
@@ -674,7 +875,8 @@ function addUser(text, record = true, idx = null, brief = null) {
 function addThinking(text, live = true) {
   if (!text) return
   const el = h('details', live ? 'thinking thinking-live' : 'thinking')
-  if (!live) el.open = false
+  const wantOpen = (() => { try { return !!window.ccuiPrefs?.get?.().thinkingOpen } catch { return false } })()
+  el.open = live ? true : wantOpen
   el.appendChild(h('summary', null, live ? '思考中…' : '思考过程'))
   const body = h('div', 'think-body'); body.textContent = text
   el.appendChild(body)
@@ -685,7 +887,30 @@ function addAssistantText(text) {
   if (!text || !text.trim()) return
   const el = h('div', 'msg assistant', '<div class="role">CCui</div><div class="bubble md"></div>')
   renderMarkdown(el.querySelector('.bubble'), text)
+  el.appendChild(buildMsgActions(text, true))
   ctx.els.messages.appendChild(el); scrollDown()
+}
+
+/** 消息悬浮操作条：复制（助手再加重新生成） */
+function buildMsgActions(text, isAssistant) {
+  const bar = h('div', 'msg-actions')
+  const copy = h('button', 'msg-act', '复制'); copy.type = 'button'; copy.title = '复制内容'
+  copy.onclick = () => {
+    navigator.clipboard?.writeText(text || '').then(() => {
+      copy.textContent = '已复制'; setTimeout(() => { copy.textContent = '复制' }, 1400)
+    }, () => {})
+  }
+  bar.appendChild(copy)
+  if (isAssistant) {
+    const regen = h('button', 'msg-act', '重新生成'); regen.type = 'button'; regen.title = '用上一条提问重答'
+    regen.onclick = () => {
+      if (store.get().busy) { toast('请先停止当前回答', { type: 'warn' }); return }
+      const prev = lastUserText()
+      if (prev) sendUserText(prev); else toast('没有可重答的上一条', { type: 'warn' })
+    }
+    bar.appendChild(regen)
+  }
+  return bar
 }
 
 function handleMessage(sdk, record = true) {
@@ -720,6 +945,10 @@ function stripCompletionFromSdk(sdk) {
 // ---------- 发送 / 续写 / daemon ----------
 function finishAssistantTurn() {
   api.stopWatchdog()
+  hideThinking()
+  commitThinkBubbleIfNeeded()
+  commitStreamBubbleIfNeeded()
+  finalizeThinkBubble()
   clearStreamBubble()
   setBusy(false)
   if (ctx.convo?.items?.length) addCheckpoint()
@@ -748,14 +977,17 @@ function attemptContinuation(reason) {
 
 function sendEngineText(text, { meta = false } = {}) {
   setBusy(true)
+  showThinking()
   const s = store.get()
   const preset = s.presets.find(p => p.id === s.activePresetId)
   const stylePrompt = buildStylePrompt(s.codingStyle)
   const needCompletionRule = meta || ctx.continuationTracker?.awaitingSignal
   const systemPrompt = [stylePrompt, preset?.systemPrompt, needCompletionRule ? COMPLETION_RULE : null].filter(Boolean).join('\n\n')
+  const model = s.chatModel || preset?.model
   api.send({
     text,
-    model: preset?.model,
+    model,
+    taskType: inferTaskType(text),
     systemPrompt,
     sessionId: ctx.convo?.sessionId || 'main',
   })
@@ -787,11 +1019,15 @@ async function onSend() {
     api.interrupt(ctx.convo?.sessionId)
     return
   }
-  let text = ctx.els.input.value.trim()
-  if (!text) return
+  const body = ctx.els.input.value.trim()
+  const atts = (ctx.attachments || []).map(a => `@${a.path}`)
+  if (!body && !atts.length) return
 
   ctx.els.input.value = ''
   ctx.els.input.style.height = 'auto'
+
+  let text = atts.length ? `${atts.join('\n')}${body ? `\n\n${body}` : ''}` : body
+  clearAttachments()
 
   if (s.comparePending) {
     await runCompareAsThreeThreads(text)
@@ -827,9 +1063,12 @@ function onDaemon(msg) {
     case 'route':
       store.set({ model: e.model, tier: e.tier, routeReason: e.reason })
       break
-    case 'delta': if (e.kind === 'text') appendDelta(e.text); break
-    case 'message': handleMessage(e.sdk); break
-    case 'permission_request': clearStreamBubble(); addPermCard(e.id, e.toolName, e.message, e.input); break
+    case 'delta':
+      if (e.kind === 'text') { hideThinking(); appendDelta(e.text) }
+      else if (e.kind === 'thinking') appendThinkingDelta(e.text)
+      break
+    case 'message': hideThinking(); handleMessage(e.sdk); break
+    case 'permission_request': hideThinking(); clearStreamBubble(); addPermCard(e.id, e.toolName, e.message, e.input); break
     case 'usage':
       store.set({ usage: { input: e.inputTokens, output: e.outputTokens }, totalCost: store.get().totalCost + (Number(e.costUsd) || 0) })
       break

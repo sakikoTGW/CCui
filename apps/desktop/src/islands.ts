@@ -32,6 +32,11 @@ import { CollabView } from './features/collab/CollabView'
 import { StudioView } from './features/studio/StudioView'
 import { SettingsView } from './features/settings/SettingsView'
 import { PluginHost } from './features/plugins/PluginHost'
+import { CaptureView } from './features/capture/CaptureView'
+import { CapabilitiesView } from './features/capabilities/CapabilitiesView'
+import { PackView } from './features/packs/PackView'
+import { HarnessView } from './features/harness/HarnessView'
+import { LauncherApp } from './features/launcher/LauncherApp'
 
 export type IslandUnmount = () => void
 
@@ -103,4 +108,24 @@ export function mountSettings(el: HTMLElement): IslandUnmount {
 
 export function mountPlugins(el: HTMLElement): IslandUnmount {
   return mountIsland(el, 'plugins', '扩展', PluginHost)
+}
+
+export function mountCapture(el: HTMLElement): IslandUnmount {
+  return mountIsland(el, 'capture', '抓包克隆', CaptureView)
+}
+
+export function mountCapabilities(el: HTMLElement): IslandUnmount {
+  return mountIsland(el, 'capabilities', '装备 / 能力', CapabilitiesView)
+}
+
+export function mountPacks(el: HTMLElement): IslandUnmount {
+  return mountIsland(el, 'packs', '整合包', PackView)
+}
+
+export function mountHarness(el: HTMLElement): IslandUnmount {
+  return mountIsland(el, 'harness', 'Harness', HarnessView)
+}
+
+export function mountLauncher(el: HTMLElement): IslandUnmount {
+  return mountIsland(el, 'launcher', '主页', LauncherApp)
 }

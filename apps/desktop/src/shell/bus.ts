@@ -33,11 +33,12 @@ export interface BusEvents {
   'focus-goal': void
   /** 应用一个 Task Brief（detail = brief 对象） */
   'apply-brief': unknown
-  /** 在输入框前缀插入文本 */
-  'insert-prompt': string
+  /** 主页输入：新对话并发送（detail = 用户文本） */
+  'home-send': string
   /** 整体设置输入框文本 */
   'set-prompt': string
-  /** 打开/预览文件（文件树） */
+  /** @ 选中文件 → 附件 chip */
+  'mention-file': { path: string; rel: string }
   'openfile': { path?: string }
   /** 审查窗对某条 diff 的接受/拒绝回流到对话 */
   'review-diff': { item?: unknown; allow?: boolean }

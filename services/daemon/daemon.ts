@@ -4,7 +4,8 @@
  */
 import { AgentSession } from './agentSession.js'
 import { bootstrapGuiDev } from './bootstrap.js'
-import { applyDisabledToEngine } from './resourceFilters.js'
+import { applyDisabledToEngine, setDisabledResources } from './resourceFilters.js'
+import { mergeProjectConfigOnBoot } from './projectConfig.js'
 import { Orchestrator } from './orchestrator.js'
 import { dispatch, type DaemonCtx } from './handlers.js'
 import { parseCommandLine } from '@ccui/protocol'
@@ -28,7 +29,8 @@ const orchestrator = new Orchestrator(obj => out(obj), sid => getSession(sid))
 function getSession(id?: string): AgentSession {
   const sid = id || 'main'
   if (!sessions.has(sid)) {
-    const s = new AgentSession({ cwd: process.cwd(), autoApprove: sid !== 'main' })
+    const s = new AgentSession({ cwd: process.cwd(), autoApprove: false })
+    s.setAuditSessionId(sid)
     s.onEvent(event => out({ kind: 'event', sessionId: sid, event }))
     sessions.set(sid, s)
   }
@@ -58,7 +60,13 @@ process.stdin.on('data', chunk => {
 })
 process.stdin.on('end', () => process.exit(0))
 
-void bootstrapGuiDev(process.cwd()).then(() => {
+void bootstrapGuiDev(process.cwd()).then(async () => {
+  await mergeProjectConfigOnBoot(
+    process.cwd(),
+    patch => mainSession.router.setConfig(patch),
+    ids => { setDisabledResources(ids); void applyDisabledToEngine() },
+  )
+  void import('./codeIndexer.js').then(m => m.buildCodeIndex(process.cwd()).catch(() => {}))
   // status/ready 为 renderer 契约；ready 为旧测试契约，两者并发以兼容。
   out({ kind: 'status', state: 'ready' })
   out({ kind: 'ready' })

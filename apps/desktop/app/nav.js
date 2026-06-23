@@ -7,21 +7,19 @@ import { ICONS } from './icons.js'
 
 /** 切换主视图 */
 /** @type {NavViewItem[]} */
+// 侧栏 = 工作模式总机：只放「会反复主动前往、去完成某类任务的场所」。
+// 其余（控制台/结构图/工作室/简报/扩展/抓包克隆）不是工作模式，已下放到对应流程或命令面板(Ctrl+K)。
 export const NAV_VIEWS = [
-  { id: 'projects', view: 'projects', label: '项目', desc: '打开文件夹、切换工作区', icon: 'projects' },
-  { id: 'chat', view: 'chat', label: '工作区', desc: '与 AI 对话、执行任务', icon: 'chat' },
-  { id: 'console', view: 'console', label: '控制台', desc: 'Skills / MCP / 权限开关', icon: 'console' },
-  { id: 'studio', view: 'studio', label: '数据工作室', desc: '查看运行数据与统计', icon: 'studio' },
-  { id: 'map', view: 'map', label: '项目结构图', desc: '可视化代码结构与依赖', icon: 'map' },
-  { id: 'brief', view: 'brief', label: '简报库', desc: 'Task Brief 任务简报管理', icon: 'brief' },
-  { id: 'plugins', view: 'plugins', label: '扩展', desc: '第三方插件 · 沙箱 iframe', icon: 'plugins' },
+  { id: 'chat', view: 'chat', label: '对话', desc: '与 AI 对话、执行任务', icon: 'chat' },
+  { id: 'review', view: 'review', label: '审查', desc: '审阅并批准 AI 的改动', icon: 'review' },
 ]
 
 /** 快捷操作（非页面切换） */
 /** @type {NavActionItem[]} */
 export const NAV_ACTIONS = [
-  { id: 'openReview', label: '变更审查', desc: '查看 AI 改动的 diff', icon: 'review' },
-  { id: 'settings', label: '设置', desc: 'API Key、模型与偏好', icon: 'settings' },
+  { id: 'launcherWin', label: '主页', desc: '选项目、看当前 instance（独立窗口）', icon: 'projects' },
+  { id: 'harnessWin', label: 'Harness', desc: 'CCui 驾驭的运行时 / 实例（独立窗口）', icon: 'harness' },
+  { id: 'settings', label: '设置', desc: 'API Key、模型、资源与偏好', icon: 'settings' },
 ]
 
 /** 底部工具（面板开关） */
